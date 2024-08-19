@@ -1,0 +1,69 @@
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { fulfilled , rejected } from '../../utils/responses'
+import AxiosInstance from "../../utils/AxiosInstance";
+
+export const signup = createAsyncThunk(
+    "auth/signup",
+    async (data, thunkAPI) => {
+        const formData = new FormData();
+
+        formData.append('avatar', data.avatar[0]);
+        formData.append('coverImage', data.coverImage[0]);
+        formData.append('fullName', data.fullName);
+        formData.append('username', data.username);
+        formData.append('email', data.email);
+        formData.append('password', data.password);
+
+        try {
+            const response = await AxiosInstance.post("http://localhost:5000/api/v1/users/register",
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+            );
+            return fulfilled(response)
+
+        } catch (err) {
+
+            return thunkAPI.rejectWithValue(rejected(err));
+        }
+    }
+)
+
+export const login = createAsyncThunk(
+    "auth/login",
+    async (data, thunkAPI) => {
+        const formData = new FormData();
+
+        formData.append('email', data.username);
+        formData.append('password', data.password);
+
+        try {
+            const response = await AxiosInstance.post("http://localhost:5000/api/v1/auth/login",
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+            );
+            return fulfilled(response);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err))
+        }
+    }
+)
+
+export const logout = createAsyncThunk(
+    "auth/logout",
+    async (data, thunkAPI) => {
+        try {
+            const response = await AxiosInstance.post("http://localhost:5000/api/v1/auth/logout");
+            return fulfilled(response);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err))
+        }
+    }
+)
