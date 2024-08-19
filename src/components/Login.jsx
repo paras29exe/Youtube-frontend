@@ -20,7 +20,7 @@ function Login() {
                     register={register}
                     registerAs="username"
                     errors={errors}
-                    className=''
+                    className='form'
                 />
                 <InputField 
                     label='Password *'
@@ -28,7 +28,7 @@ function Login() {
                     register={register}
                     registerAs="password"
                     errors={errors}
-                    className=''
+                    className='form'
                 />
                 <div className='flex justify-end mb-4'>
                     <p className='text-gray-600'>New user? <NavLink to="/signup" className='text-blue-500 hover:underline'>Signup here</NavLink></p>

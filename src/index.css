@@ -19,14 +19,14 @@ label.floating{
     color: #3b82f6;  
 }
 
-input:focus + label {
+input.form:focus + label {
     top: -65%;
     left: .5rem;
     font-size: 1rem;
     color: #3b82f6;  
 }
 
-input:focus {
+input.form:focus {
     border-color: #3b82f6; 
     outline: none;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5); 

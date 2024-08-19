@@ -70,6 +70,7 @@ function Signup() {
                             accept='image/*'
                             id='coverImageInput'
                             style={{ display: 'none' }}
+                            className='form'
                             {...register('coverImage', {
                                 onChange: handleCoverImageChange
                             })}
@@ -92,6 +93,7 @@ function Signup() {
                             accept='image/*'
                             id='avatarInput'
                             style={{ display: 'none' }}
+                            className='form'
                             {...register("avatar", {
                                 required: "Avatar is required",
                                 onChange: handleAvatarChange
@@ -114,7 +116,7 @@ function Signup() {
                             register={register}
                             registerAs="fullName"
                             errors={errors}
-                            className='p-2 border border-gray-300 rounded-lg w-full'
+                            className='form p-2 border border-gray-300 rounded-lg w-full'
                         />
                         <InputField
                             type='text'
@@ -122,7 +124,7 @@ function Signup() {
                             register={register}
                             registerAs="username"
                             errors={errors}
-                            className='p-2 border border-gray-300 rounded-lg w-full'
+                            className='form p-2 border border-gray-300 rounded-lg w-full'
                         />
                     </div>
                     <InputField
@@ -131,7 +133,7 @@ function Signup() {
                         register={register}
                         registerAs="email"
                         errors={errors}
-                        className='p-2 border border-gray-300 rounded-lg w-full'
+                        className='form p-2 border border-gray-300 rounded-lg w-full'
                     />
                     <InputField
                         type='password'
@@ -139,7 +141,7 @@ function Signup() {
                         register={register}
                         registerAs="password"
                         errors={errors}
-                        className='p-2 border border-gray-300 rounded-lg w-full'
+                        className='form p-2 border border-gray-300 rounded-lg w-full'
                     />
 
                     <div className='flex justify-end mb-4'>
@@ -155,36 +157,3 @@ function Signup() {
 
 }
 export default Signup;
-
-// import React from 'react';
-// import { useForm } from 'react-hook-form';
-
-// function Signup() {
-//     const { register, handleSubmit, setValue } = useForm();
-
-//     const handleFileChange = (e) => {
-//         const file = e.target.files[0];
-//         if (file) {
-//             // Manually update the form's state with the selected file
-//             register('file', file);
-//         }
-//     };
-
-//     const onSubmit = (data) => {
-//         console.log(data);
-//         // Now data.file contains the file object
-//     };
-
-//     return (
-//         <form onSubmit={handleSubmit(onSubmit)}>
-//             <input
-//                 type="file"
-//                 {...register('file', { required: true })}
-//                 onChange={handleFileChange} // Handle file change outside of register
-//             />
-//             <button type="submit">Upload</button>
-//         </form>
-//     );
-// }
-
-// export default Signup;
