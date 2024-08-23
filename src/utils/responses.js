@@ -7,7 +7,7 @@ export const fulfilled = (response) => {
 }
 
 export const rejected = (err) => {
-    return {
+    throw {
         message: err.response.data.message || 'An error occurred while processing the request',
         status: err.response.status
     }

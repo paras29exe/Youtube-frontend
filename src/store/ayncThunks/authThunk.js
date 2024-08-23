@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { fulfilled , rejected } from '../../utils/responses'
+import { fulfilled, rejected } from '../../utils/responses'
 import AxiosInstance from "../../utils/AxiosInstance";
 
 export const signup = createAsyncThunk(
@@ -15,7 +15,7 @@ export const signup = createAsyncThunk(
         formData.append('password', data.password);
 
         try {
-            const response = await AxiosInstance.post("http://localhost:5000/api/v1/users/register",
+            const response = await AxiosInstance.post("users/register",
                 formData,
                 {
                     headers: {
@@ -26,8 +26,7 @@ export const signup = createAsyncThunk(
             return fulfilled(response)
 
         } catch (err) {
-
-            return thunkAPI.rejectWithValue(rejected(err));
+            throw thunkAPI.rejectWithValue(rejected(err));
         }
     }
 )
@@ -37,17 +36,12 @@ export const login = createAsyncThunk(
     async (data, thunkAPI) => {
         const formData = new FormData();
 
-        formData.append('email', data.username);
+        formData.append('username', data.username);
         formData.append('password', data.password);
 
         try {
-            const response = await AxiosInstance.post("http://localhost:5000/api/v1/auth/login",
-                formData,
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                    },
-                }
+            const response = await AxiosInstance.post("users/login",
+                formData
             );
             return fulfilled(response);
         } catch (err) {
@@ -60,7 +54,7 @@ export const logout = createAsyncThunk(
     "auth/logout",
     async (data, thunkAPI) => {
         try {
-            const response = await AxiosInstance.post("http://localhost:5000/api/v1/auth/logout");
+            const response = await AxiosInstance.post("users/logout");
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err))

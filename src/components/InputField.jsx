@@ -8,7 +8,7 @@ function InputField({ label, className, type = "text", placeholder = "", registe
     };
 
     return (
-        <div className="relative w-full bg-inherit my-3">
+        <div className="relative w-full bg-inherit my-4">
             <input
                 id={registerAs}
                 {...register(registerAs, { required: true })}

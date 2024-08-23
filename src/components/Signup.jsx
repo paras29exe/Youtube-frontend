@@ -13,18 +13,17 @@ function Signup() {
     const [coverImage, setCoverImage] = useState(null);
     const dispatch = useDispatch();
 
-    const submit = (data) => {
-        try {
-            dispatch(signup(data))
-                .then(res => {
-                    console.log(res.payload)
-                    Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
-                    Cookies.set("refreshToken", res.payload.data.refreshToken, { expires: 7 }); // Cookie expires in 7 days
-                })
-        } catch (error) {
-            console.error('Error:', error);
+    const submit = async (data) => {
+        const res = await dispatch(signup(data));
+ 
+        if (res.type.includes("rejected")) {
+            throw res.error
+            
+        }else {
+            console.log(res.payload)
+            Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
+            Cookies.set("refreshToken", res.payload.data.refreshToken, { expires: 7 }); // Cookie expires in 7 days
         }
-        // console.log(data);
     };
 
     const handleAvatarChange = (e) => {
@@ -57,9 +56,9 @@ function Signup() {
             <form onSubmit={handleSubmit(submit)} className='bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full'>
                 <h2 className='text-2xl font-bold mb-6 text-center text-black font-sans'>Create New Account</h2>
 
-                <div className='relative mb-6'>
+                <div className='relative mb-12'>
                     <div
-                        className={`h-48 bg-gray-300 rounded-t-lg cursor-pointer relative flex items-center justify-center ${coverImage ? "border-4 border-blue-400" : ""}`}
+                        className={`h-32 bg-gray-300 rounded-t-lg cursor-pointer relative flex items-center justify-center ${coverImage ? "border-4 border-blue-400" : ""}`}
                         style={{ backgroundImage: `url(${coverImage})`, backgroundSize: 'cover' }}
                         onClick={() => document.getElementById('coverImageInput').click()}
                     >
@@ -108,7 +107,7 @@ function Signup() {
                     </div>
                 </div>
 
-                <div className='mt-12 flex flex-col'>
+                <div className=' flex flex-col'>
                     <div className='flex gap-x-4 grow'>
                         <InputField
                             type='text'
@@ -147,7 +146,7 @@ function Signup() {
                     <div className='flex justify-end mb-4'>
                         <p className='text-gray-600'>Already registered? <NavLink to="/login" className='text-blue-500 hover:underline'>Login</NavLink></p>
                     </div>
-                    <button type='submit' className='mt-4 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200'>
+                    <button type='submit' className=' w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200'>
                         Signup
                     </button>
                 </div>

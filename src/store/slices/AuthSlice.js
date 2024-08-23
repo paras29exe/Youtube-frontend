@@ -23,7 +23,7 @@ const authSlice = createSlice({
             })
             .addCase(signup.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message;
+                state.error = action.error;
             })
             // login thunk
             .addCase(login.pending, (state) => {
@@ -36,7 +36,7 @@ const authSlice = createSlice({
             })
             .addCase(login.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message;
+                state.error = action.error;
             })
             // logout thunk
             .addCase(logout.pending, (state) => {
@@ -49,7 +49,7 @@ const authSlice = createSlice({
             })
             .addCase(logout.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message;
+                state.error = action.error;
             })
     }
 })
