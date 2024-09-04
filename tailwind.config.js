@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      colors: {
+        customDark: 'rgb(7, 7, 7)',
+      },
       screens: {
         // 'xs': '475px',
         '3xl': '1600px', 

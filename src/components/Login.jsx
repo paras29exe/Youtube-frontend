@@ -45,7 +45,7 @@ function Login() {
                         className='form'
                     />
                     <div className='flex justify-end mb-4'>
-                        <p className='text-gray-600'>New user? <NavLink to="/signup" className='text-blue-500 hover:underline'>Signup here</NavLink></p>
+                        <p className='text-gray-600'> New user? <NavLink to="/signup" className='text-blue-500 hover:underline'>Signup here</NavLink></p>
                     </div>
                     <button type='submit' className='w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200'>
                         Login

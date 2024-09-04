@@ -7,12 +7,9 @@ function Home() {
 
     return (
         <>
-            <div className='h-screen overflow-hidden'>
-                <Navbar />
-                <main className='flex gap-4'>
-                    <SideBar />
-                    <Videos />
-                </main>
+            <div className='h-full overflow-hidden flex gap-4'>
+                <SideBar />
+                <Videos />
             </div>
         </>
     )

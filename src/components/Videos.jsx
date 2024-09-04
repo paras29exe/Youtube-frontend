@@ -4,12 +4,12 @@ function Videos() {
     const videos = [11, 52, 3, 24, 50, 60, 77, 88]
 
     return (
-        <div className='h-screen overflow-y-auto overflow-x-hidden pb-20 pr-6 grid grid-cols-3 auto-rows-max gap-4 4xl:grid-cols-5 3xl:grid-cols-4'>
+        <div className='h-screen w-auto overflow-y-auto overflow-x-hidden pb-20 pr-6 grid grid-cols-3 auto-rows-max gap-4 4xl:grid-cols-5 3xl:grid-cols-4'>
             {
                 videos.map((video) => {
                     return (
                         <div key={video}>
-                            <div className="relative overflow-hidden rounded-lg">
+                            <div className="relative overflow-hidden rounded-lg ">
                                 <img className="object-cover w-full h-full" src={`https://picsum.photos/id/${video}/1000/600`} alt="Video thumbnail" />
                             </div>
                             <div className='py-3 flex gap-x-4'>

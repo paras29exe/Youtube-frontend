@@ -8,7 +8,7 @@ function Navbar() {
     }
     return (
         <>
-        <nav className="navbar z-20 sticky top-0 px-3 py-2  text-center flex items-center justify-between">
+        <nav className="bg-customDark navbar z-20 top-0 px-3 py-4 text-center flex items-center justify-between">
             <div className='left flex items-center gap-x-4 w-1/5 '>
                 <div className='hover:bg-gray-400/20 p-2 rounded-full'>
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bg-transparent bi bi-list" viewBox="0 0 16 16">

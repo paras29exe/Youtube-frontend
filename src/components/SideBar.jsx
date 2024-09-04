@@ -3,7 +3,7 @@ import NavBtn from "./NavBtn"
 
 function SideBar() {
     return (
-        <div className="bg-black min-w-64 h-screen overflow-y-auto pl-3"> 
+        <div className="min-w-52 max-w-52 h-fit overflow-y-auto pl-3"> 
             <NavBtn
             to="/"
                 icon={
