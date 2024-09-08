@@ -1,23 +1,20 @@
 import './App.css'
-import Home from './components/Home'
-import Login from './components/Login'
-import Signup from './components/Signup'
-import Navbar from './components/Navbar'
-import SideBar from './components/SideBar'
-import Videos from './components/Videos'
+import { LoginProvider } from './context/loginContext'
+import { Navbar, Home } from "./components"
 
 function App() {
 
   return (
     <>
-    
-      <div className='h-screen overflow-hidden'>
-      <Navbar />
-        < Home />
-        {/* <Login /> */}
-        {/* <Signup /> */}
+      <LoginProvider>
 
-      </div>
+        <div className='h-screen overflow-hidden'>
+          <Navbar />
+          < Home />
+        </div>
+
+      </LoginProvider>
+
     </>
   )
 }

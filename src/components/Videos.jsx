@@ -26,7 +26,6 @@ function Videos() {
                                     </p>
                                 </div>
                             </div>
-
                         </div>
                     )
                 })

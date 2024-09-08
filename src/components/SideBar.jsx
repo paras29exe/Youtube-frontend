@@ -1,9 +1,9 @@
 import React from 'react'
-import NavBtn from "./NavBtn"
+import {NavBtn} from './'
 
 function SideBar() {
     return (
-        <div className="min-w-52 max-w-52 h-fit overflow-y-auto pl-3"> 
+        <div className="min-w-60 max-w-60 h-fit overflow-y-auto pl-3"> 
             <NavBtn
             to="/"
                 icon={

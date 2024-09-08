@@ -1,7 +1,5 @@
 import React from 'react'
-import Videos from './Videos'
-import SideBar from './SideBar'
-import Navbar from './Navbar'
+import {SideBar, Videos} from './'
 
 function Home() {
 

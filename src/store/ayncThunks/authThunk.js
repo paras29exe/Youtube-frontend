@@ -40,9 +40,7 @@ export const login = createAsyncThunk(
         formData.append('password', data.password);
 
         try {
-            const response = await AxiosInstance.post("users/login",
-                formData
-            );
+            const response = await AxiosInstance.post("users/login", formData);
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err))
