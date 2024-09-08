@@ -13,8 +13,8 @@ function Videos() {
                                 <img className="object-cover w-full " src={`https://picsum.photos/id/${video}/1000/600`} alt="Video thumbnail" />
                             </div>
                             <div className='py-3 flex gap-x-4'>
-                                <div>
-                                    <img className='w-10 h-10 relative object-cover inline-block rounded-full' src={`https://picsum.photos/id/${video}/1000/600`} alt="Channel name" />
+                                <div className='w-11 h-10 rounded-full overflow-hidden'>
+                                    <img className='object-cover w-full h-full' src={`https://picsum.photos/id/${video}/1000/600`} alt="Channel name" />
                                 </div>
                                 <div className='text-left w-full'>
                                     <h3 className="inline-block text-xl font-bold">Video Title {video}</h3>

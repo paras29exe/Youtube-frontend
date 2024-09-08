@@ -8,19 +8,13 @@ function App() {
   const dispatch = useDispatch()
 
   try {
-    async function login() {
-      const res = await dispatch(autoLogin())
-
-      if (res.type.includes("rejected")) {
-        throw res.error
-      }
-    }
-    login()
+    // Automatically log in the user from cookies stored when the app loads
+    ;(
+      async () => dispatch(autoLogin()) 
+      )()
   } catch (error) {
     console.error('Error during auto login:', error)
-
   }
-
 
   return (
     <>
