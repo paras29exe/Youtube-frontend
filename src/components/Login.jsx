@@ -2,15 +2,15 @@ import React, { useContext, useState } from 'react';
 import InputField from './InputField';
 import { useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
-import { FaTimes} from 'react-icons/fa'; // Import Eye icons
+import { FaTimes, FaEye, FaEyeSlash } from 'react-icons/fa'; // Import Eye icons
 import Cookies from 'js-cookie';
 import { login } from '../store/ayncThunks/authThunk';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginContext } from '../context/loginContext';
+import { displayContext } from '../context/displayContext';
 
 function Login() {
     const { handleSubmit, register, formState: { errors } } = useForm();
-    const { toggleLoginPage } = useContext(loginContext);
+    const { toggleLoginPage } = useContext(displayContext);
     const dispatch = useDispatch();
     const [showPassword, setShowPassword] = useState(false); // Add state for showing/hiding password
 
@@ -28,10 +28,6 @@ function Login() {
             Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
             Cookies.set("refreshToken", res.payload.data.refreshToken, { expires: 7 }); // Cookie expires in 7 days
         }
-    };
-
-    const togglePasswordVisibility = () => {
-        setShowPassword((prev) => !prev);
     };
 
     return (
@@ -64,20 +60,20 @@ function Login() {
                             className='form bg-inherit text-white'
                         />
                         <div
-                            className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer z-10"  // Ensure z-index is high
+                            className="absolute inset-y-1/4 right-0 pr-3 flex items-center cursor-pointer z-10"  // Ensure z-index is high
                             onClick={() => setShowPassword(!showPassword)}
                         >
-                            {showPassword ? <FaEyeSlash className="text-black text-xl" />  : <FaEye className="text-black text-xl" /> }
+                            {!showPassword ? <FaEyeSlash className="text-black text-xl" /> : <FaEye className="text-black text-xl" />}
 
                         </div>
                     </div>
                     <div className='flex justify-end mb-4'>
                         <p className='text-gray-500'> New user? <NavLink to="/signup" className='text-blue-500 hover:underline'>Signup here</NavLink></p>
                     </div>
-                    <button type='submit' className='w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200'>
-                        Login
-                    </button>
                 </div>
+                <button type='submit' className='w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200'>
+                    Login
+                </button>
             </form>
         </div>
     );

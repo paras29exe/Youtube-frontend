@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {NavBtn} from './'
+import { displayContext } from '../context/displayContext'
 
 function SideBar() {
+    const { showSidebar } = useContext(displayContext)
+
+    
     return (
-        <div className="min-w-60 max-w-60 h-fit overflow-y-auto pl-3"> 
+        <div className={` ${showSidebar? ("h-fit overflow-y-auto pl-3 min-w-60 max-w-60 max-xl:max-w-20 max-xl:min-w-20 max-lg:hidden max-xl:p-0 ") : "hidden"}`}> 
             <NavBtn
             to="/"
                 icon={
@@ -12,20 +16,19 @@ function SideBar() {
                 name="Home"
             />
             <NavBtn
+
             to="/subscriptions"
                 icon={
                     <svg className='bg-transparent' xmlns="http://www.w3.org/2000/svg" fill='currentColor' height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true"><path d="M10 18v-6l5 3-5 3zm7-15H7v1h10V3zm3 3H4v1h16V6zm2 3H2v12h20V9zM3 10h18v10H3V10z"></path></svg>
                 }
                 name="Subscription"
             />
-
-            <div className='my-4 w-full h-0.5 bg-gray-400'></div>
-
+            <div className='my-4 w-full h-0.5 bg-gray-400 max-xl:hidden'></div>
             <NavBtn
             to="/dashboard"
                 icon="You"
                 name={<svg xmlns="http://www.w3.org/2000/svg" className='bg-transparent' fill='currentColor' height="20" viewBox="0 0 16 16" width="20" focusable="false" aria-hidden="true" ><path d="M4.97 12.65 9.62 8 4.97 3.35l.71-.71L11.03 8l-5.35 5.35-.71-.7z"></path></svg>}
-                className="text-xl items-end gap-1"
+                className="text-xl items-end gap-1 max-xl:hidden"
             />
             <NavBtn
                 to="/channel/user"

@@ -11,9 +11,13 @@ export default {
       },
       screens: {
         // 'xs': '475px',
+        'lg2': '1100px',
         '3xl': '1600px', 
-        '4xl': '1900px', 
+        '4xl': '1900px'
       },
+      fontSize: {
+        'xxs': '12px',
+      }
     },
   },
   plugins: [],

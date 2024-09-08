@@ -1,23 +1,23 @@
-import React from 'react'
+import React from 'react';
 
 function Videos() {
-    const videos = [11, 52, 3, 24, 50, 60, 77, 88]
+    const videos = [11, 52, 3, 24, 50, 60, 77, 88];
 
     return (
-        <div className='h-screen w-auto overflow-y-auto overflow-x-hidden pb-20 pr-6 grid grid-cols-3 auto-rows-max gap-4 4xl:grid-cols-5 3xl:grid-cols-4'>
+        <div className=' w-auto overflow-y-auto overflow-x-hidden pr-6 pl-2 flex flex-wrap content-start'>
             {
                 videos.map((video) => {
                     return (
-                        <div key={video}>
-                            <div className="relative overflow-hidden rounded-lg ">
-                                <img className="object-cover w-full h-full" src={`https://picsum.photos/id/${video}/1000/600`} alt="Video thumbnail" />
+                        <div key={video} className='flex flex-col w-full sm:w-1/2 md:w-1/2 lg2:w-1/3 xl:w-1/3 3xl:w-1/4 4xl:w-1/5 p-2 max-lg2:px-4 box-border'>
+                            <div className="relative overflow-hidden rounded-lg mb-2 flex-grow">
+                                <img className="object-cover w-full " src={`https://picsum.photos/id/${video}/1000/600`} alt="Video thumbnail" />
                             </div>
                             <div className='py-3 flex gap-x-4'>
                                 <div>
-                                    <img className='w-10 h-9 relative object-cover inline-block rounded-full' src={`https://picsum.photos/id/${video}/1000/600`} alt="Channel name" />
+                                    <img className='w-10 h-10 relative object-cover inline-block rounded-full' src={`https://picsum.photos/id/${video}/1000/600`} alt="Channel name" />
                                 </div>
-                                <div className=' text-left w-full'>
-                                    <h3 className="inline-block text-xl font-bold ">Video Title {video}</h3>
+                                <div className='text-left w-full'>
+                                    <h3 className="inline-block text-xl font-bold">Video Title {video}</h3>
                                     <p className="text-xs text-gray-400">Channel name</p>
                                     <p>
                                         <span className="text-xs text-gray-400">500 views</span>
@@ -34,4 +34,4 @@ function Videos() {
     )
 }
 
-export default Videos   
+export default Videos;

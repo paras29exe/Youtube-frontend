@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signup, login, logout } from "../ayncThunks/authThunk"
+import { signup, login, logout, autoLogin } from "../ayncThunks/authThunk"
 
 const initialState = {
     userData: null,
@@ -38,6 +38,22 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.error;
             })
+            // refresh token thunk
+            .addCase(autoLogin.pending, (state, action) => {
+                state.loading = true;
+                state.error = null;
+                state.userData = null; // Reset user data when refresh token is expired or invalid
+            })
+            .addCase(autoLogin.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userData = action.payload;
+                state.error = null;
+            })
+            .addCase(autoLogin.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error;
+            })
+            
             // logout thunk
             .addCase(logout.pending, (state) => {
                 state.loading = true;

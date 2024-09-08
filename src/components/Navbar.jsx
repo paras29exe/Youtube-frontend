@@ -1,19 +1,19 @@
 import React, { useContext } from 'react'
 import LoadingSpinner from '../assets/LoadingSpinner.svg';
-import YoutubeLogo from '../assets/YoutubeLogo.svg';
-import { loginContext } from '../context/loginContext'
+import { displayContext } from '../context/displayContext'
 import { Login } from "./"
 import { useSelector } from 'react-redux'
 
 function Navbar() {
-    const { showLoginPage, toggleLoginPage } = useContext(loginContext)
+    const { showLoginPage, toggleLoginPage, showSideBar, toggleSidebar } = useContext(displayContext)
     const { userData, loading, error } = useSelector((state) => state.auth)
 
     return (
         <>
-            <nav className="bg-customDark navbar z-20 top-0 px-3 py-4 text-center flex items-center justify-between">
+            <nav className="bg-customDark navbar z-20 top-0 px-3 py-4 text-center flex items-center justify-between max-xl:px-5">
                 <div className='left flex items-center gap-x-4 w-1/5 '>
-                    <div className='hover:bg-gray-400/20 p-2 rounded-full'>
+                    <div onClick={toggleSidebar}
+                     className='hover:bg-gray-400/20 p-2 rounded-full'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bg-transparent bi bi-list" viewBox="0 0 16 16">
                             <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
                         </svg>
@@ -64,7 +64,7 @@ function Navbar() {
 
                                     <img src={LoadingSpinner} alt="" />
 
-                                :
+                                    :
 
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" fill="currentColor" className="bg-transparent bi bi-person-exclamation" viewBox="0 0 16 16">
                                         <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m.256 7a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z" />
