@@ -16,7 +16,7 @@ function NavBtn(props) {
             onClick={redirect}
         >
             {props.icon}
-            <span className='max-xl:text-xxs max-xl:text-center'>{props.name}</span>
+            <span className={`max-xl:text-xxs max-xl:text-center ${props.nameClasses}`}>{props.name}</span>
         </NavLink>
     );
 }

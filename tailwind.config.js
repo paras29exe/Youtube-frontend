@@ -9,6 +9,12 @@ export default {
       colors: {
         customDark: 'rgb(7, 7, 7)',
       },
+      minWidth: {
+        '1/4': '25%',
+      },
+      maxWidth: {
+        '1/4': '25%',
+      },
       screens: {
         // 'xs': '475px',
         'lg2': '1100px',

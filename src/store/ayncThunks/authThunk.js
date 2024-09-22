@@ -26,7 +26,7 @@ export const signup = createAsyncThunk(
             return fulfilled(response)
 
         } catch (err) {
-            throw thunkAPI.rejectWithValue(rejected(err));
+            return thunkAPI.rejectWithValue(rejected(err));
         }
     }
 )

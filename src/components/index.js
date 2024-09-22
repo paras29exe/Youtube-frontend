@@ -6,6 +6,7 @@ import NavBtn from "./NavBtn";
 import SideBar from "./SideBar";
 import Signup from "./Signup";
 import Videos from "./Videos";
+import VideoUpload from "./VideoUpload";
 
 export {
     Home,
@@ -16,4 +17,5 @@ export {
     SideBar,
     Signup,
     Videos,
+    VideoUpload,
 }

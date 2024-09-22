@@ -15,11 +15,11 @@ function Signup() {
 
     const submit = async (data) => {
         const res = await dispatch(signup(data));
- 
+
         if (res.type.includes("rejected")) {
             throw res.error
-            
-        }else {
+
+        } else {
             console.log(res.payload)
             Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
             Cookies.set("refreshToken", res.payload.data.refreshToken, { expires: 7 }); // Cookie expires in 7 days

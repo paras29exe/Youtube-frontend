@@ -1,6 +1,5 @@
 import './App.css'
-import { ContextProvider } from './context/displayContext'
-import { Navbar, Home } from "./components"
+import { Navbar, Home, VideoUpload, Signup } from "./components"
 import { autoLogin } from './store/ayncThunks/authThunk'
 import { useDispatch } from 'react-redux'
 
@@ -18,15 +17,12 @@ function App() {
 
   return (
     <>
-      <ContextProvider>
-
         <div className='h-screen overflow-hidden'>
-          <Navbar />
-          < Home />
+          <Navbar/>
+          {/* <Home /> */}
+          <VideoUpload />
+    {/* <Signup/> */}
         </div>
-
-      </ContextProvider>
-
     </>
   )
 }
