@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { NavLink } from 'react-router-dom';
 import LoadingSpinner from '../assets/LoadingSpinner.svg';
 import { displayContext } from '../context/displayContext'
 import { Login } from "./"
@@ -13,7 +14,7 @@ function Navbar() {
             <nav className="bg-customDark navbar z-20 top-0 px-3 py-4 text-center flex items-center justify-between max-xl:px-5">
                 <div className='left flex items-center gap-x-4 w-1/5 '>
                     <div onClick={toggleSidebar}
-                     className='hover:bg-gray-400/20 p-2 rounded-full'>
+                        className='hover:bg-gray-400/20 p-2 rounded-full'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bg-transparent bi bi-list" viewBox="0 0 16 16">
                             <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
                         </svg>
@@ -50,12 +51,15 @@ function Navbar() {
                     </button>
                 </div>
                 <div className='w-1/5 flex items-center justify-end gap-x-8 pr-4 '>
+                    <NavLink
+                        to="/user/upload-video"
+                    >
+                        <div className='hover:bg-gray-400/20 p-2 rounded-full '>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" fill='currentColor' className='bg-transparent' focusable="false" aria-hidden="true"><path d="M14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2zm3-7H3v12h14v-6.39l4 1.83V8.56l-4 1.83V6m1-1v3.83L22 7v8l-4-1.83V19H2V5h16z"></path></svg>
+                        </div>
+                    </NavLink>
 
-                    <div className='hover:bg-gray-400/20 p-2 rounded-full '>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" fill='currentColor' className='bg-transparent' focusable="false" aria-hidden="true"><path d="M14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2zm3-7H3v12h14v-6.39l4 1.83V8.56l-4 1.83V6m1-1v3.83L22 7v8l-4-1.83V19H2V5h16z"></path></svg>
-                    </div>
-
-                    <div className='bg-blue-400/30 rounded-full overflow-hidden w-12 h-12 cursor-pointer flex items-center justify-center ' onClick={toggleLoginPage}>
+                    <div className='bg-blue-400/30 rounded-full overflow-hidden min-w-12 min-h-12 cursor-pointer flex items-center justify-center' onClick={toggleLoginPage}>
                         {
                             userData?.data.user.avatar ?
                                 <img src={userData.data.user.avatar} className="object-cover w-full h-full " alt='avatar' />

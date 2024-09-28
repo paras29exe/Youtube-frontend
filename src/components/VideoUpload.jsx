@@ -5,8 +5,7 @@ import { FaTimes } from 'react-icons/fa';
 const VideoUpload = () => {
     const { register, handleSubmit, watch, formState: { errors }, setValue, setError, clearErrors } = useForm();
 
-    const [thumbnailPreview, setThumbnailPreview] = useState(null);
-    const [videoPreview, setVideoPreview] = useState(null);
+    const [thumbnailPreview, setThumbnailPreview] = useState(null)
 
     const thumbnailInputRef = useRef(null)
 
@@ -52,10 +51,10 @@ const VideoUpload = () => {
     };
 
     return (
-        <div className="h-full w-full overflow-auto flex justify-center bg-gray-900 text-white">
+        <div className="mx-2 h-full w-full overflow-auto flex justify-center bg-gray-950 text-white">
             <div className="w-full max-w-5xl flex items-center flex-col lg:flex-row px-8">
                 <div className="w-full h-auto md:w-1/2 flex flex-col items-center pt-8 pb-20">
-                    {thumbnailPreview || videoPreview ? (
+                    {thumbnailPreview  ? (
                         <div className="relative w-full bg-gray-800 rounded-md pb-4">
                             {thumbnailPreview && (
                                 <div className='relative'>
@@ -101,7 +100,7 @@ const VideoUpload = () => {
                 </div>
 
                 <div className="w-full lg:w-1/2 p-4">
-                    <h2 className="text-3xl font-bold mb-4 ">Upload Video</h2>
+                    <h2 className="text-3xl font-bold mb-4 text-center">Upload Video</h2>
                     <form onSubmit={handleSubmit(onSubmit)} className='pb-24'>
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-300 mb-2">Video</label>

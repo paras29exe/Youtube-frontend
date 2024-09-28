@@ -51,9 +51,9 @@ function Videos() {
                                 </div>
                             </div>
                             <div className='py-3 flex gap-x-4'>
-                                <div className=' rounded-full overflow-hidden'>
+                                <div className='overflow-hidden'>
                                     <img
-                                        className='w-11 h-11'
+                                        className='w-12 h-11 rounded-full object-cover'
                                         src={`https://picsum.photos/id/${video}/1000/600`}
                                         alt="Channel Avatar"
                                         onClick={(e) => {
