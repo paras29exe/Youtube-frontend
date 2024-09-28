@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const displayContext = createContext({
     showLoginPage: true,
@@ -9,18 +9,19 @@ export const displayContext = createContext({
 )
 
 export const ContextProvider = ({ children }) => {
-    const [showLoginPage, setShowLoginPage] = useState(true)
-    const [showSidebar, setShowSidebar] = useState(true)
+    const [showLoginPage, setShowLoginPage] = useState(false)
+    const [changeSidebar, setChangeSidebar] = useState(true)
+    const [sidebarSize, setSidebarSize] = useState("large")
 
     const toggleLoginPage = () => {
         setShowLoginPage(prev => !prev)
     }
     const toggleSidebar = () => {
-        setShowSidebar(prev =>!prev)
+        setChangeSidebar(prev =>!prev)
     }
 
     return (
-        <displayContext.Provider value={{ showLoginPage, toggleLoginPage, showSidebar, setShowSidebar, toggleSidebar }}>
+        <displayContext.Provider value={{ showLoginPage, toggleLoginPage, toggleSidebar, changeSidebar, sidebarSize, setSidebarSize }}>
             {children}
         </displayContext.Provider>
     )

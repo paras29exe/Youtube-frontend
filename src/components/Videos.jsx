@@ -3,7 +3,7 @@ import { displayContext } from "../context/displayContext"
 
 function Videos() {
     const videos = [11, 52, 3, 24, 50, 60, 77, 88, 100, 100 + 1, 100 + 2, 100 + 3, 100 + 4 , 100 + 5 + 1, 100 + 6 + 1];
-    const { showSidebar } = useContext(displayContext)
+    const { sidebarSize } = useContext(displayContext)
     const [fourVideosInRow, setFourVideosInRow] = useState(false); // Add state for 4 videos in a row
 
     useEffect(() => {
@@ -11,7 +11,7 @@ function Videos() {
             const screenWidth = window.innerWidth;
 
             // Check if showSidebar is false and screen width is between 1100px and 1600px
-            if (!showSidebar && screenWidth >= 1300 && screenWidth <= 1600) {
+            if (sidebarSize==="small" && screenWidth >= 1300 && screenWidth <= 1600) {
                 setFourVideosInRow(true);
             } else {
                 setFourVideosInRow(false);
@@ -28,7 +28,7 @@ function Videos() {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [showSidebar]);
+    }, [sidebarSize]);
 
     return (
         <div className='w-auto overflow-y-auto overflow-x-hidden px-2 flex flex-wrap content-start pb-20'>

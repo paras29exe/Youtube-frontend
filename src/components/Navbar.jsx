@@ -6,7 +6,7 @@ import { Login } from "./"
 import { useSelector } from 'react-redux'
 
 function Navbar() {
-    const { showLoginPage, toggleLoginPage, showSideBar, toggleSidebar } = useContext(displayContext)
+    const { showLoginPage, toggleLoginPage, toggleSidebar } = useContext(displayContext)
     const { userData, loading, error } = useSelector((state) => state.auth)
 
     return (
@@ -79,7 +79,7 @@ function Navbar() {
 
                 </div>
             </nav>
-            {!showLoginPage ? <Login /> : null}
+            {showLoginPage ? <Login /> : null}
         </>
 
     )

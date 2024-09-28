@@ -3,18 +3,27 @@ import {NavBtn} from './'
 import { displayContext } from '../context/displayContext'
 
 function SideBar() {
-    const { showSidebar } = useContext(displayContext)
-    const [sidebarSize, setSidebarSize] = useState("large")
+    const { changeSidebar,sidebarSize,setSidebarSize  } = useContext(displayContext)
 
     useEffect(() => {
         const handleResize = () => {
             const screenWidth = window.innerWidth;
 
-            // Check if showSidebar is false and screen width is between 1100px and 1600px
-            if (!showSidebar && screenWidth >= 1300 && screenWidth <= 1600) {
+            // Check if showSidebar is false and screen width is between 1150px and 1600px
+            if (sidebarSize === "large" && screenWidth >= 1150) {
                 setSidebarSize("small")
-            } else {
+            } else if (sidebarSize === "small" && screenWidth >= 1150) {
                 setSidebarSize("large")
+            } else if (sidebarSize === "hidden" && screenWidth >= 1150) {
+                setSidebarSize("large")
+            } else if (sidebarSize === "large" && screenWidth >= 800 && screenWidth < 1150) {
+                setSidebarSize("small")
+            } else if (sidebarSize === "small" && screenWidth >= 800 && screenWidth < 1150) {
+                setSidebarSize("hidden")
+            }else if (sidebarSize === "hidden" && screenWidth >= 800 && screenWidth < 1150) {
+                setSidebarSize("small")
+            }else {
+                setSidebarSize("hidden")
             }
         };
 
@@ -28,11 +37,12 @@ function SideBar() {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
-    }, [showSidebar]);
-
+    }, [changeSidebar]);
+    
+    
     
     return (
-        <div className={` transition-all duration-100 ease-in-out ${sidebarSize==="large"? ("h-full overflow-y-auto pl-3 min-w-60 max-w-60 max-xl:max-w-20 max-xl:min-w-20 max-lg:hidden max-xl:p-0 ") : "min-w-20 max-w-20"}`} > 
+        <div className={` transition-all duration-100 ease-in-out max-lg:max-w-20 max-lg:min-w-20 max-md:hidden ${sidebarSize==="large"? ("h-full overflow-y-auto pl-3 min-w-60 max-w-60  ") :sidebarSize==="small"? "min-w-20 max-w-20" : "hidden"} `} > 
              <NavBtn
             to="/"
                 icon={
@@ -52,12 +62,12 @@ function SideBar() {
                 className= {`${sidebarSize==="small" ? "flex-col gap-2 p-3 m-1" : ""}`}
                 nameClasses= {`${sidebarSize==="small" ? "text-xxs text-center" : "" } `}
             />
-            <div className={`my-4 w-full h-0.5 bg-gray-400 max-xl:hidden ${sidebarSize==="small" ? "hidden" : ""}`}></div>
+            <div className={`my-4 w-full h-0.5 bg-gray-400 max-lg:hidden ${sidebarSize==="small" ? "hidden" : ""}`}></div>
             <NavBtn
             to="/dashboard"
                 icon="You"
                 name={<svg xmlns="http://www.w3.org/2000/svg" className='bg-transparent' fill='currentColor' height="20" viewBox="0 0 16 16" width="20" focusable="false" aria-hidden="true" ><path d="M4.97 12.65 9.62 8 4.97 3.35l.71-.71L11.03 8l-5.35 5.35-.71-.7z"></path></svg>}
-                className={`text-xl items-end gap-1 max-xl:hidden ${sidebarSize==="small" ? "hidden" : ""}`}
+                className={`text-xl items-end gap-1 max-lg:hidden ${sidebarSize==="small" ? "hidden" : ""}`}
             />
             <NavBtn
                 to="/channel/user"
