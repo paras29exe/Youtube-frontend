@@ -11,7 +11,7 @@ export const displayContext = createContext({
 export const ContextProvider = ({ children }) => {
     const [showLoginPage, setShowLoginPage] = useState(false)
     const [changeSidebar, setChangeSidebar] = useState(true)
-    const [sidebarSize, setSidebarSize] = useState("large")
+    const [sidebarSize, setSidebarSize] = useState("")
 
     const toggleLoginPage = () => {
         setShowLoginPage(prev => !prev)

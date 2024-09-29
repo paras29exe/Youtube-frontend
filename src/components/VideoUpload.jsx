@@ -1,19 +1,26 @@
 import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaTimes } from 'react-icons/fa';
+import { uploadVideo } from '../store/ayncThunks/videosThunk';
+import { useDispatch } from 'react-redux';
 
 const VideoUpload = () => {
     const { register, handleSubmit, watch, formState: { errors }, setValue, setError, clearErrors } = useForm();
-
     const [thumbnailPreview, setThumbnailPreview] = useState(null)
 
     const thumbnailInputRef = useRef(null)
-
     const watchedTitle = watch('title', 'Video Title');
 
-    const onSubmit = (data) => {
-        console.log(data);
-        // Handle form submission logic here
+    const dispatch = useDispatch();
+
+    const onSubmit = async (data) => {
+        const res = await dispatch(uploadVideo(data))
+
+        if (res.type.includes("rejected")) {
+            throw res.error;
+        } else {
+            console.log("Video uploaded successfully", res.payload);
+        }
     };
 
     const handleThumbnailChange = (event) => {
@@ -27,8 +34,8 @@ const VideoUpload = () => {
             clearErrors("thumbnail"); // Clear any existing errors when valid
             setThumbnailPreview(URL.createObjectURL(file));
         }
-
     };
+
     const handleVideoChange = (e) => {
         const file = e.target.files[0];
         if (file && file.size > 1024 * 1024 * 30.1) {
@@ -45,9 +52,6 @@ const VideoUpload = () => {
     const removePreview = () => {
         setThumbnailPreview(null);
         setValue("thumbnail", null);
-        // if (thumbnailInputRef.current) {
-        //     thumbnailInputRef.current.value = '';
-        // }
     };
 
     return (

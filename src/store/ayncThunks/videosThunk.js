@@ -13,3 +13,27 @@ export const uploadVideo = createAsyncThunk(
         }
     }
 )
+
+export const updateVideoDetails = createAsyncThunk(
+    "videos/updateVideoDetails",
+    async (data, thunkAPI) => {
+        try {
+            const response = await AxiosInstance.patch("videos/update-video-details", data);
+            return fulfilled(response);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err));
+        }
+    }
+)
+
+export const getVideos = createAsyncThunk(
+    "videos/getVideos",
+    async (_, thunkAPI) => {
+        try {
+            const response = await AxiosInstance.get("videos/get-videos");
+            return fulfilled(response);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err));
+        }
+    }
+)

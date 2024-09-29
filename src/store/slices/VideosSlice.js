@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { uploadVideo } from "../ayncThunks/videosThunk";
+import { getVideos, uploadVideo } from "../ayncThunks/videosThunk";
 
 const initialState = {
     videos: [],
@@ -14,7 +14,7 @@ const videoSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(uploadVideo.fulfilled , (state, action) => {
-                state.videos = action.payload;
+                state.videos = [...state.videos, action.payload]
                 state.loading = false;
                 state.error = null;
             })
@@ -26,6 +26,20 @@ const videoSlice = createSlice({
                 state.loading = false;
                 state.error = action.error;
             })
-            
+            .addCase(getVideos.fulfilled , (state, action) => {
+                state.videos = action.payload.data.docs || [];
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(getVideos.pending , (state, action) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getVideos.rejected , (state, action) => {
+                state.loading = false;
+                state.error = action.error;
+            })
     }
 })
+
+export default videoSlice.reducer

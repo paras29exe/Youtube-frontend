@@ -6,12 +6,12 @@ import { Login } from "./"
 import { useSelector } from 'react-redux'
 
 function Navbar() {
-    const { showLoginPage, toggleLoginPage, toggleSidebar } = useContext(displayContext)
+    const { showLoginPage, toggleLoginPage, toggleSidebar, sidebarSize} = useContext(displayContext)
     const { userData, loading, error } = useSelector((state) => state.auth)
 
     return (
         <>
-            <nav className="bg-customDark navbar z-20 top-0 px-3 py-4 text-center flex items-center justify-between max-xl:px-5">
+            <nav className={`bg-customDark navbar z-20 top-0 px-3 py-4 text-center flex items-center justify-between ${sidebarSize === "small" ? "pl-6" : ""} `}>
                 <div className='left flex items-center gap-x-4 w-1/5 '>
                     <div onClick={toggleSidebar}
                         className='hover:bg-gray-400/20 p-2 rounded-full'>
