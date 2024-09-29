@@ -2,27 +2,32 @@ import React, { useState, useEffect, useContext } from 'react';
 import { displayContext } from "../context/displayContext"
 import { useDispatch, useSelector } from 'react-redux';
 import { getVideos } from '../store/ayncThunks/videosThunk';
+import Skeleton from './Skeleton';
 
 function Videos() {
     // const videos = [11, 52, 3, 24, 50, 60, 77, 88, 100, 100 + 1, 100 + 2, 100 + 3, 100 + 4, 100 + 5 + 1, 100 + 6 + 1];
     const { sidebarSize } = useContext(displayContext)
     const [fourVideosInRow, setFourVideosInRow] = useState(false); // Add state for 4 videos in a row
-    const { videos, loading, error } = useSelector((state) => state.videos)
-
+    const {userData } = useSelector((state)=> state.auth)
+    const { videos , loading, error } = useSelector((state) => state.videos)
+    
     const dispatch = useDispatch()
-
+    
     useEffect(() => {
         const fetchVideos = async () => {
             const res = await dispatch(getVideos())
+            console.log(res);
+            
 
             if (res.type.includes("rejected")) {
                 throw res.error;
             } else {
+                console.log(videos);
                 console.log(res.payload.data.docs);
             }
         }
         fetchVideos()
-    }, [])
+    }, [userData])
 
     useEffect(() => {
 
@@ -50,8 +55,8 @@ function Videos() {
     }, [sidebarSize]);
 
     // Conditional rendering for loading and error
-    if (loading) return <div>Loading videos...</div>;
-    if (error) return <div>Error fetching videos: {error}</div>;
+    if (loading) return <Skeleton/>;
+    if (error) return <div className='text-center text-3xl w-fit m-auto'>{error.message === "Cannot read properties of undefined (reading 'data')" ? "Server is down ! Please restart it." : error.message}</div>;
 
     return (
         <div className='w-full overflow-y-auto overflow-x-hidden px-2 flex flex-wrap content-start pb-20'>

@@ -27,7 +27,7 @@ const videoSlice = createSlice({
                 state.error = action.error;
             })
             .addCase(getVideos.fulfilled , (state, action) => {
-                state.videos = action.payload.data.docs || [];
+                state.videos = action.payload.data.docs;
                 state.loading = false;
                 state.error = null;
             })

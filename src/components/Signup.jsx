@@ -52,13 +52,13 @@ function Signup() {
 
     return (
 
-        <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm z-10'>
-            <form onSubmit={handleSubmit(submit)} className='bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full'>
-                <h2 className='text-2xl font-bold mb-6 text-center text-black font-sans'>Create New Account</h2>
+        <div className='w-full'>
+            <form onSubmit={handleSubmit(submit)} className='w-4/6 mx-auto p-8 rounded-lg shadow-lg h-full overflow-auto'>
+                <h2 className='text-2xl font-bold mb-2 text-left font-sans'>Create New Account</h2>
 
                 <div className='relative mb-12'>
                     <div
-                        className={`h-32 bg-gray-300 rounded-t-lg cursor-pointer relative flex items-center justify-center ${coverImage ? "border-4 border-blue-400" : ""}`}
+                        className={`h-40 bg-gray-300 rounded-t-lg cursor-pointer relative flex items-center justify-center w-full ${coverImage ? "border-4 border-blue-400" : ""}`}
                         style={{ backgroundImage: `url(${coverImage})`, backgroundSize: 'cover' }}
                         onClick={() => document.getElementById('coverImageInput').click()}
                     >
@@ -77,7 +77,7 @@ function Signup() {
                     </div>
 
                     <div
-                        className='absolute -bottom-8 left-8 cursor-pointer'
+                        className='absolute -bottom-10 left-8 cursor-pointer'
                         onClick={() => document.getElementById('avatarInput').click()}
                     >
                         <div
@@ -115,7 +115,7 @@ function Signup() {
                             register={register}
                             registerAs="fullName"
                             errors={errors}
-                            className='form p-2 border border-gray-300 rounded-lg w-full'
+                            className='form p-2 border border-gray-300 rounded-lg w-full '
                         />
                         <InputField
                             type='text'
@@ -143,7 +143,7 @@ function Signup() {
                         className='form p-2 border border-gray-300 rounded-lg w-full'
                     />
 
-                    <div className='flex justify-end mb-4'>
+                    <div className='text-right mb-4'>
                         <p className='text-gray-600'>Already registered? <NavLink to="/login" className='text-blue-500 hover:underline'>Login</NavLink></p>
                     </div>
                     <button type='submit' className=' w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200'>
