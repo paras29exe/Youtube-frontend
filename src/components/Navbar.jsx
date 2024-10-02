@@ -11,7 +11,7 @@ function Navbar() {
 
     return (
         <>
-            <nav className={`bg-customDark navbar z-20 top-0 px-3 py-4 text-center flex items-center justify-between ${sidebarSize === "small" ? "pl-6" : ""} `}>
+            <nav className={`bg-customDark navbar z-20 top-0 px-3 py-4 text-center flex items-center justify-between max-lg2:pl-6 ${sidebarSize === "small" ? "pl-6" : ""} `}>
                 <div className='left flex items-center gap-x-4 w-1/5 '>
                     <div onClick={toggleSidebar}
                         className='hover:bg-gray-400/20 p-2 rounded-full'>

@@ -17,7 +17,26 @@ export const ContextProvider = ({ children }) => {
         setShowLoginPage(prev => !prev)
     }
     const toggleSidebar = () => {
-        setChangeSidebar(prev =>!prev)
+        setChangeSidebar(prev => !prev)
+
+        const screenWidth = window.innerWidth
+
+        if (sidebarSize === "large" && screenWidth >= 1150) {
+            setSidebarSize("small");
+        } else if (sidebarSize === "small" && screenWidth >= 1150) {
+            setSidebarSize("large");
+        } else if (sidebarSize === "hidden" && screenWidth >= 1150) {
+            setSidebarSize("large");
+        } else if (sidebarSize === "large" && screenWidth >= 800 && screenWidth < 1150) {
+            setSidebarSize("hidden");
+        } else if (sidebarSize === "small" && screenWidth >= 800 && screenWidth < 1150) {
+            setSidebarSize("hidden");
+        } else if (sidebarSize === "hidden" && screenWidth >= 800 && screenWidth < 1150) {
+            setSidebarSize("small");
+        } else {
+            setSidebarSize("hidden");
+        }
+
     }
 
     return (

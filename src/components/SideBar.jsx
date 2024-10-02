@@ -3,49 +3,24 @@ import { NavBtn } from './'
 import { displayContext } from '../context/displayContext'
 
 function SideBar() {
-    const { changeSidebar, sidebarSize, setSidebarSize } = useContext(displayContext);
+    const { sidebarSize, setSidebarSize } = useContext(displayContext);
 
     useEffect(() => {
-        const handleResize = () => {
-            const screenWidth = window.innerWidth;
+        const screenWidth = window.innerWidth;
 
-            if (sidebarSize === "large" && screenWidth >= 1150) {
-                setSidebarSize("small");
-            } else if (sidebarSize === "small" && screenWidth >= 1150) {
-                setSidebarSize("large");
-            } else if (sidebarSize === "hidden" && screenWidth >= 1150) {
-                setSidebarSize("large");
-            } else if (sidebarSize === "large" && screenWidth >= 800 && screenWidth < 1150) {
-                setSidebarSize("small");
-            } else if (sidebarSize === "small" && screenWidth >= 800 && screenWidth < 1150) {
-                setSidebarSize("hidden");
-            } else if (sidebarSize === "hidden" && screenWidth >= 800 && screenWidth < 1150) {
-                setSidebarSize("small");
-            } else {
-                setSidebarSize("hidden");
-            }
-
-            if(sidebarSize === ""){
-                screenWidth >=1150 ? setSidebarSize("large") : screenWidth >= 800 ? setSidebarSize("small") : setSidebarSize("hidden")
-            } 
-        };
-
-        // Initial check on component mount (but avoid changing state)
-        handleResize();
-
-        // Listen for window resize events
-        window.addEventListener('resize', handleResize);
-
-        // Cleanup event listener on component unmount
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [changeSidebar]);
-
-
+        if (sidebarSize === "") {
+            screenWidth >= 1150 ? setSidebarSize("large") : screenWidth >= 800 ? setSidebarSize("small") : setSidebarSize("hidden")
+        }
+    }, [])
 
     return (
-        <div className={` h-full overflow-y-auto p-1 box-border ${sidebarSize === "large" ? ("pl-3 min-w-60 max-w-60  ") : sidebarSize === "small" ? "min-w-20 max-w-20" : sidebarSize === "hidden" ? "hidden" : "min-w-60 max-w-60 pl-3"}`} >
+        <div
+            className={`transition-all duration-100 ease-in-out h-full overflow-y-auto p-1 box-border max-md2:hidden max-lg2:min-w-20 max-lg2:max-w-20
+                ${sidebarSize === "large" ? ("min-w-60 max-w-60 ")
+                    : sidebarSize === "small" ? "min-w-20 max-w-20"
+                        : sidebarSize === "hidden" ? "hidden"
+                            : "min-w-60 max-w-60"}`}
+        >
             <NavBtn
                 to="/"
                 icon={
@@ -65,12 +40,12 @@ function SideBar() {
                 className={`${sidebarSize === "small" ? "flex-col gap-2 p-3 m-1" : ""}`}
                 nameClasses={`${sidebarSize === "small" ? "text-xxs text-center" : ""} `}
             />
-            <div className={`my-4 w-full h-0.5 bg-gray-400 max-lg:hidden ${sidebarSize === "small" ? "hidden" : ""}`}></div>
+            <div className={`my-4 w-full h-0.5 bg-gray-400 max-lg2:hidden ${sidebarSize === "small" ? "hidden" : ""}`}></div>
             <NavBtn
                 to="/dashboard"
                 icon="You"
                 name={<svg xmlns="http://www.w3.org/2000/svg" className='bg-transparent' fill='currentColor' height="20" viewBox="0 0 16 16" width="20" focusable="false" aria-hidden="true" ><path d="M4.97 12.65 9.62 8 4.97 3.35l.71-.71L11.03 8l-5.35 5.35-.71-.7z"></path></svg>}
-                className={`text-xl items-end gap-1 max-lg:hidden ${sidebarSize === "small" ? "hidden" : ""}`}
+                className={`text-xl items-end gap-1 max-lg2:hidden ${sidebarSize === "small" ? "hidden" : ""}`}
             />
             <NavBtn
                 to="/channel/user"
