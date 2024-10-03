@@ -31,10 +31,10 @@ function Login() {
     };
 
     return (
-        <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 backdrop-blur-sm z-10'>
+        <div className='absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 backdrop-blur-sm '>
             <form
                 onSubmit={handleSubmit(submit)}
-                className='relative inset-0 bg-black p-8 rounded-lg shadow-lg max-w-md w-full'
+                className='relative inset-0 bg-black p-8 rounded-lg shadow-lg max-w-md w-full -z-10'
             >
                 <FaTimes
                     className='absolute top-2 right-2 bg-red-500 rounded-full text-xl cursor-pointer'
@@ -48,7 +48,7 @@ function Login() {
                         register={register}
                         registerAs="username"
                         errors={errors}
-                        className='form bg-inherit text-white'
+                        className='form p-2 border border-gray-300 rounded-lg w-full'
                     />
                     <div className="relative">
                         <InputField
@@ -57,7 +57,7 @@ function Login() {
                             register={register}
                             registerAs="password"
                             errors={errors}
-                            className='form bg-inherit text-white'
+                            className='form p-2 border border-gray-300 rounded-lg w-full '
                         />
                         <div
                             className="absolute inset-y-1/4 right-0 pr-3 flex items-center cursor-pointer z-10"  // Ensure z-index is high

@@ -16,7 +16,7 @@ const router = createBrowserRouter(
         <Route path="/" element={<Videos />} />
         <Route path="/login" element={<login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/upload" element={<VideoUpload />} />
+        <Route path="/user/upload-video" element={<VideoUpload />} />
       </Route>
       <Route path='*' element={<NotFoundPage />} />
     </>

@@ -55,7 +55,7 @@ const VideoUpload = () => {
     };
 
     return (
-        <div className="mx-2 h-full w-full overflow-auto flex justify-center bg-gray-950 text-white">
+        <div className="mx-2 h-full w-full overflow-auto flex justify-center text-white">
             <div className="w-full max-w-5xl flex items-center flex-col lg:flex-row px-8">
                 <div className="w-full h-auto md:w-1/2 flex flex-col items-center pt-8 pb-20">
                     {thumbnailPreview  ? (
@@ -68,7 +68,7 @@ const VideoUpload = () => {
                                         alt="Thumbnail Preview"
                                         className="aspect-video w-full h-2/3 object-cover rounded-md"
                                     />
-                                    <div className="absolute bottom-1 right-3 bg-black/80 px-1.5 py-0.5 font-semibold text-xs ">
+                                    <div className="absolute bottom-2 right-3 rounded-sm bg-black/75 px-1.5 py-0.5 font-semibold text-xs ">
                                         20:50
                                     </div>
                                 </div>
