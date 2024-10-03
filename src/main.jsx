@@ -7,15 +7,20 @@ import { Provider } from 'react-redux'
 import { VideoUpload, Signup, Videos } from "./components"
 import App from './App.jsx'
 import './index.css'
+import NotFoundPage from './components/NotFoundPage.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<App />} >
-      <Route path="/" element={<Videos />} />
-      <Route path="/login" element={<login />} /> 
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/upload" element={<VideoUpload />} />
-    </Route>
+    <>
+      <Route path="/" element={<App />} >
+        <Route path="/" element={<Videos />} />
+        <Route path="/login" element={<login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/upload" element={<VideoUpload />} />
+      </Route>
+      <Route path='*' element={<NotFoundPage />} />
+    </>
+
   )
 )
 
