@@ -7,6 +7,9 @@ import SideBar from "./SideBar";
 import Signup from "./Signup";
 import Videos from "./Videos";
 import VideoUpload from "./VideoUpload";
+import NotFoundPage from "./NotFoundPage";
+import ProtectedComponent from "./ProtectedComponet";
+import VideoPlayerPage from "./PlayVideo";
 
 export {
     Home,
@@ -18,4 +21,7 @@ export {
     Signup,
     Videos,
     VideoUpload,
+    NotFoundPage,
+    ProtectedComponent,
+    VideoPlayerPage,
 }

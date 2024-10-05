@@ -11,8 +11,8 @@ function Navbar() {
 
     return (
         <>
-            <nav className={`bg-customDark navbar z-20 top-0 px-3 py-4 text-center flex items-center justify-between max-lg2:pl-6 ${sidebarSize === "small" ? "pl-6" : ""} `}>
-                <div className='left flex items-center gap-x-4 w-1/5 '>
+            <nav className={`bg-customDark navbar z-20 top-0 px-3 py-4 text-center flex items-center justify-between  `}>
+                <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-3 ${sidebarSize === "small" ? "pl-3" : ""} `}>
                     <div onClick={toggleSidebar}
                         className='hover:bg-gray-400/20 p-2 rounded-full'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bg-transparent bi bi-list" viewBox="0 0 16 16">
@@ -41,7 +41,7 @@ function Navbar() {
                         </svg>
                     </div>
                 </div>
-                <div className='search xl:w-2/5 md:w-1/2 m-auto flex'>
+                <div className='search xl:w-2/5 md:w-1/2 m-auto flex w-1/3'>
                     <input className='w-11/12 h-10 rounded-l-full px-4 text-lg  border border-gray-600 focus-within:outline-none focus-within:border-blue-600 bg-inherit placeholder:text-gray-400' type="search" name="search-bar" id="" placeholder='Search' />
 
                     <button className='w-16 h-10 flex items-center justify-center bg-gray-600/40 rounded-r-full border border-gray-600 border-l-0'>
@@ -50,7 +50,7 @@ function Navbar() {
                         </svg>
                     </button>
                 </div>
-                <div className='w-1/5 flex items-center justify-end gap-x-8 pr-4 '>
+                <div className='w-1/3 flex items-center justify-end gap-x-8 pr-4 '>
                     <NavLink
                         to="/user/upload-video"
                     >
