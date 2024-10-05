@@ -12,6 +12,9 @@ const accountSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+        .addCase("account/login/pending", (state, action) => {
+            state.loading = true;
+        })
          
     }
 })

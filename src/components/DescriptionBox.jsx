@@ -1,5 +1,6 @@
 // VideoDescriptionBox.js
 import React, { useState, useEffect, useRef } from 'react';
+import timeAgo from '../utils/timeAgo';
 
 const VideoDescriptionBox = ({ currentVideo }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -16,36 +17,9 @@ const VideoDescriptionBox = ({ currentVideo }) => {
     setIsExpanded(!isExpanded);
   };
 
-  const timeAgo = (timestamp) => {
-    const now = new Date();
-    const uploadDate = new Date(timestamp);
-    const seconds = Math.floor((now - uploadDate) / 1000);
-
-    let interval = Math.floor(seconds / 31536000); // 1 year = 31536000 seconds
-    if (interval == 1) return `${interval} year ago`;
-    if (interval > 1) return `${interval} years ago`;
-
-    interval = Math.floor(seconds / 2592000); // 1 month = 2592000 seconds
-    if (interval == 1) return `${interval} month ago`;
-    if (interval > 1) return `${interval} months ago`;
-
-    interval = Math.floor(seconds / 86400); // 1 day = 86400 seconds
-    if (interval == 1) return `${interval} day ago`;
-    if (interval > 1) return `${interval} days ago`;
-
-    interval = Math.floor(seconds / 3600); // 1 hour = 3600 seconds
-    if (interval == 1) return `${interval} hour ago`;
-    if (interval > 1) return `${interval} hours ago`;
-
-    interval = Math.floor(seconds / 60); // 1 minute = 60 seconds
-    if (interval == 1) return `${interval} minute ago`;
-    if (interval > 1) return `${interval} minutes ago`;
-
-    return `${seconds} seconds ago`;
-};
 
   return (
-    <div className="bg-gray-800 p-4 rounded-lg">
+    <div className="bg-gray-600/40 p-4 rounded-lg">
       <p >
         <span className='text-gray-400'>{currentVideo.views} views</span>
         <span className="text-gray-400 text-sm"> • </span>
