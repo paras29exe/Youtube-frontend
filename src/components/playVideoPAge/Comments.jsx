@@ -1,5 +1,5 @@
 import React from 'react'
-import timeAgo from '../utils/timeAgo'
+import timeAgo from '../../utils/timeAgo'
 
 function Comments({ currentVideo }) {
     return (

@@ -50,7 +50,7 @@ export const login = createAsyncThunk(
 
 export const autoLogin = createAsyncThunk(
     "auth/autoLogin",
-    async (data, thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
             const response = await AxiosInstance.post("users/refresh-the-tokens");
             return fulfilled(response);
@@ -62,7 +62,7 @@ export const autoLogin = createAsyncThunk(
 
 export const logout = createAsyncThunk(
     "auth/logout",
-    async (data, thunkAPI) => {
+    async (_, thunkAPI) => {
         try {
             const response = await AxiosInstance.post("users/logout");
             return fulfilled(response);

@@ -3,29 +3,33 @@ import { NavLink } from 'react-router-dom';
 import LoadingSpinner from '../assets/LoadingSpinner.svg';
 import { displayContext } from '../context/displayContext'
 import { Login } from "./"
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import Cookies from 'js-cookie'
+import { logout } from '../store/ayncThunks/authThunk';
 
 function Navbar() {
-    const { showLoginPage, toggleLoginPage, toggleSidebar, sidebarSize } = useContext(displayContext)
+    const { showLoginPage, sidebarSize, toggleSidebar } = useContext(displayContext)
     const { userData, loading, error } = useSelector((state) => state.auth)
     const dropdownRef = React.useRef()
+    const dispatch = useDispatch()
 
     const [dropdownVisible, setDropdownVisible] = React.useState(false);
     const [accountDropdown, setAccountDropdown] = React.useState(false);
-    
+    const [confirmLogout, setConfirmLogout] = React.useState(false)
+
     const handleClickOutside = (event) => {
-        if (dropdownRef.current && !dropdownRef.current.contains(event.target)){
-          setDropdownVisible(false);
-          setAccountDropdown(false);
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setDropdownVisible(false);
+            setAccountDropdown(false);
         }
-      };
-    
-      React.useEffect(() => {
+    };
+
+    React.useEffect(() => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
-          document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('mousedown', handleClickOutside);
         };
-      }, []);
+    }, []);
 
     return (
         <>
@@ -117,26 +121,52 @@ function Navbar() {
                                     {userData ? (
                                         <>
                                             <NavLink
-                                            onClick={() => setAccountDropdown(prev => !prev)}
-                                            to="/user/account" className='block px-4 py-2 rounded-t-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
+                                                onClick={() => setAccountDropdown(prev => !prev)}
+                                                to="/user/account" className='block px-4 py-2 rounded-t-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
                                                 Your Account
                                             </NavLink>
                                             <NavLink
-                                            onClick={() => setAccountDropdown(prev => !prev)}
-                                            to="/user/logout" className='block px-4 py-2 rounded-b-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
+                                                onClick={() => {
+                                                    setConfirmLogout(true)
+                                                    
+                                                }}
+                                                className='block px-4 py-2 rounded-b-md text-white font-semibold bg-gray-800 focus:bg-gray-200 focus:text-black hover:bg-gray-200 hover:text-black'>
                                                 Logout
                                             </NavLink>
+                                            {confirmLogout && (
+                                                <div className="absolute w-64 right-52 -top-5  mt-4 p-4 border border-gray-300 bg-gray-100 rounded shadow">
+                                                    <p className="mb-4 text-black font-sans font-semibold">Are you sure you want to logout?</p>
+                                                    <button
+                                                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 mr-2"
+                                                        onClick={() => {
+                                                            Cookies.remove("accessToken")
+                                                            Cookies.remove("refreshToken")
+                                                            dispatch(logout())
+                                                            setAccountDropdown(prev => !prev)
+                                                            setConfirmLogout(false)
+                                                        }}
+                                                    >
+                                                        Yes
+                                                    </button>
+                                                    <button
+                                                        className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700"
+                                                        onClick={() => setConfirmLogout(false) }
+                                                    >
+                                                        No
+                                                    </button>
+                                                </div>
+                                            )}
                                         </>
                                     ) : (
                                         <>
                                             <NavLink
-                                            onClick={() => setAccountDropdown(prev => !prev)}
-                                            to="/login" className='block px-4 py-2 rounded-t-md text-white font-semibold bg-gray-800 hover:bg-gray-200  hover:text-black'>
+                                                onClick={() => setAccountDropdown(prev => !prev)}
+                                                to="/auth/api/v1/login" className='block px-4 py-2 rounded-t-md text-white font-semibold bg-gray-800 hover:bg-gray-200  hover:text-black'>
                                                 Login
                                             </NavLink>
                                             <NavLink
-                                            onClick={() => setAccountDropdown(prev => !prev)}
-                                            to="/create-account" className='block px-4 py-2 rounded-b-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
+                                                onClick={() => setAccountDropdown(prev => !prev)}
+                                                to="auth/api/v1/signup" className='block px-4 py-2 rounded-b-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
                                                 Create an Account
                                             </NavLink>
                                         </>

@@ -9,13 +9,9 @@ export const displayContext = createContext({
 )
 
 export const ContextProvider = ({ children }) => {
-    const [showLoginPage, setShowLoginPage] = useState(false)
     const [changeSidebar, setChangeSidebar] = useState(true)
     const [sidebarSize, setSidebarSize] = useState("")
 
-    const toggleLoginPage = () => {
-        setShowLoginPage(prev => !prev)
-    }
     const toggleSidebar = () => {
         setChangeSidebar(prev => !prev)
 
@@ -40,7 +36,7 @@ export const ContextProvider = ({ children }) => {
     }
 
     return (
-        <displayContext.Provider value={{ showLoginPage, toggleLoginPage, toggleSidebar, changeSidebar, sidebarSize, setSidebarSize }}>
+        <displayContext.Provider value={{ toggleSidebar, changeSidebar, sidebarSize, setSidebarSize }}>
             {children}
         </displayContext.Provider>
     )

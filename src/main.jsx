@@ -13,8 +13,8 @@ const router = createBrowserRouter(
     <>
       <Route path="/" element={<App />} >
         <Route path="/" element={<Videos />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="auth/api/v1/login" element={<Login />} />
+        <Route path="auth/api/v1/signup" element={<Signup />} />
         <Route path="/user/upload-video" element={<VideoUpload />} />
       </Route>
       <Route path="/videos/play" element={<VideoPlayerPage />} />

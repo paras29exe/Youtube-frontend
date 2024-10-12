@@ -1,6 +1,5 @@
 import './App.css'
-import { Navbar, SideBar, Home, VideoUpload, Signup, Videos } from "./components"
-import Skeleton from './components/Skeleton'
+import { Navbar, SideBar} from "./components"
 import { useDispatch } from 'react-redux'
 import { autoLogin } from './store/ayncThunks/authThunk'
 import { useEffect } from 'react'

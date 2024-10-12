@@ -3,13 +3,13 @@ import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { playVideo } from '../store/ayncThunks/videosThunk';
-import timeAgo from '../utils/timeAgo';
+import { playVideo } from '../../store/ayncThunks/videosThunk';
+import timeAgo from '../../utils/timeAgo';
 import VideoDescriptionBox from './DescriptionBox';
 import ActionButtons from './ActionButtons';
 import Comments from './Comments';
-import Navbar from './Navbar';
-import formatViews from '../utils/formatViews';
+import Navbar from '../Navbar';
+import formatViews from '../../utils/formatViews';
 
 const VideoPlayerPage = () => {
     const [searchParams] = useSearchParams();

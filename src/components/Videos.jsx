@@ -7,9 +7,10 @@ import Skeleton from './Skeleton';
 import { useNavigate } from 'react-router-dom';
 import formatViews from '../utils/formatViews';
 
+
 function Videos() {
     // const videos = [11, 52, 3, 24, 50, 60, 77, 88, 100, 100 + 1, 100 + 2, 100 + 3, 100 + 4, 100 + 5 + 1, 100 + 6 + 1];
-    const { sidebarSize } = useContext(displayContext)
+    const { sidebarSize} = useContext(displayContext)
     const [fourVideosInRow, setFourVideosInRow] = useState(false); // Add state for 4 videos in a row
     const { userData } = useSelector((state) => state.auth)
     const { videos, loading, error } = useSelector((state) => state.videos)
@@ -124,6 +125,7 @@ function Videos() {
                     )
                 })
             }
+
         </div >
     )
 }

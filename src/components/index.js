@@ -9,7 +9,7 @@ import Videos from "./Videos";
 import VideoUpload from "./VideoUpload";
 import NotFoundPage from "./NotFoundPage";
 import ProtectedComponent from "./ProtectedComponet";
-import VideoPlayerPage from "./PlayVideo";
+import VideoPlayerPage from "./playVideoPAge/PlayVideo";
 
 export {
     Home,

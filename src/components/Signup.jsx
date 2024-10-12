@@ -144,7 +144,7 @@ function Signup() {
                     />
 
                     <div className='text-right mb-4'>
-                        <p className='text-gray-600'>Already registered? <NavLink to="/login" className='text-blue-500 hover:underline'>Login</NavLink></p>
+                        <p className='text-gray-600'>Already registered? <NavLink to="auth/api/v1/login" className='text-blue-500 hover:underline'>Login</NavLink></p>
                     </div>
                     <button type='submit' className=' w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200'>
                         Signup

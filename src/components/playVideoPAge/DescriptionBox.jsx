@@ -1,6 +1,6 @@
 // VideoDescriptionBox.js
 import React, { useState, useEffect, useRef } from 'react';
-import timeAgo from '../utils/timeAgo';
+import timeAgo from '../../utils/timeAgo';
 
 const VideoDescriptionBox = ({ currentVideo }) => {
   const [isExpanded, setIsExpanded] = useState(false);
