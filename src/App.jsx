@@ -1,23 +1,9 @@
 import './App.css'
 import { Navbar, SideBar} from "./components"
-import { useDispatch } from 'react-redux'
-import { autoLogin } from './store/ayncThunks/authThunk'
-import { useEffect } from 'react'
+
 import { Outlet } from 'react-router-dom'
 
 function App() {
-
-  const dispatch = useDispatch()
-
-  useEffect(() => {
-    try {
-      // Automatically log in the user from cookies stored when the app loads
-      ; (async () => dispatch(autoLogin())
-      )()
-    } catch (error) {
-      console.error('Error during auto login:', error)
-    }
-  }, [])
 
   return (
     <>

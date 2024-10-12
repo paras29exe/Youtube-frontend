@@ -1,6 +1,5 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, } from 'react-router-dom'
 import { toggleCommentLike, toggleSubscribe, toggleVideoLike } from '../../store/ayncThunks/likeSubscribeThunk'
 import Popup from '../../utils/Popup'
 
@@ -19,9 +18,10 @@ function ActionButtons({ currentVideo }) {
         console.log(location.href)
     }
 
+
     return (
 
-        <div className=" flex items-center justify-between gap-x-8">
+        <div className=" flex items-center justify-between gap-x-8 mt-2">
             <div className="flex items-center w-1/2 gap-x-4 ">
 
                 <div className='flex items-center gap-x-2'>
@@ -47,7 +47,7 @@ function ActionButtons({ currentVideo }) {
                         }
 
                     }}
-                    className={`${isSubscribed ? "bg-gray-600/35" : "bg-white"} px-3 py-1.5 text-sm rounded-full flex items-center`}
+                    className={` px-3 py-1.5 text-sm rounded-full flex items-center transition-all duration-250 ${isSubscribed ? "bg-gray-600/35" : "bg-white"}`}
                 >
                     <span className={`material-icons ${isSubscribed ? "text-white" : "text-black"} `}>notifications</span>
                     <span className={`ml-1 font-sans font-semibold ${isSubscribed ? "text-white" : "text-black"}`}>{isSubscribed ? "Subscribed" : "Subscribe"}</span>
@@ -56,7 +56,7 @@ function ActionButtons({ currentVideo }) {
             </div>
             <div className="flex items-center justify-end space-x-3 w-1/2">
 
-                <div className="bg-gray-600/40 text-white px-3 py-1.5 text-sm rounded-full flex items-center">
+                <div className="bg-gray-600/40 text-white px-3 py-2 text-sm rounded-full flex items-center">
                     <button
                         onClick={() => {
                             if (userData) {
@@ -68,7 +68,7 @@ function ActionButtons({ currentVideo }) {
                                 setShowPopup(true)
                             }
                         }}
-                        className={`material-icons ${isLiked ? "text-blue-600" : ""}`}
+                        className={`material-icons transition-all duration-200 ${isLiked ? "text-blue-600" : ""}`}
                     >thumb_up</button>
 
                     <span className="ml-1">{likesCount}</span>
@@ -79,21 +79,21 @@ function ActionButtons({ currentVideo }) {
                                 setIsDisliked(prev => !prev)
                                 setLikesCount(isLiked ? likesCount - 1 : null)
                                 setIsLiked(false)
-                            }else {
+                            } else {
                                 setShowPopup(true)
                             }
                         }}
-                        className={`material-icons ml-3 ${isDisliked ? "text-blue-600" : ""}`}>thumb_down</button>
+                        className={`material-icons ml-3 transition-all duration-200 ${isDisliked ? "text-blue-600" : ""}`}>thumb_down</button>
                 </div>
 
-                <button onClick={shareVideo} className="bg-gray-600/40 text-white px-3 py-1.5 text-sm rounded-full flex items-center">
+                <button onClick={shareVideo} className="bg-gray-600/40 text-white text-sm w-10 h-10 rounded-full flex items-center justify-center">
                     <span className="material-icons ">share</span>
-                    <span className="ml-1">Share</span>
+                    {/* <span className="ml-1">Share</span> */}
                 </button>
 
-                <button className="bg-gray-600/40 text-white px-3 py-1.5 text-sm rounded-full flex items-center">
+                <button className="bg-gray-600/40 text-white  text-sm w-10 h-10 rounded-full flex items-center justify-center">
                     <span className="material-icons">download</span>
-                    <span className="ml-1">Download</span>
+                    {/* <span className="ml-1">Download</span> */}
                 </button>
 
             </div>

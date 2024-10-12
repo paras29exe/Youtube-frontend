@@ -2,16 +2,14 @@ import React from "react";
 
 function Skeleton() {
     const loadingSkeletonStyle = "animate-pulse bg-[#222222] h-10 w-full mb-2";
-    const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-
 
     return (
         <>
             <div className="w-full overflow-y-auto flex flex-wrap gap-2 content-start px-4">
                 {
-                    array.map((i) => (
+                    Array.from({ length: 21 }, (_, index) => index + 1).map((index) => (
                         <div
-                            key={i}
+                            key={index}
                             className={`${loadingSkeletonStyle} w-full h-60 lg2:h-64 md:h72 relative rounded-sm flex-grow 
                             basis-[calc(100%-0.5rem)] sm:basis-[calc(50%-0.5rem)] 
                             lg2:basis-[calc(33.33%-0.5rem)] 3xl:basis-[calc(25%-0.5rem)] 

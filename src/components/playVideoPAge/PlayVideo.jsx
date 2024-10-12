@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { redirect, useNavigate, useSearchParams } from 'react-router-dom';
 import { playVideo } from '../../store/ayncThunks/videosThunk';
 import timeAgo from '../../utils/timeAgo';
 import VideoDescriptionBox from './DescriptionBox';
@@ -10,6 +10,8 @@ import ActionButtons from './ActionButtons';
 import Comments from './Comments';
 import Navbar from '../Navbar';
 import formatViews from '../../utils/formatViews';
+import { current } from '@reduxjs/toolkit';
+import VideoSkeleton from '../VideoSkeleton';
 
 const VideoPlayerPage = () => {
     const [searchParams] = useSearchParams();
@@ -26,7 +28,7 @@ const VideoPlayerPage = () => {
     useEffect(() => {
         if (v_id) {
             const getVideo = async () => {
-                await dispatch(playVideo(v_id))
+                const res = await dispatch(playVideo(v_id))
             }
             getVideo()
         }
@@ -36,7 +38,16 @@ const VideoPlayerPage = () => {
 
     }
 
-    if (loading) return <div>Hello</div>
+    if (loading) return (
+        <>
+            <Navbar />
+            <VideoSkeleton />
+        </>
+    )
+
+    if (error?.message.toLowerCase().includes("this video is private or cannot be played")) {
+        navigate("/")
+    }
 
     if (singleVideo?.videoDetails) return (
         <>
@@ -46,14 +57,14 @@ const VideoPlayerPage = () => {
                 <div className="flex-1 p-3 md2:w-3/5 flex flex-col gap-y-5">
                     <div className="bg-black w-full aspect-video">
                         <ReactPlayer
-                            url={currentVideo.videoFile}
+                            url={currentVideo.videoFile || ""}
                             width="100%"
                             height="100%"
                             controls
                             autoPlay
                             playing
                         />
-                        
+
                     </div>
                     <p className="text-2xl font-bold -my-2.5 line-clamp-3">{currentVideo.title}</p>
 
@@ -79,6 +90,7 @@ const VideoPlayerPage = () => {
                                 <button type='submit' className='h-12 text-center w-2/12 text-xl border border-gray-500 border-l-0 bg-gray-500/40 rounded-r-lg'>Add</button>
                             </div>
                         </form>
+                        {/* comments */}
                         <Comments currentVideo={currentVideo} />
                     </div>
                 </div>

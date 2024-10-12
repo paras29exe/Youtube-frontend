@@ -6,29 +6,52 @@ import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } 
 import { ContextProvider } from './context/displayContext'
 import { store } from './store/store.js'
 import { Provider } from 'react-redux'
-import { VideoUpload, Signup, Videos,Login, NotFoundPage,VideoPlayerPage } from "./components"
+import { VideoUpload, Signup, Videos, Login, NotFoundPage, VideoPlayerPage } from "./components"
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <>
-      <Route path="/" element={<App />} >
-        <Route path="/" element={<Videos />} />
-        <Route path="auth/api/v1/login" element={<Login />} />
-        <Route path="auth/api/v1/signup" element={<Signup />} />
-        <Route path="/user/upload-video" element={<VideoUpload />} />
-      </Route>
-      <Route path="/videos/play" element={<VideoPlayerPage />} />
-      <Route path='*' element={<NotFoundPage />} />
-    </>
+import { useDispatch } from 'react-redux'
+import { autoLogin } from './store/ayncThunks/authThunk'
+import { useEffect } from 'react'
 
+function Main() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    try {
+      // Automatically log in the user from cookies stored when the app loads
+      ; (async () => dispatch(autoLogin())
+      )()
+    } catch (error) {
+      console.error('Error during auto login:', error)
+    }
+  }, [])
+
+
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <>
+        <Route path="/" element={<App />} >
+          <Route path="/" element={<Videos />} />
+          <Route path="/auth/api/v1/login" element={<Login />} />
+          <Route path="/auth/api/v1/signup" element={<Signup />} />
+          <Route path="/user/upload-video" element={<VideoUpload />} />
+        </Route>
+        <Route path="/videos/play" element={<VideoPlayerPage />} />
+        <Route path='*' element={<NotFoundPage />} />
+      </>
+
+    )
   )
-)
+
+  return (
+    <RouterProvider router={router} />
+  )
+}
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
       <ContextProvider>
-        <RouterProvider router={router} />
+        <Main />
       </ContextProvider>
     </Provider>
   </React.StrictMode>

@@ -15,27 +15,16 @@ function Login() {
     const { loading } = useSelector(state => state.auth)
 
     const navigate = useNavigate();
-    const location = useLocation();
-
-    const handleClose = () => {
-        // Navigate to the previous route or fallback to the homepage
-        if (location.state?.from) {
-            navigate(location.state.from);
-        } else {
-            navigate('/');
-        }
-    };
 
     const submit = async (data) => {
         const res = await dispatch(login(data));
 
         if (res.type.includes("rejected")) {
             throw res.error;
-            
         } else {
-            handleClose();
-            Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
-            Cookies.set("refreshToken", res.payload.data.refreshToken, { expires: 7 }); // Cookie expires in 7 days
+                navigate(-1)
+                Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
+                Cookies.set("refreshToken", res.payload.data.refreshToken, { expires: 7 }); // Cookie expires in 7 days
         }
     };
 
@@ -47,7 +36,7 @@ function Login() {
             >
                 <FaTimes
                     className='absolute top-2 right-2 bg-red-500 rounded-full text-xl cursor-pointer'
-                    onClick={(e) => { e.stopPropagation(); handleClose(); }}
+                    onClick={(e) => { e.stopPropagation(); navigate(-1); }}
                 />
                 <h2 className='text-2xl font-bold mb-6 text-center text-white'>Login to your Account</h2>
 
