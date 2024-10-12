@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { FaPlus, FaTimes } from 'react-icons/fa';
 import Cookies from 'js-cookie';
 import InputField from './InputField';
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { signup } from '../store/ayncThunks/authThunk';
 
 function Signup() {
@@ -12,6 +12,7 @@ function Signup() {
     const [avatarFile, setAvatarFile] = useState(null);
     const [coverImage, setCoverImage] = useState(null);
     const dispatch = useDispatch();
+    const { loading } = useSelector((state) => state.auth)
 
     const submit = async (data) => {
         const res = await dispatch(signup(data));
@@ -146,9 +147,18 @@ function Signup() {
                     <div className='text-right mb-4'>
                         <p className='text-gray-600'>Already registered? <NavLink to="auth/api/v1/login" className='text-blue-500 hover:underline'>Login</NavLink></p>
                     </div>
-                    <button type='submit' className=' w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200'>
-                        Signup
-                    </button>
+                    {
+                        loading ?
+                            <svg xmlns="http://www.w3.org/2000/svg" style={{ margin: 'auto', background: 'none', display: 'block', shapeRendering: 'auto' }} width="40px" height="40px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                                <circle cx="50" cy="50" fill="none" stroke="#fff" strokeWidth="8" r="35" strokeDasharray="164.93361431346415 56.97787143782138">
+                                    <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1" />
+                                </circle>
+                            </svg> 
+                            :
+                            <button type='submit' className=' w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200'>
+                                Signup
+                            </button>
+                    }
                 </div>
             </form>
         </div>

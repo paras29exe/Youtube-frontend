@@ -18,7 +18,6 @@ function ActionButtons({ currentVideo }) {
         console.log(location.href)
     }
 
-
     return (
 
         <div className=" flex items-center justify-between gap-x-8 mt-2">
@@ -32,7 +31,7 @@ function ActionButtons({ currentVideo }) {
                     />
                     <div className="">
                         <span className="font-bold mr-1 text-md line-clamp-1">{currentVideo.channelDetails.channelName}</span>
-                        <div className="text-gray-400 text-xs block">{currentVideo.channelDetails.subscribersCount} subscribers</div>
+                        <div className="text-gray-400 text-xs block">{subscriberCount} subscribers</div>
                     </div>
                 </div>
 
@@ -47,10 +46,10 @@ function ActionButtons({ currentVideo }) {
                         }
 
                     }}
-                    className={` px-3 py-1.5 text-sm rounded-full flex items-center transition-all duration-250 ${isSubscribed ? "bg-gray-600/35" : "bg-white"}`}
+                    className={`px-3 py-1.5 text-sm rounded-full flex items-center transition-all duration-300 ${isSubscribed ? "bg-gray-600/35" : "bg-red-700"}`}
                 >
-                    <span className={`material-icons ${isSubscribed ? "text-white" : "text-black"} `}>notifications</span>
-                    <span className={`ml-1 font-sans font-semibold ${isSubscribed ? "text-white" : "text-black"}`}>{isSubscribed ? "Subscribed" : "Subscribe"}</span>
+                    <span className="material-icons ">notifications</span>
+                    <span className="ml-1 font-sans font-semibold ">{isSubscribed ? "Subscribed" : "Subscribe"}</span>
                 </button>
 
             </div>
@@ -68,7 +67,7 @@ function ActionButtons({ currentVideo }) {
                                 setShowPopup(true)
                             }
                         }}
-                        className={`material-icons transition-all duration-200 ${isLiked ? "text-blue-600" : ""}`}
+                        className={`material-icons transition-all duration-300 ${(isLiked) ? "text-blue-600" : ""}`}
                     >thumb_up</button>
 
                     <span className="ml-1">{likesCount}</span>
@@ -76,6 +75,7 @@ function ActionButtons({ currentVideo }) {
                     <button
                         onClick={() => {
                             if (userData) {
+                                dispatch(toggleVideoLike(currentVideo._id))
                                 setIsDisliked(prev => !prev)
                                 setLikesCount(isLiked ? likesCount - 1 : null)
                                 setIsLiked(false)
@@ -83,7 +83,7 @@ function ActionButtons({ currentVideo }) {
                                 setShowPopup(true)
                             }
                         }}
-                        className={`material-icons ml-3 transition-all duration-200 ${isDisliked ? "text-blue-600" : ""}`}>thumb_down</button>
+                        className={`material-icons ml-3 transition-all duration-300 ${isDisliked ? "text-blue-600" : ""}`}>thumb_down</button>
                 </div>
 
                 <button onClick={shareVideo} className="bg-gray-600/40 text-white text-sm w-10 h-10 rounded-full flex items-center justify-center">

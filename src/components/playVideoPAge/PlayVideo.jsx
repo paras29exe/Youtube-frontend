@@ -32,7 +32,7 @@ const VideoPlayerPage = () => {
             }
             getVideo()
         }
-    }, [v_id])
+    }, [])
 
     const addComment = async (data) => {
 
@@ -77,6 +77,7 @@ const VideoPlayerPage = () => {
                     <div className="mt-6">
                         <h2 className="text-xl font-bold">Comments</h2>
                         <form onSubmit={handleSubmit(addComment)} className="flex items-start mt-4 space-x-4">
+
                             <div className="w-12 h-11 rounded-full bg-gray-400">
                                 <img className="w-full h-full rounded-full object-cover" src={userdata?.avatar || "https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png?fit=500%2C500&ssl=1"} alt="Channel Thumbnail" />
                             </div>
@@ -89,6 +90,7 @@ const VideoPlayerPage = () => {
                                 />
                                 <button type='submit' className='h-12 text-center w-2/12 text-xl border border-gray-500 border-l-0 bg-gray-500/40 rounded-r-lg'>Add</button>
                             </div>
+
                         </form>
                         {/* comments */}
                         <Comments currentVideo={currentVideo} />
