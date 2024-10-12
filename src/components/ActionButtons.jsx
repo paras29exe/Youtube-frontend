@@ -18,7 +18,7 @@ function ActionButtons({currentVideo}) {
                         <button className="bg-gray-600/40 text-white px-3 py-1.5 text-sm rounded-full flex items-center">
                             <span className="material-icons">notifications</span>
                             <span className="ml-1">Subscribed</span>
-                            <span className="material-icons">arrow_drop_down</span>
+                            {/* <span className="material-icons">arrow_drop_down</span> */}
                         </button>
                     </div>
                     <div className="flex items-center justify-end space-x-3 w-1/2">

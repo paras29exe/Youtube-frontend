@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useReducer } from 'react'
 import { NavLink } from 'react-router-dom';
 import LoadingSpinner from '../assets/LoadingSpinner.svg';
 import { displayContext } from '../context/displayContext'
@@ -8,6 +8,24 @@ import { useSelector } from 'react-redux'
 function Navbar() {
     const { showLoginPage, toggleLoginPage, toggleSidebar, sidebarSize } = useContext(displayContext)
     const { userData, loading, error } = useSelector((state) => state.auth)
+    const dropdownRef = React.useRef()
+
+    const [dropdownVisible, setDropdownVisible] = React.useState(false);
+    const [accountDropdown, setAccountDropdown] = React.useState(false);
+    
+    const handleClickOutside = (event) => {
+        if (dropdownRef.current && !dropdownRef.current.contains(event.target)){
+          setDropdownVisible(false);
+          setAccountDropdown(false);
+        }
+      };
+    
+      React.useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, []);
 
     return (
         <>
@@ -50,35 +68,89 @@ function Navbar() {
                         </svg>
                     </button>
                 </div>
-                <div className='w-1/3 flex items-center justify-end gap-x-8 pr-4 '>
-                    <NavLink
-                        to="/user/upload-video"
-                    >
-                        <div className='hover:bg-gray-400/20 p-2 rounded-full '>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" fill='currentColor' className='bg-transparent' focusable="false" aria-hidden="true"><path d="M14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2zm3-7H3v12h14v-6.39l4 1.83V8.56l-4 1.83V6m1-1v3.83L22 7v8l-4-1.83V19H2V5h16z"></path></svg>
+                <div className='w-1/3 flex items-center justify-end gap-x-8 pr-4'>
+                    <div className='relative'>
+                        <div
+                            className='hover:bg-gray-400/20 p-2 rounded-full cursor-pointer'
+                            onClick={() => setDropdownVisible(prev => !prev)}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" fill='currentColor' className='bg-transparent' focusable="false" aria-hidden="true">
+                                <path d="M14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2zm3-7H3v12h14v-6.39l4 1.83V8.56l-4 1.83V6m1-1v3.83L22 7v8l-4-1.83V19H2V5h16z"></path>
+                            </svg>
                         </div>
-                    </NavLink>
-
-                    <div className='bg-blue-400/30 rounded-full overflow-hidden w-12 h-12 cursor-pointer flex items-center justify-center' onClick={toggleLoginPage}>
-                        {
-                            userData?.data.user.avatar ?
-                                <img src={userData.data.user.avatar} className="object-cover min-w-full min-h-full " alt='avatar' />
-
-                                : loading ?
-
-                                    <img src={LoadingSpinner} alt="" />
-
-                                    :
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" fill="currentColor" className="bg-transparent bi bi-person-exclamation" viewBox="0 0 16 16">
-                                        <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m.256 7a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z" />
-                                        <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
-                                    </svg>
-                        }
+                        {dropdownVisible && (
+                            <div ref={dropdownRef} className='absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg z-20'>
+                                <NavLink
+                                    onClick={() => setDropdownVisible(prev => !prev)}
+                                    to="/user/upload-video" className='block px-4 py-2 font-semibold rounded-t-md text-white hover:bg-gray-200 hover:text-black'>
+                                    Create a Video
+                                </NavLink>
+                                <NavLink
+                                    onClick={() => setDropdownVisible(prev => !prev)}
+                                    to="/user/edit-video" className='block px-4 py-2 font-semibold  rounded-b-md text-white hover:bg-gray-200 hover:text-black'>
+                                    Edit Video Details
+                                </NavLink>
+                            </div>
+                        )}
                     </div>
 
+                    <div className='flex items-center justify-end gap-x-8 pr-4'>
+                        <div className='relative'>
+                            <div
+                                className='bg-blue-400/30 rounded-full overflow-hidden w-12 h-12 cursor-pointer flex items-center justify-center'
+                                onClick={() => setAccountDropdown(prev => !prev)}
+                            >
+                                {
+                                    userData?.data.user.avatar ?
+                                        <img src={userData.data.user.avatar} className="object-cover min-w-full min-h-full" alt='avatar' />
+                                        : loading ?
+                                            <img src={LoadingSpinner} alt="loading" />
+                                            :
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" fill="currentColor" className="bg-transparent bi bi-person-exclamation" viewBox="0 0 16 16">
+                                                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m.256 7a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z" />
+                                                <path d="M16 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0m-3.5-2a.5.5 0 0 0-.5.5v1.5a.5.5 0 0 0 1 0V11a.5.5 0 0 0-.5-.5m0 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1" />
+                                            </svg>
+                                }
+                            </div>
+                            {accountDropdown && (
+                                <div ref={dropdownRef} className='absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg z-20'>
+                                    {userData ? (
+                                        <>
+                                            <NavLink
+                                            onClick={() => setAccountDropdown(prev => !prev)}
+                                            to="/user/account" className='block px-4 py-2 rounded-t-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
+                                                Your Account
+                                            </NavLink>
+                                            <NavLink
+                                            onClick={() => setAccountDropdown(prev => !prev)}
+                                            to="/user/logout" className='block px-4 py-2 rounded-b-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
+                                                Logout
+                                            </NavLink>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <NavLink
+                                            onClick={() => setAccountDropdown(prev => !prev)}
+                                            to="/login" className='block px-4 py-2 rounded-t-md text-white font-semibold bg-gray-800 hover:bg-gray-200  hover:text-black'>
+                                                Login
+                                            </NavLink>
+                                            <NavLink
+                                            onClick={() => setAccountDropdown(prev => !prev)}
+                                            to="/create-account" className='block px-4 py-2 rounded-b-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
+                                                Create an Account
+                                            </NavLink>
+                                        </>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+
                 </div>
-            </nav>
-            {showLoginPage ? <Login /> : null}
+            </nav >
+            {showLoginPage ? <Login /> : null
+            }
         </>
 
     )

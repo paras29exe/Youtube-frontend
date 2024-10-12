@@ -9,6 +9,7 @@ import VideoDescriptionBox from './DescriptionBox';
 import ActionButtons from './ActionButtons';
 import Comments from './Comments';
 import Navbar from './Navbar';
+import formatViews from '../utils/formatViews';
 
 const VideoPlayerPage = () => {
     const [searchParams] = useSearchParams();
@@ -50,9 +51,9 @@ const VideoPlayerPage = () => {
                             height="100%"
                             controls
                             autoPlay
-                        // playing
-
+                            playing
                         />
+                        
                     </div>
                     <p className="text-2xl font-bold -my-2.5 line-clamp-3">{currentVideo.title}</p>
 
@@ -106,7 +107,7 @@ const VideoPlayerPage = () => {
                                     <h3 className="text-md font-bold line-clamp-2">{video.title} </h3>
                                     <p className="text-gray-400 font-semibold text-xs">{video.channelName}</p>
                                     <div className='flex gap-x-2 text-xs'>
-                                        <p className="text-gray-400"> {video.views} views </p>
+                                        <p className="text-gray-400"> {formatViews(video.views)} views </p>
                                         <span className='text-gray-400'> • </span>
                                         <p className="text-gray-400"> {timeAgo(video.createdAt)} </p>
                                     </div>

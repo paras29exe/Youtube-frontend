@@ -1,12 +1,12 @@
 import React from 'react'
+import App from './App.jsx'
+import './index.css'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom'
 import { ContextProvider } from './context/displayContext'
 import { store } from './store/store.js'
-import { Provider, useSelector } from 'react-redux'
+import { Provider } from 'react-redux'
 import { VideoUpload, Signup, Videos,Login, NotFoundPage,VideoPlayerPage } from "./components"
-import App from './App.jsx'
-import './index.css'
 
 const router = createBrowserRouter(
   createRoutesFromElements(

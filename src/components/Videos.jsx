@@ -5,6 +5,7 @@ import { getVideos } from '../store/ayncThunks/videosThunk';
 import timeAgo from '../utils/timeAgo';
 import Skeleton from './Skeleton';
 import { useNavigate } from 'react-router-dom';
+import formatViews from '../utils/formatViews';
 
 function Videos() {
     // const videos = [11, 52, 3, 24, 50, 60, 77, 88, 100, 100 + 1, 100 + 2, 100 + 3, 100 + 4, 100 + 5 + 1, 100 + 6 + 1];
@@ -98,7 +99,7 @@ function Videos() {
                                 </div>
                                 <div className='text-left w-full'>
                                     <h3
-                                        className="inline-block text-xl font-semibold mb-1"
+                                        className="inline-block text-xl md2:text-lg font-semibold line-clamp-2"
                                     > {String(video.title).trim()}
                                     </h3>
                                     <p
@@ -113,8 +114,8 @@ function Videos() {
                                         {video.ownerChannelName}
                                     </p>
                                     <p>
-                                        <span className="text-xs text-gray-400">{video.views} views</span>
-                                        <span className='text-gray-400'> • </span>
+                                        <span className="text-xs text-gray-400">{formatViews(video.views)} views</span>
+                                        <span className='text-xs text-gray-400'> • </span>
                                         <span className="text-xs text-gray-400">{timeAgo(video.createdAt)}</span>
                                     </p>
                                 </div>
