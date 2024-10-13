@@ -17,7 +17,7 @@ export const toggleCommentLike = createAsyncThunk(
     "likeSubscribe/toggleCommentLike",
     async (commentId, thunkAPI) => {
         try {
-            const response = await AxiosInstance.post("/likes/toggle-like-on-video/" + commentId);
+            const response = await AxiosInstance.post("/likes/toggle-like-on-comment/" + commentId);
             return fulfilled(response)
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err))

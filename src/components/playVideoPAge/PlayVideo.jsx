@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { playVideo } from '../../store/ayncThunks/videosThunk';
 import timeAgo from '../../utils/timeAgo';
@@ -11,21 +10,17 @@ import Comments from './Comments';
 import Navbar from '../Navbar';
 import formatViews from '../../utils/formatViews';
 import VideoSkeleton from '../VideoSkeleton';
-import { addComment, getComments } from '../../store/ayncThunks/commentThunk';
 
 const VideoPlayerPage = () => {
     const [searchParams] = useSearchParams();
     const v_id = searchParams.get('v_id');
-    const { register, handleSubmit, formState: { errors }, reset } = useForm()
 
     const { singleVideo, loading, error } = useSelector((state) => state.videos)
-    const { userData } = useSelector((state) => state.auth)
-    
     const currentVideo = singleVideo?.videoDetails
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    
+
     useEffect(() => {
         if (v_id) {
             const getVideo = async () => {
@@ -33,18 +28,8 @@ const VideoPlayerPage = () => {
             }
             getVideo()
         }
-    }, [v_id, userData])
+    }, [v_id])
 
-    const submitComment = async (data) => {
-        const res = await dispatch(addComment(data))
-        if (res.type.includes("rejected")) {
-            throw res.error;
-        } else {
-            const abc =await dispatch(getComments())
-        }
-
-        reset()
-    }
 
     if (loading) return (
         <>
@@ -83,27 +68,9 @@ const VideoPlayerPage = () => {
                     {/* description box */}
                     <VideoDescriptionBox currentVideo={currentVideo} />
 
-                    <div className="mt-6">
-                        <h2 className="text-xl font-bold">Comments</h2>
-                        <form onSubmit={handleSubmit(submitComment)} className="flex items-start mt-4 space-x-4">
+                    {/* comments */}
+                    <Comments currentVideo={currentVideo} />
 
-                            <div className="w-12 h-11 rounded-full bg-gray-400">
-                                <img className="w-full h-full rounded-full object-cover" src={userData?.user?.avatar || "https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png?fit=500%2C500&ssl=1"} alt="Channel Thumbnail" />
-                            </div>
-                            <div className='flex w-full border border-gray-500 rounded-r-lg  focus-within:outline focus-within:outline-1 focus-within:outline-gray-400'>
-                                <input
-                                    placeholder="Add a comment..."
-                                    className={`form-input w-full h-12 bg-transparent px-4 rounded-l-lg focus-within:outline-none`}
-                                    {...register('content', { required: true })}
-                                    autoComplete='off'
-                                />
-                                <button type='submit' className='h-12 text-center w-2/12 text-xl  bg-gray-500/40 rounded-r-lg'>Add</button>
-                            </div>
-
-                        </form>
-                        {/* comments */}
-                        <Comments currentVideo={currentVideo}/>
-                    </div>
                 </div>
 
                 {/* Related Videos Sidebar */}

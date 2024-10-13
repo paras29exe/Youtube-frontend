@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { addComment, getComments } from "../ayncThunks/commentThunk";
 
 const initialState = {
-    comments: [],
+    comments: null,
     loading: false,
     error: null,
 };
