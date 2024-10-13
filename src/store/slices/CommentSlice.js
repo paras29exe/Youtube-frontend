@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addComment, getComments } from "../ayncThunks/commentThunk";
+import { addComment, getComments, deleteComment } from "../ayncThunks/commentThunk";
 
 const initialState = {
     comments: null,
@@ -13,21 +13,9 @@ const commentSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-        .addCase(addComment.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-        })
         .addCase(addComment.fulfilled, (state, action) => {
-            // state.comments = [...state.comments, action.payload.data];
+            state.comments = [...state.comments, action.payload.data];
             state.loading = false;
-            state.error = null;
-        })
-        .addCase(addComment.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.error.message;
-        })
-        .addCase(getComments.pending, (state) => {
-            state.loading = true;
             state.error = null;
         })
         .addCase(getComments.fulfilled, (state, action) => {
@@ -35,10 +23,11 @@ const commentSlice = createSlice({
             state.loading = false;
             state.error = null;
         })
-        .addCase(getComments.rejected, (state, action) => {
+        .addCase(deleteComment.fulfilled, (state, action) => {
+            state.comments = state.comments.filter((comment) => comment._id !== action.payload.data.deleted);
             state.loading = false;
-            state.error = action.error.message;
-        });
+            state.error = null;
+        })
     }
 });
 

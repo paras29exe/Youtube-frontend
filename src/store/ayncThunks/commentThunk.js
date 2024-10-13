@@ -3,7 +3,6 @@ import AxiosInstance from "../../utils/AxiosInstance";
 import { fulfilled, rejected } from "../../utils/responses";
 import { useSearchParams } from "react-router-dom";
 
-
 export const addComment = createAsyncThunk(
     "comments/addComment",
     async (data, thunkAPI) => {
@@ -28,6 +27,20 @@ export const getComments = createAsyncThunk(
 
         try {
             const response = await AxiosInstance.get(`/comments/get-comments/${videoId}`);
+            return fulfilled(response);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err));
+        }
+    }
+)
+
+export const deleteComment = createAsyncThunk(
+    "comments/deleteComment",
+    async (commentId, thunkAPI) => {
+        const videoId = window.location.href.split("?v_id=")[1].trim();
+
+        try {
+            const response = await AxiosInstance.delete(`/comments/delete-comment/${videoId}/${commentId}`);
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err));

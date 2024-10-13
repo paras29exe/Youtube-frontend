@@ -7,7 +7,7 @@ const ProtectedComponent = ({ user, children }) => {
                 <div className="bg-white p-8 rounded-lg shadow-lg max-w-md text-center">
                     <h2 className="text-2xl font-semibold text-gray-800 mb-4">You need to be logged in</h2>
                     <p className="text-gray-600 mb-6">Please log in to access this action.</p>
-                    <Link to="/login" className="bg-blue-600 text-white px-6 py-2 rounded-lg text-lg hover:bg-blue-700 transition duration-200 ease-in-out">
+                    <Link to="/auth/api/v1/login" className="bg-blue-600 text-white px-6 py-2 rounded-lg text-lg hover:bg-blue-700 transition duration-200 ease-in-out">
                         Log In
                     </Link>
                 </div>
