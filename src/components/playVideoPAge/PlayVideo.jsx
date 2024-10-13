@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
-import { redirect, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { playVideo } from '../../store/ayncThunks/videosThunk';
 import timeAgo from '../../utils/timeAgo';
 import VideoDescriptionBox from './DescriptionBox';
@@ -10,21 +10,22 @@ import ActionButtons from './ActionButtons';
 import Comments from './Comments';
 import Navbar from '../Navbar';
 import formatViews from '../../utils/formatViews';
-import { current } from '@reduxjs/toolkit';
 import VideoSkeleton from '../VideoSkeleton';
+import { addComment, getComments } from '../../store/ayncThunks/commentThunk';
 
 const VideoPlayerPage = () => {
     const [searchParams] = useSearchParams();
     const v_id = searchParams.get('v_id');
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors }, reset } = useForm()
 
     const { singleVideo, loading, error } = useSelector((state) => state.videos)
-    const { userdata } = useSelector((state) => state.auth)
+    const { userData } = useSelector((state) => state.auth)
+    
     const currentVideo = singleVideo?.videoDetails
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-
+    
     useEffect(() => {
         if (v_id) {
             const getVideo = async () => {
@@ -32,10 +33,17 @@ const VideoPlayerPage = () => {
             }
             getVideo()
         }
-    }, [])
+    }, [v_id, userData])
 
-    const addComment = async (data) => {
+    const submitComment = async (data) => {
+        const res = await dispatch(addComment(data))
+        if (res.type.includes("rejected")) {
+            throw res.error;
+        } else {
+            const abc =await dispatch(getComments())
+        }
 
+        reset()
     }
 
     if (loading) return (
@@ -57,6 +65,7 @@ const VideoPlayerPage = () => {
                 <div className="flex-1 p-3 md2:w-3/5 flex flex-col gap-y-5">
                     <div className="bg-black w-full aspect-video">
                         <ReactPlayer
+                            className="outline-none"
                             url={currentVideo.videoFile || ""}
                             width="100%"
                             height="100%"
@@ -76,24 +85,24 @@ const VideoPlayerPage = () => {
 
                     <div className="mt-6">
                         <h2 className="text-xl font-bold">Comments</h2>
-                        <form onSubmit={handleSubmit(addComment)} className="flex items-start mt-4 space-x-4">
+                        <form onSubmit={handleSubmit(submitComment)} className="flex items-start mt-4 space-x-4">
 
                             <div className="w-12 h-11 rounded-full bg-gray-400">
-                                <img className="w-full h-full rounded-full object-cover" src={userdata?.avatar || "https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png?fit=500%2C500&ssl=1"} alt="Channel Thumbnail" />
+                                <img className="w-full h-full rounded-full object-cover" src={userData?.user?.avatar || "https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png?fit=500%2C500&ssl=1"} alt="Channel Thumbnail" />
                             </div>
-                            <div className='flex w-full'>
+                            <div className='flex w-full border border-gray-500 rounded-r-lg  focus-within:outline focus-within:outline-1 focus-within:outline-gray-400'>
                                 <input
                                     placeholder="Add a comment..."
-                                    className={`form-input w-full h-12 bg-transparent border border-gray-500 border-r-0 px-4 rounded-l-lg ${errors.comment && 'border-red-500'}`}
-                                    {...register('comment', { required: true })}
+                                    className={`form-input w-full h-12 bg-transparent px-4 rounded-l-lg focus-within:outline-none`}
+                                    {...register('content', { required: true })}
                                     autoComplete='off'
                                 />
-                                <button type='submit' className='h-12 text-center w-2/12 text-xl border border-gray-500 border-l-0 bg-gray-500/40 rounded-r-lg'>Add</button>
+                                <button type='submit' className='h-12 text-center w-2/12 text-xl  bg-gray-500/40 rounded-r-lg'>Add</button>
                             </div>
 
                         </form>
                         {/* comments */}
-                        <Comments currentVideo={currentVideo} />
+                        <Comments currentVideo={currentVideo}/>
                     </div>
                 </div>
 
@@ -107,8 +116,9 @@ const VideoPlayerPage = () => {
                                 data-video-id={video._id}
                                 className="flex gap-x-2 w-full"
                                 onClick={(e) => {
-                                    e.stopPropagation()
                                     navigate("/videos/play/?v_id=" + video._id)
+                                    e.stopPropagation()
+                                    console.log("hello world!")
                                 }}
                             >
                                 <div className="w-2/5 aspect-video bg-gray-300 rounded-lg relative">

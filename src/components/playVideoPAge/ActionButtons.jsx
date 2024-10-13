@@ -67,7 +67,7 @@ function ActionButtons({ currentVideo }) {
                                 setShowPopup(true)
                             }
                         }}
-                        className={`material-icons transition-all duration-300 ${(isLiked) ? "text-blue-600" : ""}`}
+                        className={`material-icons transition-all duration-300 ${isLiked ? "text-blue-600" : ""}`}
                     >thumb_up</button>
 
                     <span className="ml-1">{likesCount}</span>

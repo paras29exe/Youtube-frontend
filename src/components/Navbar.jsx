@@ -105,8 +105,8 @@ function Navbar() {
                                 onClick={() => setAccountDropdown(prev => !prev)}
                             >
                                 {
-                                    userData?.data.user.avatar ?
-                                        <img src={userData.data.user.avatar} className="object-cover min-w-full min-h-full" alt='avatar' />
+                                    userData?.user.avatar ?
+                                        <img src={userData.user.avatar} className="object-cover min-w-full min-h-full" alt='avatar' />
                                         : loading ?
                                             <img src={LoadingSpinner} alt="loading" />
                                             :
@@ -179,8 +179,6 @@ function Navbar() {
 
                 </div>
             </nav >
-            {showLoginPage ? <Login /> : null
-            }
         </>
 
     )
