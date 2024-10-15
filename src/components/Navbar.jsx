@@ -125,14 +125,14 @@ function Navbar() {
                                                 to="/user/account" className='block px-4 py-2 rounded-t-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
                                                 Your Account
                                             </NavLink>
-                                            <NavLink
+                                            <div
                                                 onClick={() => {
                                                     setConfirmLogout(true)
                                                     
                                                 }}
                                                 className='block px-4 py-2 rounded-b-md text-white font-semibold bg-gray-800 focus:bg-gray-200 focus:text-black hover:bg-gray-200 hover:text-black'>
                                                 Logout
-                                            </NavLink>
+                                            </div>
                                             {confirmLogout && (
                                                 <div className="absolute w-64 right-52 -top-5  mt-4 p-4 border border-gray-300 bg-gray-100 rounded shadow">
                                                     <p className="mb-4 text-black font-sans font-semibold">Are you sure you want to logout?</p>

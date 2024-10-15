@@ -10,6 +10,7 @@ import VideoUpload from "./VideoUpload";
 import NotFoundPage from "./NotFoundPage";
 import ProtectedComponent from "./ProtectedComponet";
 import VideoPlayerPage from "./playVideoPAge/PlayVideo";
+import ServerDown from "./ServerDown";
 
 export {
     Home,
@@ -24,4 +25,5 @@ export {
     NotFoundPage,
     ProtectedComponent,
     VideoPlayerPage,
+    ServerDown,
 }

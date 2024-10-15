@@ -10,6 +10,7 @@ import Comments from './Comments';
 import Navbar from '../Navbar';
 import formatViews from '../../utils/formatViews';
 import VideoSkeleton from '../VideoSkeleton';
+import { getComments } from '../../store/ayncThunks/commentThunk';
 
 const VideoPlayerPage = () => {
     const [searchParams] = useSearchParams();
@@ -21,14 +22,16 @@ const VideoPlayerPage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    useEffect(() => {
+     useEffect(() => {
         if (v_id) {
             const getVideo = async () => {
-                const res = await dispatch(playVideo(v_id))
+                 dispatch(playVideo(v_id))
+                 dispatch(getComments())
             }
             getVideo()
         }
     }, [v_id])
+
 
 
     if (loading) return (

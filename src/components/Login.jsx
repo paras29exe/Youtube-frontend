@@ -66,7 +66,7 @@ function Login() {
                         </div>
                     </div>
                     <div className='flex justify-end mb-4'>
-                        <p className='text-gray-500'> New user? <NavLink to="auth/api/v1/signup" className='text-blue-500 hover:underline'>Signup here</NavLink></p>
+                        <p className='text-gray-500'> New user? <NavLink to="/auth/api/v1/signup" className='text-blue-500 hover:underline'>Signup here</NavLink></p>
                     </div>
                 </div>
 

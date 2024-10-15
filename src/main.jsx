@@ -5,8 +5,8 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom'
 import { ContextProvider } from './context/displayContext'
 import { store } from './store/store.js'
-import { Provider } from 'react-redux'
-import { VideoUpload, Signup, Videos, Login, NotFoundPage, VideoPlayerPage } from "./components"
+import { Provider, useSelector } from 'react-redux'
+import { VideoUpload, Signup, Videos, Login, NotFoundPage, VideoPlayerPage,ServerDown } from "./components"
 
 import { useDispatch } from 'react-redux'
 import { autoLogin } from './store/ayncThunks/authThunk'
@@ -14,6 +14,7 @@ import { useEffect } from 'react'
 
 function Main() {
   const dispatch = useDispatch()
+  const { error } = useSelector(state => state.auth)
 
   useEffect(() => {
     try {
@@ -40,6 +41,10 @@ function Main() {
       </>
 
     )
+  )
+
+  if (error && error.message === "Cannot read properties of undefined (reading 'data')") return (
+    <ServerDown />
   )
 
   return (

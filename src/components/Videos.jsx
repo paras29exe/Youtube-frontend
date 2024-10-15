@@ -53,7 +53,6 @@ function Videos() {
 
     // Conditional rendering for loading and error
     if (loading) return <Skeleton />;
-    if (error) return <div className='text-center text-3xl w-fit m-auto'>{error.message === "Cannot read properties of undefined (reading 'data')" ? "Server Error ! Can't connect to server." : error.message}</div>;
 
     return (
         <div className='w-full overflow-y-auto overflow-x-hidden px-2 flex flex-wrap content-start pb-20'>

@@ -17,7 +17,7 @@ function Signup() {
     const submit = async (data) => {
         const res = await dispatch(signup(data));
 
-        if (res.type.includes("rejected")) {
+        if (res.error) {
             throw res.error
 
         } else {
@@ -145,7 +145,7 @@ function Signup() {
                     />
 
                     <div className='text-right mb-4'>
-                        <p className='text-gray-600'>Already registered? <NavLink to="auth/api/v1/login" className='text-blue-500 hover:underline'>Login</NavLink></p>
+                        <p className='text-gray-400'>Already registered? <NavLink to="/auth/api/v1/login" className='text-blue-500 hover:underline'>Login here</NavLink></p>
                     </div>
                     {
                         loading ?

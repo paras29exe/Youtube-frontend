@@ -3,7 +3,7 @@ import { getVideos, playVideo, uploadVideo } from "../ayncThunks/videosThunk";
 
 const initialState = {
     videos: [],
-    singleVideo: {},
+    singleVideo: null,
     loading: false,
     error: null,
 };

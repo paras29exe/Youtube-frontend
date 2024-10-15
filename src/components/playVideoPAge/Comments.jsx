@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import timeAgo from '../../utils/timeAgo'
 import { addComment, getComments, deleteComment } from '../../store/ayncThunks/commentThunk';
 import { useForm } from 'react-hook-form';
@@ -6,18 +6,20 @@ import { useDispatch, useSelector } from 'react-redux'
 import { displayContext } from '../../context/displayContext';
 import { toggleCommentLike } from '../../store/ayncThunks/likeSubscribeThunk';
 
-function Comments({ currentVideo }) {
+function Comments() {
     const { comments } = useSelector(state => state.comments)
     const { userData } = useSelector(state => state.auth)
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm()
+    const { register, handleSubmit, formState: { errors }, reset, watch } = useForm()
     const { togglePopup } = useContext(displayContext)
 
-    const [likesCount, setLikesCount] = useState([])
-    const [isLiked, setIsLiked] = useState([])
-    const [isDisliked, setIsDisliked] = useState([])
+    const [likesCount, setLikesCount] = useState(comments.map(comment => comment.likesCount))
+    const [isLiked, setIsLiked] = useState(comments.map(comment => comment.likedByViewer))
+    const [isDisliked, setIsDisliked] = useState(comments.map(() => false))
+    const [showDelete, setShowDelete] = useState(null)
 
     const dispatch = useDispatch();
+    const deleteRef = useRef()
 
     const submitComment = async (data) => {
         if (userData) {
@@ -26,7 +28,16 @@ function Comments({ currentVideo }) {
             if (res.type.includes("rejected")) {
                 throw res.error;
             }
-            // setRender((prev) => !prev)
+            setIsLiked((prev) => {
+                const prevLikedByViewer = [...prev]
+                prevLikedByViewer.unshift(false)
+                return prevLikedByViewer
+            })
+            setLikesCount((prev) => {
+                const prevLikes = [...prev]
+                prevLikes.unshift(0)
+                return prevLikes
+            })
         } else {
             togglePopup()
         }
@@ -82,17 +93,19 @@ function Comments({ currentVideo }) {
         }
     }
 
-    useEffect(() => {
-        const fetchComments = async () => {
-            const res = await dispatch(getComments(currentVideo._id))
-            const likes = res.payload.data.map(comment => comment.likesCount);
-            setLikesCount(likes);
-            const liked = res.payload.data.map(comment => comment.likedByViewer);
-            setIsLiked(liked);
-            const disliked = Array.from({ length: (res.payload.data).length }, (_, index) => false)
-            setIsDisliked(disliked);
+    const handleClickOutside = (event) => {
+        // If clicking outside both the delete menu and the more_vert button
+        if (deleteRef.current && !deleteRef.current.contains(event.target) && !showDelete) {
+            setShowDelete(null);
         }
-        fetchComments()
+    };
+
+    useEffect(() => {
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, [])
 
     return (
@@ -103,14 +116,15 @@ function Comments({ currentVideo }) {
                 <div className="w-12 h-11 rounded-full bg-gray-400">
                     <img className="w-full h-full rounded-full object-cover" src={userData?.user?.avatar || "https://i0.wp.com/digitalhealthskills.com/wp-content/uploads/2022/11/3da39-no-user-image-icon-27.png?fit=500%2C500&ssl=1"} alt="Channel Thumbnail" />
                 </div>
-                <div className='flex w-full border border-gray-500 rounded-r-lg  focus-within:outline focus-within:outline-1 focus-within:outline-gray-400'>
+                <div className='flex w-full border border-gray-500 rounded-r-lg'>
                     <input
                         placeholder="Add a comment..."
                         className={`form-input w-full h-12 bg-transparent px-4 rounded-l-lg focus-within:outline-none`}
                         {...register('content', { required: true })}
                         autoComplete='off'
                     />
-                    <button type='submit' className='h-12 text-center w-2/12 text-xl  bg-gray-500/40 rounded-r-lg'>Add</button>
+                    <button
+                        type='submit' className={`h-12 text-center w-2/12 text-xl rounded-r-lg bg-gray-400/50 `}>Add</button>
                 </div>
 
             </form>
@@ -127,7 +141,7 @@ function Comments({ currentVideo }) {
                             </div>
                             <div className="flex flex-col pl-3">
                                 <div className="flex gap-x-3 gap-y-1">
-                                    <p className=" text-xs">@{comment.ownerUsername}</p>
+                                    <p className=" text-xs text-gray-200 italic">@{comment.ownerUsername}</p>
                                     <p className="text-gray-400 text-xs">{timeAgo(comment.createdAt)}</p>
                                 </div>
                                 <p className="">{comment.content}</p>
@@ -158,15 +172,32 @@ function Comments({ currentVideo }) {
                                 </div>
                             </div>
                         </div>
-                        <div className='mr-6'>
+                        <div className='relative mr-6'>
                             {
                                 comment.ownerId === userData?.user?._id &&
-                                 <p
-                                 className='p-0.5 cursor-pointer'
-                                 onClick={() => dispatch(deleteComment(comment._id))}
-                                 >
-                                     <svg xmlns="http://www.w3.org/2000/svg" fill='currentColor' viewBox="0 0 24 24" width="24" height="24"><path d="M 10.806641 2 C 10.289641 2 9.7956875 2.2043125 9.4296875 2.5703125 L 9 3 L 4 3 A 1.0001 1.0001 0 1 0 4 5 L 20 5 A 1.0001 1.0001 0 1 0 20 3 L 15 3 L 14.570312 2.5703125 C 14.205312 2.2043125 13.710359 2 13.193359 2 L 10.806641 2 z M 4.3652344 7 L 5.8925781 20.263672 C 6.0245781 21.253672 6.877 22 7.875 22 L 16.123047 22 C 17.121047 22 17.974422 21.254859 18.107422 20.255859 L 19.634766 7 L 4.3652344 7 z" /></svg> 
+                                <p
+                                    className='p-1 rounded-full cursor-pointer material-icons  transition-colors duration-200'
+                                    onClick={(e) => {
+                                        setShowDelete(prev => prev === comment._id ? null : comment._id)
+                                    }}
+                                >
+                                    more_vert
                                 </p>
+                            }
+                            {
+                                showDelete === comment._id &&
+                                <div
+                                    ref={deleteRef}
+                                    className='absolute cursor-pointer right-6 top-5 px-4 py-2 rounded-lg bg-gray-600/40 hover:bg-gray-500/40 shadow-md'
+                                    onClick={() => {
+                                        dispatch(deleteComment(comment._id))
+                                        setShowDelete(false)
+                                    }}
+                                >
+
+                                    Delete
+
+                                </div>
                             }
                         </div>
                     </div>
