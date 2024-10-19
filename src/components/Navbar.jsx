@@ -33,8 +33,8 @@ function Navbar() {
 
     return (
         <>
-            <nav className={`bg-customDark navbar z-20 top-0 px-2 py-4 text-center flex items-center justify-between  `}>
-                <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-3 ${sidebarSize === "small" ? "pl-4" : ""} `}>
+            <nav className={`bg-customDark backdrop-blur-md navbar z-20 top-0 p-2 text-center flex items-center justify-between  `}>
+                <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-3 max-md2:pl-0 ${sidebarSize === "small" ? "pl-4" : ""} `}>
                     <div onClick={() => {
                         toggleSidebar()
                         console.log(sidebarSize)

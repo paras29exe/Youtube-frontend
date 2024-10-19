@@ -10,7 +10,7 @@ function SideBar() {
     useEffect(() => {
         const screenWidth = window.innerWidth;
 
-        if (sidebarSize === "" || sidebarSize === "absolut") {
+        if (sidebarSize === "" || sidebarSize === "absolute") {
             screenWidth >= 1150 ? setSidebarSize("large") : screenWidth >= 800 ? setSidebarSize("small") : setSidebarSize("absolute")
         }
     }, [pathname])
@@ -19,11 +19,11 @@ function SideBar() {
         <div
             id='sidebar'
             className={`z-10 bg-black/85 backdrop-blur-sm transition-all duration-100 ease-in-out h-screen overflow-y-auto px-1.5 box-content 
-                ${!pathname.includes("/videos/play") && "max-md2:min-w-60 max-md2:max-w-60 max-md2:fixed max-lg2:min-w-20 max-lg2:max-w-20 lg2:min-w-60 lg2:max-w-60 md2:static"} 
-                ${sidebarSize === "large" ? "min-w-60 max-w-60 "
-                    : sidebarSize === "small" ? "min-w-20 max-w-20"
-                        : sidebarSize === "absolute" ? "fixed -left-64 duration-500"
-                            : sidebarSize === "visible" ? "fixed min-w-60 max-w-60 left-0 duration-500"
+                ${!pathname.includes("/videos/play") && "max-md2:min-w-52 max-md2:max-w-52 max-lg2:min-w-20 max-lg2:max-w-20 "} 
+                ${sidebarSize === "large" ? "relative left-0 min-w-52 max-w-52 max-md2:fixed"
+                    : sidebarSize === "small" ? "relative left-0 min-w-20 max-w-20 max-md2:fixed"
+                        : sidebarSize === "absolute" ? "fixed -left-64 duration-500 md2:relative"
+                            : sidebarSize === "visible" ? "fixed min-w-52 max-w-52 left-0 duration-500 md2:relative"
                                 : ""}`}
         >
             <NavBtn
@@ -33,7 +33,7 @@ function SideBar() {
                 }
                 name="Home"
                 className={`${sidebarSize === "small" ? "flex-col gap-2 p-3" : ""}`}
-                nameClasses={`${sidebarSize === "small" ? "text-xxs text-center" : ""} `}
+                nameClasses={`${sidebarSize === "small" ? "text-center" : ""} `}
             />
             <NavBtn
 
@@ -43,7 +43,7 @@ function SideBar() {
                 }
                 name="Subscription"
                 className={`${sidebarSize === "small" ? "flex-col gap-2 p-3" : ""}`}
-                nameClasses={`${sidebarSize === "small" ? "text-xxs text-center" : ""} `}
+                nameClasses={`${sidebarSize === "small" ? " text-center" : ""} `}
             />
             <div className={`my-4 w-full h-0.5 bg-gray-400 max-md2:block max-lg2:hidden ${sidebarSize === "small" ? "hidden" : ""}`}></div>
             <NavBtn
@@ -62,7 +62,7 @@ function SideBar() {
                 }
                 name="Your Channel"
                 className={`${sidebarSize === "small" ? "flex-col gap-2 p-3" : ""}`}
-                nameClasses={`${sidebarSize === "small" ? "text-xxs text-center" : ""} `}
+                nameClasses={`${sidebarSize === "small" ? " text-center" : ""} `}
             />
 
         </div>

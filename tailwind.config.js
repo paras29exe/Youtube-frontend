@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        customDark: 'rgb(7, 7, 7)',
+        customDark: 'rgb(10, 10, 10)',
       },
       minWidth: {
         '1/4': '25%',
@@ -23,7 +23,7 @@ export default {
         '4xl': '1900px'
       },
       fontSize: {
-        'xxs': '12px',
+        'xs': '12px',
       }
     },
   },
