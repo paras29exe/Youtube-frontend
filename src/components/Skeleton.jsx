@@ -5,7 +5,7 @@ function Skeleton() {
 
     return (
         <>
-            <div className="w-full overflow-y-auto flex flex-wrap gap-2 content-start px-4">
+            <div className="w-full overflow-y-auto flex flex-wrap gap-2 content-start px-2">
                 {
                     Array.from({ length: 21 }, (_, index) => index + 1).map((index) => (
                         <div

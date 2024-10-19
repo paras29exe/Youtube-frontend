@@ -1,26 +1,28 @@
 import React, { useContext, useEffect } from 'react'
 import { NavBtn } from './'
 import { displayContext } from '../context/displayContext'
+import { useLocation } from 'react-router-dom';
 
 function SideBar() {
     const { sidebarSize, setSidebarSize } = useContext(displayContext);
+    const { pathname } = useLocation()
 
     useEffect(() => {
         const screenWidth = window.innerWidth;
 
-        if (sidebarSize === "") {
+        if (sidebarSize === "" || sidebarSize === "absolut") {
             screenWidth >= 1150 ? setSidebarSize("large") : screenWidth >= 800 ? setSidebarSize("small") : setSidebarSize("absolute")
         }
-
-    }, [])
+    }, [pathname])
 
     return (
         <div
             id='sidebar'
-            className={`z-10 bg-black/85 backdrop-blur-sm transition-all duration-100 ease-in-out h-screen overflow-y-auto px-1.5 box-content max-md2:min-w-60 max-md2:max-w-60 max-md2:fixed max-lg2:min-w-20 max-lg2:max-w-20 
+            className={`z-10 bg-black/85 backdrop-blur-sm transition-all duration-100 ease-in-out h-screen overflow-y-auto px-1.5 box-content 
+                ${!pathname.includes("/videos/play") && "max-md2:min-w-60 max-md2:max-w-60 max-md2:fixed max-lg2:min-w-20 max-lg2:max-w-20 lg2:min-w-60 lg2:max-w-60 md2:static"} 
                 ${sidebarSize === "large" ? "min-w-60 max-w-60 "
                     : sidebarSize === "small" ? "min-w-20 max-w-20"
-                        : sidebarSize === "absolute" ? "fixed -left-64 duration-500 "
+                        : sidebarSize === "absolute" ? "fixed -left-64 duration-500"
                             : sidebarSize === "visible" ? "fixed min-w-60 max-w-60 left-0 duration-500"
                                 : ""}`}
         >
