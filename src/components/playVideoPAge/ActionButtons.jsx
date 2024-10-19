@@ -56,14 +56,23 @@ function ActionButtons({ currentVideo }) {
             </div>
             <div className="flex items-center justify-end space-x-3 w-1/2">
 
-                <div className="bg-gray-600/40 text-white px-3 py-2 text-sm rounded-full flex items-center">
+                <div className="bg-gray-600/40 text-white px-3 py-2 text-sm rounded-full flex items-center gap-x-1">
                     <button
-                        onClick={() => {
+                        onClick={(e) => {
                             if (userData) {
-                                dispatch(toggleVideoLike(currentVideo._id))
-                                setIsLiked(prev => !prev)
-                                setLikesCount(isLiked ? likesCount - 1 : likesCount + 1)
-                                setIsDisliked(false)
+                                const button = e.currentTarget;
+                                if (button) {
+                                    button.classList.add("-translate-y-3", "-rotate-12", "scale-110");
+
+                                    setTimeout(() => {
+                                        button.classList.remove("-translate-y-3", "-rotate-12", "scale-110");
+                                        dispatch(toggleVideoLike(currentVideo._id))
+                                        setIsLiked(prev => !prev)
+                                        setLikesCount(isLiked ? likesCount - 1 : likesCount + 1)
+                                        setIsDisliked(false)
+                                    }, 300);
+                                }
+
                             } else {
                                 togglePopup()
                             }
@@ -71,7 +80,7 @@ function ActionButtons({ currentVideo }) {
                         className={`material-icons transition-all duration-300 ${isLiked && userData ? "text-blue-600" : ""}`}
                     >thumb_up</button>
 
-                    <span className="ml-1">{likesCount}</span>
+                    <span>{likesCount}</span>
 
                     <button
                         onClick={() => {
@@ -84,7 +93,7 @@ function ActionButtons({ currentVideo }) {
                                 togglePopup()
                             }
                         }}
-                        className={`material-icons ml-3 transition-all duration-300 ${isDisliked ? "text-blue-600" : ""}`}>thumb_down</button>
+                        className={`material-icons pl-2 ml-2 border-l transition-all duration-300 ${isDisliked ? "text-blue-600" : ""}`}>thumb_down</button>
                 </div>
 
                 <button onClick={shareVideo} className="bg-gray-600/40 text-white text-sm w-10 h-10 rounded-full flex items-center justify-center">

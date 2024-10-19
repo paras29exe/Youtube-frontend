@@ -55,7 +55,7 @@ function Videos() {
     if (loading) return <Skeleton />;
 
     return (
-        <div className='w-full overflow-y-auto overflow-x-hidden px-2 flex flex-wrap content-start pb-20'>
+        <div className='w-full overflow-y-auto overflow-x-hidden px-2 flex flex-wrap content-start'>
             {
                 videos.map((video) => {
                     return (

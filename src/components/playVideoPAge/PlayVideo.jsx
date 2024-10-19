@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -11,32 +11,32 @@ import Navbar from '../Navbar';
 import formatViews from '../../utils/formatViews';
 import VideoSkeleton from '../VideoSkeleton';
 import { getComments } from '../../store/ayncThunks/commentThunk';
+import { displayContext } from '../../context/displayContext';
 
 const VideoPlayerPage = () => {
     const [searchParams] = useSearchParams();
     const v_id = searchParams.get('v_id');
 
     const { singleVideo, loading, error } = useSelector((state) => state.videos)
+    const { setSidebarSize } = useContext(displayContext)
     const currentVideo = singleVideo?.videoDetails
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-     useEffect(() => {
+    useEffect(() => {
+        setSidebarSize("absolute")
         if (v_id) {
             const getVideo = async () => {
-                 dispatch(playVideo(v_id))
-                 dispatch(getComments())
+                dispatch(playVideo(v_id))
+                dispatch(getComments())
             }
             getVideo()
         }
     }, [v_id])
 
-
-
     if (loading) return (
         <>
-            <Navbar />
             <VideoSkeleton />
         </>
     )
@@ -47,7 +47,6 @@ const VideoPlayerPage = () => {
 
     if (singleVideo?.videoDetails) return (
         <>
-            <Navbar />
             <div className="flex flex-col md2:flex-row w-11/12 m-auto min-h-screen">
                 {/* Main Video Section */}
                 <div className="flex-1 p-3 md2:w-3/5 flex flex-col gap-y-5">

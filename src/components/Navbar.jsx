@@ -8,7 +8,7 @@ import Cookies from 'js-cookie'
 import { logout } from '../store/ayncThunks/authThunk';
 
 function Navbar() {
-    const { showLoginPage, sidebarSize, toggleSidebar } = useContext(displayContext)
+    const { sidebarSize, toggleSidebar } = useContext(displayContext)
     const { userData, loading, error } = useSelector((state) => state.auth)
     const dropdownRef = React.useRef()
     const dispatch = useDispatch()
@@ -33,9 +33,12 @@ function Navbar() {
 
     return (
         <>
-            <nav className={`bg-customDark navbar z-20 top-0 px-3 py-4 text-center flex items-center justify-between  `}>
-                <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-3 ${sidebarSize === "small" ? "pl-3" : ""} `}>
-                    <div onClick={toggleSidebar}
+            <nav className={`bg-customDark navbar z-20 top-0 px-2 py-4 text-center flex items-center justify-between  `}>
+                <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-3 ${sidebarSize === "small" ? "pl-4" : ""} `}>
+                    <div onClick={() => {
+                        toggleSidebar()
+                        console.log(sidebarSize)
+                    }}
                         className='hover:bg-gray-400/20 p-2 rounded-full'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bg-transparent bi bi-list" viewBox="0 0 16 16">
                             <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />

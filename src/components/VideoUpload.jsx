@@ -2,13 +2,11 @@ import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaTimes } from 'react-icons/fa';
 import { uploadVideo } from '../store/ayncThunks/videosThunk';
-import { useDispatch, useSelector } from 'react-redux';
-import ProtectedComponent from './ProtectedComponet';
+import { useDispatch } from 'react-redux';
 
 const VideoUpload = () => {
     const { register, handleSubmit, watch, formState: { errors }, setValue, setError, clearErrors } = useForm();
     const [thumbnailPreview, setThumbnailPreview] = useState(null)
-    const { userData } = useSelector((state) => state.auth)
 
     const thumbnailInputRef = useRef(null)
     const watchedTitle = watch('title', 'Video Title');
@@ -59,10 +57,9 @@ const VideoUpload = () => {
     };
 
     return (
-        <ProtectedComponent user={userData}>
             <div className="mx-2 h-full w-full overflow-auto flex justify-center text-white">
                 <div className="w-full max-w-5xl flex items-center flex-col lg:flex-row px-8">
-                    <div className="w-full h-auto md:w-1/2 flex flex-col items-center pt-8 pb-20">
+                    <div className="w-full h-auto md:w-1/2 flex flex-col items-center pt-8">
                         {thumbnailPreview ? (
                             <div className="relative w-full bg-gray-800 rounded-md pb-4">
                                 {thumbnailPreview && (
@@ -187,7 +184,6 @@ const VideoUpload = () => {
                     </div>
                 </div>
             </div>
-        </ProtectedComponent>
 
     );
 };

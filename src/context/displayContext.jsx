@@ -12,10 +12,12 @@ export const ContextProvider = ({ children }) => {
     const [changeSidebar, setChangeSidebar] = useState(true)
     const [sidebarSize, setSidebarSize] = useState("")
 
+    const [absoluteBar, setAbsoluteBar] = useState(false)
+
     const [showPopup, setShowPopup] = useState(false)
 
     const togglePopup = () => {
-        setShowPopup(prev =>!prev)
+        setShowPopup(prev => !prev)
     }
 
     const toggleSidebar = () => {
@@ -23,24 +25,28 @@ export const ContextProvider = ({ children }) => {
 
         const screenWidth = window.innerWidth
 
-        if (sidebarSize === "large" && screenWidth >= 1150) {
-            setSidebarSize("small");
-        } else if (sidebarSize === "small" && screenWidth >= 1150) {
-            setSidebarSize("large");
-        } else if (sidebarSize === "hidden" && screenWidth >= 1150) {
-            setSidebarSize("large");
-        } else if (sidebarSize === "large" && screenWidth >= 800 && screenWidth < 1150) {
-            setSidebarSize("hidden");
-        } else if (sidebarSize === "small" && screenWidth >= 800 && screenWidth < 1150) {
-            setSidebarSize("hidden");
-        } else if (sidebarSize === "hidden" && screenWidth >= 800 && screenWidth < 1150) {
-            setSidebarSize("small");
+        if (!window.location.href.includes("videos/play")) {
+            if (sidebarSize === "large" && screenWidth >= 1150) {
+                setSidebarSize("small");
+            } else if (sidebarSize === "small" && screenWidth >= 1150) {
+                setSidebarSize("large");
+            } else if ((sidebarSize === "absolute" || sidebarSize === "visible") && screenWidth >= 1150) {
+                setSidebarSize("large");
+            } else if (sidebarSize === "large" && screenWidth >= 800 && screenWidth < 1150) {
+                setSidebarSize("absolute");
+            } else if (sidebarSize === "small" && screenWidth >= 800 && screenWidth < 1150) {
+                setSidebarSize("absolute");
+            } else if ((sidebarSize === "absolute" || sidebarSize === "visible") && screenWidth >= 800 && screenWidth < 1150) {
+                setSidebarSize("small");
+            } else if (sidebarSize === "absolute" && screenWidth < 800) {
+                setSidebarSize("visible");
+            } else {
+                setSidebarSize("absolute");
+            }
         } else {
-            setSidebarSize("hidden");
+            sidebarSize === "absolute" ? setSidebarSize("visible") : setSidebarSize("absolute");
         }
-
     }
-
     return (
         <displayContext.Provider value={{ toggleSidebar, changeSidebar, sidebarSize, setSidebarSize, showPopup, togglePopup }}>
             {children}

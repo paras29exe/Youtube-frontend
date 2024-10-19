@@ -43,51 +43,51 @@ function Comments() {
         }
     }
 
-    const handleLike = (i) => {
+    const handleLike = (index) => {
 
         setIsLiked((prev) => {
             const prevLikedByViewer = [...prev]
-            prevLikedByViewer[i] = !prevLikedByViewer[i]
+            prevLikedByViewer[index] = !prevLikedByViewer[index]
             return prevLikedByViewer
         })
 
-        isDisliked[i]
+        isDisliked[index]
             ? setIsDisliked((prev) => {
                 const prevDislikedByViewer = [...prev]
-                prevDislikedByViewer[i] = false
+                prevDislikedByViewer[index] = false
                 return prevDislikedByViewer
             }) : null
 
-        isLiked[i] ?
+        isLiked[index] ?
             setLikesCount((prev) => {
                 const prevLikes = [...prev]
-                prevLikes[i] -= 1
+                prevLikes[index] -= 1
                 return prevLikes
             })
             :
             setLikesCount((prev) => {
                 const prevLikes = [...prev]
-                prevLikes[i] += 1
+                prevLikes[index] += 1
                 return prevLikes
             })
 
     }
 
-    const handleDislike = (i) => {
+    const handleDislike = (index) => {
         setIsDisliked((prev) => {
             const prevDislikedByViewer = [...prev]
-            prevDislikedByViewer[i] = !prevDislikedByViewer[i]
+            prevDislikedByViewer[index] = !prevDislikedByViewer[index]
             return prevDislikedByViewer
         })
-        if (isLiked[i]) {
+        if (isLiked[index]) {
             setIsLiked((prev) => {
                 const prevLikedByViewer = [...prev]
-                prevLikedByViewer[i] = false
+                prevLikedByViewer[index] = false
                 return prevLikedByViewer
             })
             setLikesCount((prev) => {
                 const prevLikes = [...prev]
-                prevLikes[i] -= 1
+                prevLikes[index] -= 1
                 return prevLikes
             })
         }
@@ -131,7 +131,7 @@ function Comments() {
 
             <div className="flex flex-col gap-y-6 py-6 px-1">
 
-                {comments && comments.map((comment, i) => (
+                {comments && comments.map((comment, index) => (
                     <div
                         key={comment._id}
                         className='flex justify-between'>
@@ -148,27 +148,36 @@ function Comments() {
 
                                 <div className=" text-white mt-1 py-1.5 text-sm rounded-full flex items-center">
                                     <button
-                                        onClick={() => {
+                                        onClick={(e) => {
                                             if (userData) {
-                                                dispatch(toggleCommentLike(comment._id))
-                                                handleLike(i)
+                                                const buttonClick = e.currentTarget
+                                                if (buttonClick) {
+                                                    buttonClick.classList.add("-translate-y-3", "-rotate-12", "scale-110");
+
+                                                    setTimeout(() => {
+                                                        buttonClick.classList.remove("-translate-y-3", "-rotate-12", "scale-110");
+                                                        dispatch(toggleCommentLike(comment._id))
+                                                        handleLike(index)
+                                                    }, 300)
+                                                }
                                             } else {
                                                 togglePopup()
                                             }
-                                        }}
-                                        className={`material-icons transition-all duration-200 ${(isLiked[i] && userData) ? "text-blue-600" : ""}`}>thumb_up</button>
+                                        }
+                                        }
+                                        className={`material-icons transition-all duration-300 ${(isLiked[index] && userData) ? "text-blue-600" : ""}`}>thumb_up</button>
 
-                                    <span className="ml-1">{likesCount[i]}</span>
+                                    <span className="ml-1">{likesCount[index]}</span>
 
                                     <button
                                         onClick={() => {
                                             if (userData) {
-                                                handleDislike(i)
+                                                handleDislike(index)
                                             } else {
                                                 togglePopup()
                                             }
                                         }}
-                                        className={`material-icons transition-all duration-200 ml-4 ${(isDisliked[i] && userData) ? "text-blue-600" : ""}`}>thumb_down</button>
+                                        className={`material-icons transition-all duration-200 ml-4 ${(isDisliked[index] && userData) ? "text-blue-600" : ""}`}>thumb_down</button>
                                 </div>
                             </div>
                         </div>
