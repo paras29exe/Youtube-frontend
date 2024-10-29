@@ -14,11 +14,13 @@ const VideoUpload = () => {
     const dispatch = useDispatch();
 
     const onSubmit = async (data) => {
-        // console.log(data);
-        
         const res = await dispatch(uploadVideo(data))
 
         if (res.type.includes("rejected")) {
+            setError(res.error.name , {
+                type: 'manual',
+                message: res.error.message
+            })
             throw res.error;
         } else {
             console.log("Video uploaded successfully", res.payload);
@@ -49,7 +51,6 @@ const VideoUpload = () => {
             clearErrors("video"); // Clear any existing errors when valid
         }
     }
-
 
     const removePreview = () => {
         setThumbnailPreview(null);

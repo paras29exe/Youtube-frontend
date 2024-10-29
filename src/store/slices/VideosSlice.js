@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getVideos, playVideo, uploadVideo } from "../ayncThunks/videosThunk";
+import { getSubscribedVideos, getVideos, playVideo, uploadVideo } from "../ayncThunks/videosThunk";
 
 const initialState = {
     videos: [],
@@ -37,6 +37,20 @@ const videoSlice = createSlice({
                 state.error = null;
             })
             .addCase(getVideos.rejected , (state, action) => {
+                state.loading = false;
+                state.error = action.error;
+            })
+            // subs videos
+            .addCase(getSubscribedVideos.fulfilled, (state, action) => {
+                state.videos = action.payload.data.docs;
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(getSubscribedVideos.pending, (state, action) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getSubscribedVideos.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error;
             })

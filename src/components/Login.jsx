@@ -8,31 +8,35 @@ import { login } from '../store/ayncThunks/authThunk';
 import { useDispatch, useSelector } from 'react-redux';
 
 function Login() {
-    const { handleSubmit, register, formState: { errors } } = useForm();
+    const { handleSubmit, register, setError, formState: { errors } } = useForm();
     const [showPassword, setShowPassword] = useState(false)
+    const { loading,error } = useSelector(state => state.auth)
 
     const dispatch = useDispatch();
-    const { loading } = useSelector(state => state.auth)
-
     const navigate = useNavigate();
 
     const submit = async (data) => {
         const res = await dispatch(login(data));
 
-        if (res.type.includes("rejected")) {
-            throw res.error;
+        if (res.error) {  
+            setError(res.error.name , {
+                type: 'manual',
+                message: res.error.message
+            })
+            throw res.error
         } else {
                 navigate(-1)
                 Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
                 Cookies.set("refreshToken", res.payload.data.refreshToken, { expires: 7 }); // Cookie expires in 7 days
+                console.clear()
         }
     };
 
     return (
-        <div className='absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-sm '>
+        <div className='absolute inset-0 flex items-center justify-center'>
             <form
                 onSubmit={handleSubmit(submit)}
-                className='relative inset-0 bg-gray-900 p-8 rounded-lg shadow-lg max-w-md w-full -z-10'
+                className='relative inset-0 bg-gray-900 p-8 rounded-lg shadow-lg max-w-md w-full '
             >
                 <FaTimes
                     className='absolute top-2 right-2 bg-red-500 rounded-full text-xl cursor-pointer'
@@ -80,8 +84,8 @@ function Login() {
                 ) : (
                     <button
                         type='submit'
-                        className='w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-green-600 transition duration-200'
-                        disabled={loading}
+                        className='w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200'
+                        
                     >
                         Login
                     </button>

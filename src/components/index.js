@@ -11,6 +11,7 @@ import NotFoundPage from "./NotFoundPage";
 import ProtectedComponent from "./ProtectedComponet";
 import VideoPlayerPage from "./playVideoPAge/PlayVideo";
 import ServerDown from "./ServerDown";
+import SubscribedVideos from "./SubscribedVideos";
 
 export {
     Home,
@@ -26,4 +27,5 @@ export {
     ProtectedComponent,
     VideoPlayerPage,
     ServerDown,
+    SubscribedVideos,
 }

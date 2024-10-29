@@ -1,34 +1,30 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { displayContext } from "../context/displayContext"
-import { useDispatch, useSelector } from 'react-redux';
-import { getVideos } from '../store/ayncThunks/videosThunk';
+import React, {  useEffect, useContext } from 'react';
+import { useDispatch,useSelector } from 'react-redux';
+import { getSubscribedVideos } from '../store/ayncThunks/videosThunk';
 import timeAgo from '../utils/timeAgo';
 import Skeleton from './Skeleton';
 import { useNavigate } from 'react-router-dom';
 import formatViews from '../utils/formatViews';
+import { displayContext } from '../context/displayContext';
 
-
-function Videos() {
-    // const videos = [11, 52, 3, 24, 50, 60, 77, 88, 100, 100 + 1, 100 + 2, 100 + 3, 100 + 4, 100 + 5 + 1, 100 + 6 + 1];
-    const {fourVideosInRow} = useContext(displayContext); // Add state for 4 videos in a row
-    const { userData } = useSelector((state) => state.auth)
-    const { videos, loading, error } = useSelector((state) => state.videos)
-
+function SubscribedVideos() {
+    const {fourVideosInRow} = useContext(displayContext)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const { videos, loading, error } = useSelector((state) => state.videos);
 
     useEffect(() => {
-        const fetchVideos = async () => {
-            await dispatch(getVideos())
+        const fetchSubscribedVideos = async () => {
+            await dispatch(getSubscribedVideos())
             // if (res.type.includes("rejected")) throw res.error;
         }
-        fetchVideos()
-    }, [userData])
+        fetchSubscribedVideos()
+    }, [])
 
     // Conditional rendering for loading and error
     if (loading) return <Skeleton />;
 
-    if(videos && videos.length === 0) return <p className='text-3xl w-fit m-auto'>No Videos available</p>
+    if(videos && videos.length === 0) return <p className='text-3xl w-fit m-auto'>No Subscribed Videos available</p>
 
     return (
         <div className='w-full overflow-y-auto overflow-x-hidden px-2 flex flex-wrap content-start'>
@@ -105,4 +101,4 @@ function Videos() {
     )
 }
 
-export default Videos;
+export default SubscribedVideos;

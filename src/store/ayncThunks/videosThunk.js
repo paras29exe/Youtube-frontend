@@ -66,6 +66,18 @@ export const getVideos = createAsyncThunk(
     }
 )
 
+export const getSubscribedVideos = createAsyncThunk(
+    "videos/getSubscribedVideos",
+    async () => {
+        try {
+            const response = await AxiosInstance.get("videos/subscribed-channel-videos");
+            return fulfilled(response);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err));
+        }
+    }
+)
+
 // play video
 export const playVideo = createAsyncThunk(
     "videos/playVideo",

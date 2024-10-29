@@ -10,9 +10,8 @@ export const displayContext = createContext({
 
 export const ContextProvider = ({ children }) => {
     const [changeSidebar, setChangeSidebar] = useState(true)
+    const [fourVideosInRow, setFourVideosInRow] = useState(false); // Add state for 4 videos in a row
     const [sidebarSize, setSidebarSize] = useState("")
-
-    const [absoluteBar, setAbsoluteBar] = useState(false)
 
     const [showPopup, setShowPopup] = useState(false)
 
@@ -22,6 +21,7 @@ export const ContextProvider = ({ children }) => {
 
     const toggleSidebar = () => {
         setChangeSidebar(prev => !prev)
+        
 
         const screenWidth = window.innerWidth
 
@@ -46,9 +46,17 @@ export const ContextProvider = ({ children }) => {
         } else {
             sidebarSize === "absolute" ? setSidebarSize("visible") : setSidebarSize("absolute");
         }
+
+        // for changing homepage videos layout
+        if (sidebarSize === "large" && screenWidth >= 1300 && screenWidth <= 1600) {
+            setFourVideosInRow(true);
+        } else {
+            setFourVideosInRow(false);
+        }
     }
+
     return (
-        <displayContext.Provider value={{ toggleSidebar, changeSidebar, sidebarSize, setSidebarSize, showPopup, togglePopup }}>
+        <displayContext.Provider value={{ toggleSidebar, changeSidebar, sidebarSize, setSidebarSize, showPopup, togglePopup, fourVideosInRow }}>
             {children}
         </displayContext.Provider>
     )

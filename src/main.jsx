@@ -6,17 +6,16 @@ import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } 
 import { ContextProvider } from './context/displayContext'
 import { store } from './store/store.js'
 import { Provider, useSelector } from 'react-redux'
-import { VideoUpload, Signup, Videos, Login, NotFoundPage, VideoPlayerPage, ServerDown, ProtectedComponent } from "./components"
+import { VideoUpload, Signup, Videos, Login, NotFoundPage, VideoPlayerPage, ServerDown, ProtectedComponent, SubscribedVideos } from "./components"
 
 import { useDispatch } from 'react-redux'
 import { autoLogin } from './store/ayncThunks/authThunk'
-import { useEffect } from 'react'
 
 function Main() {
   const dispatch = useDispatch()
   const { userData, error } = useSelector(state => state.auth)
 
-  useEffect(() => {
+  React.useEffect(() => {
     try {
       // Automatically log in the user from cookies stored when the app loads
       ; (async () => dispatch(autoLogin())
@@ -32,14 +31,25 @@ function Main() {
       <>
         <Route path="/" element={<App />} >
           <Route path="/" element={<Videos />} />
+
+          <Route path="/subscriptions" element={
+            <ProtectedComponent user={userData}>
+              <SubscribedVideos />
+            </ProtectedComponent>
+          } />
+
           <Route path="/auth/api/v1/login" element={<Login />} />
+
           <Route path="/auth/api/v1/signup" element={<Signup />} />
+
           <Route path="/user/upload-video" element={
             <ProtectedComponent user={userData}>
               <VideoUpload />
             </ProtectedComponent>
           } />
+
         <Route path="/videos/play" element={<VideoPlayerPage />} />
+
         </Route>
         <Route path='*' element={<NotFoundPage />} />
       </>

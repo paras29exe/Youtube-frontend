@@ -9,7 +9,7 @@ function App() {
     <>
       <div className='h-screen overflow-hidden'>
         <Navbar />
-        <div className='h-screen overflow-auto flex pb-20'>
+        <div className='h-screen overflow-hidden flex pb-20'>
           <SideBar />
           <Outlet />
         </div>

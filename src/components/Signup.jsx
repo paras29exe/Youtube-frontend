@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { signup } from '../store/ayncThunks/authThunk';
 
 function Signup() {
-    const { handleSubmit, register, formState: { errors }, setValue } = useForm();
+    const { handleSubmit, register, formState: { errors }, setValue, setError } = useForm();
     const [avatarFile, setAvatarFile] = useState(null);
     const [coverImage, setCoverImage] = useState(null);
     const dispatch = useDispatch();
@@ -18,8 +18,11 @@ function Signup() {
         const res = await dispatch(signup(data));
 
         if (res.error) {
+            setError(res.error.name , {
+                type: 'manual',
+                message: res.error.message
+            })
             throw res.error
-
         } else {
             console.log(res.payload)
             Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
@@ -57,9 +60,9 @@ function Signup() {
             <form onSubmit={handleSubmit(submit)} className='w-4/6 mx-auto p-8 rounded-lg shadow-lg h-full overflow-auto'>
                 <h2 className='text-2xl font-bold mb-2 text-left font-sans'>Create New Account</h2>
 
-                <div className='relative mb-12'>
+                <div className='relative mb-16'>
                     <div
-                        className={`h-40 bg-gray-300 rounded-t-lg cursor-pointer relative flex items-center justify-center w-full ${coverImage ? "border-4 border-blue-400" : ""}`}
+                        className={`h-28 bg-gray-300 rounded-t-lg cursor-pointer relative flex items-center justify-center w-full ${coverImage ? "border-4 border-blue-400" : ""}`}
                         style={{ backgroundImage: `url(${coverImage})`, backgroundSize: 'cover' }}
                         onClick={() => document.getElementById('coverImageInput').click()}
                     >

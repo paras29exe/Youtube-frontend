@@ -1,5 +1,5 @@
 import React, { useContext, useReducer } from 'react'
-import { NavLink } from 'react-router-dom';
+import { NavLink, redirect } from 'react-router-dom';
 import LoadingSpinner from '../assets/LoadingSpinner.svg';
 import { displayContext } from '../context/displayContext'
 import { Login } from "./"
@@ -33,7 +33,7 @@ function Navbar() {
 
     return (
         <>
-            <nav className={`bg-customDark backdrop-blur-md navbar z-20 top-0 p-2 text-center flex items-center justify-between `}>
+            <nav className={`bg-black/85 backdrop-blur-md navbar z-20 top-0 p-2 text-center flex items-center justify-between `}>
                 <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-3 max-md2:pl-0 ${sidebarSize === "small" ? "pl-4" : ""} `}>
                     <div onClick={toggleSidebar}
                         className='hover:bg-gray-400/20 p-2 rounded-full'>
@@ -142,6 +142,7 @@ function Navbar() {
                                                             Cookies.remove("accessToken")
                                                             Cookies.remove("refreshToken")
                                                             dispatch(logout())
+                                                            redirect("/")
                                                             setAccountDropdown(prev => !prev)
                                                             setConfirmLogout(false)
                                                         }}
