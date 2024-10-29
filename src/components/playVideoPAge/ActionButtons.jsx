@@ -50,7 +50,7 @@ function ActionButtons({ currentVideo }) {
                     className={`px-3 py-1.5 text-sm rounded-full flex items-center transition-all duration-300 ${isSubscribed && userData ? "bg-gray-600/35" : "bg-red-700"}`}
                 >
                     <span className="material-icons ">notifications</span>
-                    <span className="ml-1 font-sans font-semibold ">{isSubscribed && userData ? "Subscribed" : "Subscribe"}</span>
+                    <span className="ml-1 font-sans font-semibold ">{isSubscribed && userData ? "Baj gyi !" : "Hunny ki bajaye"}</span>
                 </button>
 
             </div>

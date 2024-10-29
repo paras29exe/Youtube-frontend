@@ -33,12 +33,9 @@ function Navbar() {
 
     return (
         <>
-            <nav className={`bg-customDark backdrop-blur-md navbar z-20 top-0 p-2 text-center flex items-center justify-between  `}>
+            <nav className={`bg-customDark backdrop-blur-md navbar z-20 top-0 p-2 text-center flex items-center justify-between `}>
                 <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-3 max-md2:pl-0 ${sidebarSize === "small" ? "pl-4" : ""} `}>
-                    <div onClick={() => {
-                        toggleSidebar()
-                        console.log(sidebarSize)
-                    }}
+                    <div onClick={toggleSidebar}
                         className='hover:bg-gray-400/20 p-2 rounded-full'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bg-transparent bi bi-list" viewBox="0 0 16 16">
                             <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
