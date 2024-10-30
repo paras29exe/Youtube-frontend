@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } 
 import { ContextProvider } from './context/displayContext'
 import { store } from './store/store.js'
 import { Provider, useSelector } from 'react-redux'
-import { VideoUpload, Signup, Videos, Login, NotFoundPage, VideoPlayerPage, ServerDown, ProtectedComponent, SubscribedVideos } from "./components"
+import { VideoUpload, Signup, HomeVideos, Login, NotFoundPage, VideoPlayerPage, ServerDown, ProtectedComponent, SubscribedVideos } from "./components"
 
 import { useDispatch } from 'react-redux'
 import { autoLogin } from './store/ayncThunks/authThunk'
@@ -30,7 +30,7 @@ function Main() {
     createRoutesFromElements(
       <>
         <Route path="/" element={<App />} >
-          <Route path="/" element={<Videos />} />
+          <Route path="/" element={<HomeVideos />} />
 
           <Route path="/subscriptions" element={
             <ProtectedComponent user={userData}>
@@ -57,9 +57,7 @@ function Main() {
     )
   )
 
-  if (error && error.message === "Cannot read properties of undefined (reading 'data')") return (
-    <ServerDown />
-  )
+  if (error && error.message === "Cannot read properties of undefined (reading 'status')") return <ServerDown />
 
   return (
     <RouterProvider router={router} />

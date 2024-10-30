@@ -6,11 +6,15 @@ import Cookies from 'js-cookie';
 import InputField from './InputField';
 import { useDispatch, useSelector } from 'react-redux'
 import { signup } from '../store/ayncThunks/authThunk';
+import Lottie from 'lottie-react';
 
 function Signup() {
     const { handleSubmit, register, formState: { errors }, setValue, setError } = useForm();
     const [avatarFile, setAvatarFile] = useState(null);
     const [coverImage, setCoverImage] = useState(null);
+    const [showAnimation, setShowAnimation] = useState(false);
+    const [showPassword, setShowPassword] = useState(false)
+
     const dispatch = useDispatch();
     const { loading } = useSelector((state) => state.auth)
 
@@ -18,7 +22,7 @@ function Signup() {
         const res = await dispatch(signup(data));
 
         if (res.error) {
-            setError(res.error.name , {
+            setError(res.error.name, {
                 type: 'manual',
                 message: res.error.message
             })
@@ -57,7 +61,7 @@ function Signup() {
     return (
 
         <div className='w-full'>
-            <form onSubmit={handleSubmit(submit)} className='w-4/6 mx-auto p-8 rounded-lg shadow-lg h-full overflow-auto'>
+            <form onSubmit={handleSubmit(submit)} className='w-1/2 mx-auto px-8 rounded-lg shadow-lg h-full overflow-auto'>
                 <h2 className='text-2xl font-bold mb-2 text-left font-sans'>Create New Account</h2>
 
                 <div className='relative mb-16'>
@@ -81,7 +85,7 @@ function Signup() {
                     </div>
 
                     <div
-                        className='absolute -bottom-10 left-8 cursor-pointer'
+                        className='absolute -bottom-14 left-8 cursor-pointer'
                         onClick={() => document.getElementById('avatarInput').click()}
                     >
                         <div
@@ -139,16 +143,19 @@ function Signup() {
                         className='form p-2 border border-gray-300 rounded-lg w-full'
                     />
                     <InputField
-                        type='password'
+                        type={showPassword ? 'text' : 'password'}
                         label='Password'
                         register={register}
                         registerAs="password"
+                        setShowPassword={setShowPassword}
+                        showPassword={showPassword}
+                        autoComplete={false}
                         errors={errors}
                         className='form p-2 border border-gray-300 rounded-lg w-full'
                     />
 
-                    <div className='text-right mb-4'>
-                        <p className='text-gray-400'>Already registered? <NavLink to="/auth/api/v1/login" className='text-blue-500 hover:underline'>Login here</NavLink></p>
+                    <div className='text-right mb-2'>
+                        <p className='text-gray-400 select-none cursor-text'>Already registered? <NavLink to="/auth/api/v1/login" className='text-blue-500 hover:underline'>Login here</NavLink></p>
                     </div>
                     {
                         loading ?
@@ -156,7 +163,7 @@ function Signup() {
                                 <circle cx="50" cy="50" fill="none" stroke="#fff" strokeWidth="8" r="35" strokeDasharray="164.93361431346415 56.97787143782138">
                                     <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1" />
                                 </circle>
-                            </svg> 
+                            </svg>
                             :
                             <button type='submit' className=' w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-200'>
                                 Signup
@@ -164,6 +171,18 @@ function Signup() {
                     }
                 </div>
             </form>
+            {
+                (showAnimation) && (
+
+                    <div className="absolute inset-0 flex items-center justify-center backdrop-blur-sm bg-white/5">
+                        <Lottie
+                            animationData={scanningAnimation}
+                            loop
+                            className='w-72 h-72'
+                        />
+                    </div>
+                )
+            }
         </div>
     );
 

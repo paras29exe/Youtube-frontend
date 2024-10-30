@@ -1,11 +1,10 @@
-import Home from "./Home";
 import InputField from "./InputField";
 import Login from "./Login";
 import Navbar from "./Navbar";
 import NavBtn from "./NavBtn";
 import SideBar from "./SideBar";
 import Signup from "./Signup";
-import Videos from "./Videos";
+import HomeVideos from "./HomeVideos";
 import VideoUpload from "./VideoUpload";
 import NotFoundPage from "./NotFoundPage";
 import ProtectedComponent from "./ProtectedComponet";
@@ -14,14 +13,13 @@ import ServerDown from "./ServerDown";
 import SubscribedVideos from "./SubscribedVideos";
 
 export {
-    Home,
     InputField,
     Login,
     Navbar,
     NavBtn,
     SideBar,
     Signup,
-    Videos,
+    HomeVideos,
     VideoUpload,
     NotFoundPage,
     ProtectedComponent,
