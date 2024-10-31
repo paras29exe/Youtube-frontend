@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FaPlus, FaTimes } from 'react-icons/fa';
 import Cookies from 'js-cookie';
 import InputField from './InputField';
 import { useDispatch, useSelector } from 'react-redux'
-import { signup } from '../store/ayncThunks/authThunk';
+import { signup } from '../store/asyncThunks/authThunk';
 import Lottie from 'lottie-react';
+import scanningAnimation from '../assets/scanning.json'
 
 function Signup() {
     const { handleSubmit, register, formState: { errors }, setValue, setError } = useForm();
@@ -16,22 +17,28 @@ function Signup() {
     const [showPassword, setShowPassword] = useState(false)
 
     const dispatch = useDispatch();
-    const { loading } = useSelector((state) => state.auth)
+    const navigate = useNavigate();
+    const { loading, error } = useSelector((state) => state.auth)
 
     const submit = async (data) => {
+        setShowAnimation(true)
         const res = await dispatch(signup(data));
+        setTimeout(() => {
+            setShowAnimation(false)
+            error && !loading && setError(error.name, {
+                type: 'manual',
+                message: error.message
+            }) 
+        }, 2500);
 
         if (res.error) {
-            setError(res.error.name, {
-                type: 'manual',
-                message: res.error.message
-            })
             throw res.error
         } else {
-            console.log(res.payload)
             Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
             Cookies.set("refreshToken", res.payload.data.refreshToken, { expires: 7 }); // Cookie expires in 7 days
+            navigate(-1)
         }
+
     };
 
     const handleAvatarChange = (e) => {
@@ -66,11 +73,11 @@ function Signup() {
 
                 <div className='relative mb-16'>
                     <div
-                        className={`h-28 bg-gray-300 rounded-t-lg cursor-pointer relative flex items-center justify-center w-full ${coverImage ? "border-4 border-blue-400" : ""}`}
+                        className={`h-28 bg-gray-400 rounded-t-lg cursor-pointer relative flex items-center justify-center w-full ${coverImage ? "border-4 border-blue-400" : ""}`}
                         style={{ backgroundImage: `url(${coverImage})`, backgroundSize: 'cover' }}
                         onClick={() => document.getElementById('coverImageInput').click()}
                     >
-                        {!coverImage && <FaPlus className='text-white text-4xl' />}
+                        {!coverImage && <FaPlus className=' text-4xl' />}
                         {coverImage && <FaTimes className='absolute top-2 right-2 bg-red-500 rounded-full text-xl cursor-pointer' onClick={(e) => { e.stopPropagation(); removeCoverImage(); }} />}
                         <input
                             type='file'
@@ -89,10 +96,10 @@ function Signup() {
                         onClick={() => document.getElementById('avatarInput').click()}
                     >
                         <div
-                            className={`w-24 h-24 bg-gray-300 rounded-full border-4  flex items-center justify-center ${avatarFile ? "border-4 border-green-400" : ""}`}
+                            className={`w-24 h-24 bg-gray-400 rounded-full border-4  flex items-center justify-center ${avatarFile ? "border-4 border-green-400" : ""}`}
                             style={{ backgroundImage: `url(${avatarFile})`, backgroundSize: 'cover' }}
                         >
-                            {!avatarFile && <FaPlus className='text-white text-2xl' />}
+                            {!avatarFile && <FaPlus className=' text-2xl' />}
                             {avatarFile && <FaTimes className='absolute top-1 right-2 bg-red-500 rounded-full text-xl cursor-pointer' onClick={(e) => { e.stopPropagation(); removeAvatar(); }} />}
                         </div>
                         <input
@@ -149,12 +156,11 @@ function Signup() {
                         registerAs="password"
                         setShowPassword={setShowPassword}
                         showPassword={showPassword}
-                        autoComplete={false}
                         errors={errors}
                         className='form p-2 border border-gray-300 rounded-lg w-full'
                     />
 
-                    <div className='text-right mb-2'>
+                    <div className='text-right mb-5'>
                         <p className='text-gray-400 select-none cursor-text'>Already registered? <NavLink to="/auth/api/v1/login" className='text-blue-500 hover:underline'>Login here</NavLink></p>
                     </div>
                     {
@@ -172,7 +178,7 @@ function Signup() {
                 </div>
             </form>
             {
-                (showAnimation) && (
+                (loading || showAnimation) && (
 
                     <div className="absolute inset-0 flex items-center justify-center backdrop-blur-sm bg-white/5">
                         <Lottie

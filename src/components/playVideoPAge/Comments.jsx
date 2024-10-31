@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import timeAgo from '../../utils/timeAgo'
-import { addComment, getComments, deleteComment } from '../../store/ayncThunks/commentThunk';
+import { addComment, getComments, deleteComment } from '../../store/asyncThunks/commentThunk';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux'
 import { displayContext } from '../../context/displayContext';
-import { toggleCommentLike } from '../../store/ayncThunks/likeSubscribeThunk';
+import { toggleCommentLike } from '../../store/asyncThunks/likeSubscribeThunk';
 
 function Comments() {
     const { comments } = useSelector(state => state.comments)

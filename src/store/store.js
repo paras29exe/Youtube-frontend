@@ -4,6 +4,7 @@ import accountSlice from "./slices/AccountSlice";
 import videosSlice from "./slices/VideosSlice";
 import likeSubscribeSlice from "./slices/LikeSubscribeSlice";
 import commentSlice from "./slices/CommentSlice";
+import subscriptionSlice from "./slices/SubscriptionSlice";
 
 export const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
         videos: videosSlice,
         likeSubscribe : likeSubscribeSlice,
         comments : commentSlice,
+        subscriptions: subscriptionSlice,
     },
 })
 

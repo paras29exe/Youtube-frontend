@@ -8,7 +8,6 @@ function InputField({
     register, registerAs,
     errors, setShowPassword,
     showPassword,
-    autoComplete = true
 }) {
     const [hasValue, setHasValue] = useState(false);
 
@@ -38,7 +37,7 @@ function InputField({
                     placeholder={placeholder}
                     type={type}
                     className={`bg-transparent relative text-white block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-transparent focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-md ${className}`}
-                    autoComplete={autoComplete}
+                    autoComplete = {registerAs === 'password' ? "off" : "on"}
                 />
                 {
                     registerAs === "password" && (

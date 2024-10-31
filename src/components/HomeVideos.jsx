@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getVideos } from '../store/ayncThunks/videosThunk';
+import { getVideos } from '../store/asyncThunks/videosThunk';
 import VideoList from './Videolist';
+import Skeleton from './Skeleton';
 
 
 function Videos({}) {
@@ -14,17 +15,18 @@ function Videos({}) {
     useEffect(() => {
         const fetchVideos = async () => {
             await dispatch(getVideos())
-            // if (res.type.includes("rejected")) throw res.error;
         }
         fetchVideos()
     }, [userData])
 
-    if(videos && videos.length === 0) return <p className='text-3xl w-fit m-auto'>No Videos available</p>
+    if (loading) return <Skeleton />;
+    
+    if(videos && !videos.hasPrevPage && videos.totalDocs === 0) return <p className='text-3xl w-fit m-auto'>No Videos available</p>
 
     return (
         <div className='w-full overflow-y-auto overflow-x-hidden px-2 flex flex-wrap content-start'>
             {
-                videos.map((video) => <VideoList video={video} loading={loading} /> )
+               videos?.docs.map((video) => <VideoList key={video._id} video={video} loading={loading} /> )
             }
         </div >
     )

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const Popup = ({ onClose, onConfirm }) => {
 
     return (
-            <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-60">
+            <div className="fixed inset-0 z-10 flex items-center justify-center bg-black/70">
                 <div className="bg-white  p-5 rounded-lg shadow-lg">
                     <p className="text-black text-lg font-semibold">Please Login to perform this action!</p>
                     <div className="mt-6 flex justify-end">

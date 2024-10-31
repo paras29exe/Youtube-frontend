@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { FaTimes, FaEye, FaEyeSlash } from 'react-icons/fa'; // Import Eye icons
 import Cookies from 'js-cookie';
-import { login } from '../store/ayncThunks/authThunk';
+import { login } from '../store/asyncThunks/authThunk';
 import { useDispatch, useSelector } from 'react-redux';
 import scanningAnimation from "../assets/scanning.json"
 import Lottie from 'lottie-react';
@@ -18,38 +18,39 @@ function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const submit = (data) => {
+    const submit = async (data) => {
         setShowAnimation(true)
-
-        setTimeout(async () => {
+        setTimeout(() => {
             setShowAnimation(false)
-            const res = await dispatch(login(data));
-            if (res.error) {
-                setError(res.error.name, {
-                    type: 'manual',
-                    message: res.error.message
-                })
-                throw res.error
-            } else {
-                navigate(-1)
-                Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
-                Cookies.set("refreshToken", res.payload.data.refreshToken, { expires: 7 }); // Cookie expires in 7 days
-                console.clear()
-            }
+            error && !loading && setError(error.name, {
+                type: 'manual',
+                message: error.message
+            }) 
         }, 2500);
+
+        const res = await dispatch(login(data));
+
+        if (res.error) {
+            throw res.error
+        } else {
+            navigate(-1)
+            Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
+            Cookies.set("refreshToken", res.payload.data.refreshToken, { expires: 7 }); // Cookie expires in 7 days
+        }
+
     };
 
     return (
-        <div className='absolute inset-0 flex items-center justify-center'>
+        <div className='min-h-screen w-full flex items-center justify-center '>
             <form
                 onSubmit={handleSubmit(submit)}
-                className='relative inset-0 bg-gray-900 p-8 rounded-lg shadow-lg max-w-md w-full '
+                className='relative bg-gray-900/50 p-10 rounded-xl shadow-xl max-w-md w-full text-white shadow-gray-800'
             >
                 <FaTimes
-                    className='absolute top-2 right-2 bg-red-500 rounded-full text-xl cursor-pointer'
+                    className='absolute top-4 right-4 text-2xl bg-red-600 p-1 rounded-full text-white cursor-pointer hover:bg-red-700 transition'
                     onClick={(e) => { e.stopPropagation(); navigate(-1); }}
                 />
-                <h2 className='text-2xl font-bold mb-6 text-center text-white'>Login to your Account</h2>
+                <h2 className='text-3xl font-extrabold mb-8 text-center'>Login to Your Account</h2>
 
                 <div className="flex flex-col">
                     <InputField
@@ -57,56 +58,55 @@ function Login() {
                         register={register}
                         registerAs="username"
                         errors={errors}
-                        className='form p-2 border border-gray-300 rounded-lg w-full'
+                        className='form p-3 border border-gray-500 bg-gray-800 rounded-lg w-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
-                        <InputField
-                            label='Password'
-                            type={showPassword ? 'text' : 'password'}
-                            register={register}
-                            registerAs="password"
-                            errors={errors}
-                            passwordField={true}
-                            showPassword={showPassword}
-                            setShowPassword={setShowPassword}
-                            autoComplete = {false}
-                            className='form p-2 border border-gray-300 rounded-lg w-full '
-                        />
-                        
-                    <div className='flex justify-end mb-4'>
-                        <p className='text-gray-500 select-none cursor-text'> New user? <NavLink to="/auth/api/v1/signup" className='text-blue-500 hover:underline'>Signup here</NavLink></p>
-                    </div>
+                    <InputField
+                        label='Password'
+                        type={showPassword ? 'text' : 'password'}
+                        register={register}
+                        registerAs="password"
+                        errors={errors}
+                        passwordField={true}
+                        showPassword={showPassword}
+                        setShowPassword={setShowPassword}
+                        className='form p-3 border border-gray-500 bg-gray-800 rounded-lg w-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
+                    />
+                </div>
+
+                <div className='flex justify-end mb-6'>
+                    <p className='text-sm text-gray-400'>
+                        New user? <NavLink to="/auth/api/v1/signup" className='text-blue-400 hover:text-blue-500 transition hover:underline'>Sign up here</NavLink>
+                    </p>
                 </div>
 
                 {loading || showAnimation ? (
-                    <svg xmlns="http://www.w3.org/2000/svg" style={{ margin: 'auto', background: 'none', display: 'block', shapeRendering: 'auto' }} width="40px" height="40px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-                        <circle cx="50" cy="50" fill="none" stroke="#fff" strokeWidth="8" r="35" strokeDasharray="164.93361431346415 56.97787143782138">
-                            <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1" />
-                        </circle>
-                    </svg>
-
+                    <div className='flex items-center justify-center mb-4'>
+                        <svg xmlns="http://www.w3.org/2000/svg" style={{ margin: 'auto', background: 'none', display: 'block', shapeRendering: 'auto' }} width="40px" height="40px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                            <circle cx="50" cy="50" fill="none" stroke="#00BFFF" strokeWidth="8" r="35" strokeDasharray="164.93361431346415 56.97787143782138">
+                                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1" />
+                            </circle>
+                        </svg>
+                    </div>
                 ) : (
                     <button
                         type='submit'
-                        className='w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition duration-200'
-
+                        className='w-full bg-blue-600 text-white py-2 rounded-lg font-semibold text-lg hover:bg-blue-700 transition duration-200'
                     >
                         Login
                     </button>
                 )}
             </form>
-            {
-                ( showAnimation) && (
-                    
-                    <div className="absolute inset-0 flex items-center justify-center backdrop-blur-sm bg-white/5">
-                            <Lottie
-                                animationData={scanningAnimation}
-                                loop
-                                className='w-72 h-72'
-                            />
-                    </div>
-                )
-            }
+            {(loading || showAnimation) && (
+                <div className="absolute inset-0 flex items-center justify-center backdrop-blur-sm bg-black/30">
+                    <Lottie
+                        animationData={scanningAnimation}
+                        loop
+                        className='w-72 h-72'
+                    />
+                </div>
+            )}
         </div>
+
     );
 }
 

@@ -2,15 +2,14 @@ import React, { useContext, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { playVideo } from '../../store/ayncThunks/videosThunk';
+import { playVideo } from '../../store/asyncThunks/videosThunk';
 import timeAgo from '../../utils/timeAgo';
 import VideoDescriptionBox from './DescriptionBox';
 import ActionButtons from './ActionButtons';
 import Comments from './Comments';
-import Navbar from '../Navbar';
 import formatViews from '../../utils/formatViews';
 import VideoSkeleton from '../VideoSkeleton';
-import { getComments } from '../../store/ayncThunks/commentThunk';
+import { getComments } from '../../store/asyncThunks/commentThunk';
 import { displayContext } from '../../context/displayContext';
 
 const VideoPlayerPage = () => {
@@ -19,6 +18,7 @@ const VideoPlayerPage = () => {
 
     const { singleVideo, loading, error } = useSelector((state) => state.videos)
     const { setSidebarSize } = useContext(displayContext)
+    const {showPopup} = useContext(displayContext)
     const currentVideo = singleVideo?.videoDetails
 
     const dispatch = useDispatch()
@@ -35,11 +35,7 @@ const VideoPlayerPage = () => {
         }
     }, [v_id])
 
-    if (loading) return (
-        <>
-            <VideoSkeleton />
-        </>
-    )
+    if (loading) return <VideoSkeleton/>
 
     if (error?.message.toLowerCase().includes("this video is private or cannot be played")) {
         navigate("/")
@@ -47,18 +43,18 @@ const VideoPlayerPage = () => {
 
     if (singleVideo?.videoDetails) return (
         <>
-            <div className="flex flex-col md2:flex-row w-11/12 m-auto min-h-screen">
+            <div className="flex flex-col md2:flex-row w-screen xl:px-20 max-xl:px-4 overflow-y-auto ">
                 {/* Main Video Section */}
                 <div className="flex-1 p-3 md2:w-3/5 flex flex-col gap-y-5">
                     <div className="bg-black w-full aspect-video">
                         <ReactPlayer
-                            className="outline-none"
+                            className="outline-none aspect-video"
                             url={currentVideo.videoFile || ""}
                             width="100%"
                             height="100%"
                             controls
                             autoPlay
-                            playing
+                            playing = {!showPopup}
                         />
 
                     </div>

@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaTimes } from 'react-icons/fa';
-import { uploadVideo } from '../store/ayncThunks/videosThunk';
+import { uploadVideo } from '../store/asyncThunks/videosThunk';
 import { useDispatch } from 'react-redux';
 
 const VideoUpload = () => {
@@ -58,7 +58,7 @@ const VideoUpload = () => {
     };
 
     return (
-            <div className="mx-2 h-full w-full overflow-auto flex justify-center text-white">
+            <div className=" w-full overflow-auto flex justify-center text-white">
                 <div className="w-full max-w-5xl flex items-center flex-col lg:flex-row px-8">
                     <div className="w-full h-auto md:w-1/2 flex flex-col items-center pt-8">
                         {thumbnailPreview ? (
@@ -105,10 +105,9 @@ const VideoUpload = () => {
                             <p className="text-gray-400">No preview available</p>
                         )}
                     </div>
-
                     <div className="w-full lg:w-1/2 p-4">
                         <h2 className="text-3xl font-bold mb-4 text-center">Upload Video</h2>
-                        <form onSubmit={handleSubmit(onSubmit)} className='pb-24'>
+                        <form onSubmit={handleSubmit(onSubmit)} className=''>
                             <div className="mb-4">
                                 <label className="block text-sm font-medium text-gray-300 mb-2">Video</label>
                                 <input

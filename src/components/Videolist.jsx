@@ -3,22 +3,18 @@ import timeAgo from '../utils/timeAgo';
 import { displayContext } from "../context/displayContext"
 import { useNavigate } from 'react-router-dom';
 import formatViews from '../utils/formatViews';
-import Skeleton from './Skeleton';
 
-
-function VideoList({ video, loading }) {
+function VideoList({ video }) {
     const {fourVideosInRow} = useContext(displayContext); // Add state for 4 videos in a row
     const navigate = useNavigate()
-
     // Conditional rendering for loading and error
-    if (loading) return <Skeleton />;
 
     return (
         <>
             <div
                 data-video-id={video._id}
                 key={video._id}
-                className={`flex flex-col w-full aspect-video sm:w-1/2 lg2:w-1/3 3xl:w-1/4 4xl:w-1/5 p-2 max-lg2:px-4 box-border ${fourVideosInRow ? "min-w-1/4 max-w-1/4" : null}`}
+                className={`flex flex-col w-full aspect-video sm:w-1/2 lg2:w-1/3 3xl:w-1/4 4xl:w-1/5 p-2 max-lg2:px-4 box-border ${fourVideosInRow ? "2xl:min-w-1/4 2xl:max-w-1/4" : null}`}
                 onClick={(e) => {
                     console.log("Clicked")
                     const videoId = e.currentTarget.dataset.videoId

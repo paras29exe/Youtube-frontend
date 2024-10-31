@@ -11,7 +11,6 @@ export const uploadVideo = createAsyncThunk(
         formData.append("title", data.title);
         formData.append("description", data.description);
         formData.append("publishStatus", data.publishStatus);
-        console.log(formData);
 
         try {
             const response = await AxiosInstance.post("videos/upload-video",
@@ -59,18 +58,6 @@ export const getVideos = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await AxiosInstance.get("videos/get-videos");
-            return fulfilled(response);
-        } catch (err) {
-            return thunkAPI.rejectWithValue(rejected(err));
-        }
-    }
-)
-
-export const getSubscribedVideos = createAsyncThunk(
-    "videos/getSubscribedVideos",
-    async () => {
-        try {
-            const response = await AxiosInstance.get("videos/subscribed-channel-videos");
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err));

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { toggleVideoLike, toggleCommentLike, toggleSubscribe } from "../ayncThunks/likeSubscribeThunk";
+import { toggleVideoLike, toggleCommentLike, toggleSubscribe } from "../asyncThunks/likeSubscribeThunk";
 
 const initialState = {
     videoLiked: false,

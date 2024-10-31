@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addComment, getComments, deleteComment } from "../ayncThunks/commentThunk";
+import { addComment, getComments, deleteComment } from "../asyncThunks/commentThunk";
 
 const initialState = {
     comments: null,

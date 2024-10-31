@@ -18,9 +18,9 @@ function SideBar() {
     return (
         <div
             id='sidebar'
-            className={` bg-black/85 backdrop-blur-sm transition-all duration-200 ease-in-out h-screen overflow-y-auto px-1.5 box-content
+            className={`z-10 bg-black/85 backdrop-blur-sm transition-all duration-200 ease-in-out h-screen overflow-y-auto px-1.5 box-content
                 ${!pathname.includes("/videos/play") && "max-md2:min-w-52 max-md2:max-w-52 max-lg2:min-w-20 max-lg2:max-w-20 "} 
-                ${(sidebarSize === "absolute" || sidebarSize === "visible") && !pathname.includes("/videos/play") && "md2:relative"}
+                ${(sidebarSize === "absolute" || sidebarSize === "visible" ) && !pathname.includes("/videos/play") && "md2:relative"}
                 ${sidebarSize === "large" ? "relative left-0 min-w-52 max-w-52 max-md2:fixed"
                     : sidebarSize === "small" ? "relative left-0 min-w-20 max-w-20 max-md2:fixed"
                         : sidebarSize === "absolute" ? "fixed -left-64 duration-500"

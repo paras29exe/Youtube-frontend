@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { toggleSubscribe, toggleVideoLike } from '../../store/ayncThunks/likeSubscribeThunk'
+import { toggleSubscribe, toggleVideoLike } from '../../store/asyncThunks/likeSubscribeThunk'
 import Popup from '../../utils/Popup'
 import { displayContext } from '../../context/displayContext'
 
@@ -47,10 +47,10 @@ function ActionButtons({ currentVideo }) {
                         }
 
                     }}
-                    className={`px-3 py-1.5 text-sm rounded-full flex items-center transition-all duration-300 ${isSubscribed && userData ? "bg-gray-600/35" : "bg-red-700"}`}
+                    className={`px-3 py-1.5 text-sm rounded-full flex items-center transition-all duration-300 ${isSubscribed && userData ? "bg-gray-600/35" : "bg-white text-black"}`}
                 >
-                    <span className="material-icons ">notifications</span>
-                    <span className="ml-1 font-sans font-semibold ">{isSubscribed && userData ? "Baj gyi !" : "Hunny ki bajaye"}</span>
+                    <span className="material-icons text-inherit">notifications</span>
+                    <span className="ml-1 font-sans font-bold text-inherit">{isSubscribed && userData ? "Subscribed" : "Subscribe"}</span>
                 </button>
 
             </div>
@@ -96,12 +96,12 @@ function ActionButtons({ currentVideo }) {
                         className={`material-icons pl-2 ml-2 border-l transition-all duration-300 ${isDisliked ? "text-blue-600" : ""}`}>thumb_down</button>
                 </div>
 
-                <button onClick={shareVideo} className="bg-gray-600/40 text-white text-sm w-10 h-10 rounded-full flex items-center justify-center">
-                    <span className="material-icons ">share</span>
+                <button onClick={shareVideo} className="bg-gray-600/40 text-white text-sm p-1 rounded-full flex items-center justify-center">
+                    <span className="material-icons">share</span>
                     {/* <span className="ml-1">Share</span> */}
                 </button>
 
-                <button className="bg-gray-600/40 text-white  text-sm w-10 h-10 rounded-full flex items-center justify-center">
+                <button className="bg-gray-600/40 text-white text-sm p-1 rounded-full flex items-center justify-center">
                     <span className="material-icons">download</span>
                     {/* <span className="ml-1">Download</span> */}
                 </button>

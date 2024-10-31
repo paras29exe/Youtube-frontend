@@ -9,59 +9,68 @@ import { Provider, useSelector } from 'react-redux'
 import { VideoUpload, Signup, HomeVideos, Login, NotFoundPage, VideoPlayerPage, ServerDown, ProtectedComponent, SubscribedVideos } from "./components"
 
 import { useDispatch } from 'react-redux'
-import { autoLogin } from './store/ayncThunks/authThunk'
+import { autoLogin } from './store/asyncThunks/authThunk.js'
 
 function Main() {
-  const dispatch = useDispatch()
-  const { userData, error } = useSelector(state => state.auth)
+  const dispatch = useDispatch();
+  const { userData, error } = useSelector(state => state.auth);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    try {
-      // Automatically log in the user from cookies stored when the app loads
-      ; (async () => dispatch(autoLogin())
-      )()
-    } catch (error) {
-      console.error('Error during auto login:', error)
-    }
-  }, [])
+      const initiateAutoLogin = async () => {
+          try {
+              await dispatch(autoLogin()); // use .unwrap() to handle any errors
+          } catch (error) {
+              console.error('Error during auto login:', error);
+          } finally {
+              setLoading(false); // Stop loading once auto-login completes
+          }
+      };
 
+      initiateAutoLogin();
+  }, [dispatch]);
+
+  if (loading) return
+
+  if (error && error.message === "Cannot read properties of undefined (reading 'status')") {
+      return <ServerDown />;
+  }
 
   const router = createBrowserRouter(
-    createRoutesFromElements(
-      <>
-        <Route path="/" element={<App />} >
-          <Route path="/" element={<HomeVideos />} />
+      createRoutesFromElements(
+          <>
+              <Route path="/" element={<App />}>
+                  <Route path="/" element={<HomeVideos />} />
 
-          <Route path="/subscriptions" element={
-            <ProtectedComponent user={userData}>
-              <SubscribedVideos />
-            </ProtectedComponent>
-          } />
+                  <Route
+                      path="/subscriptions"
+                      element={
+                          <ProtectedComponent user={userData}>
+                              <SubscribedVideos />
+                          </ProtectedComponent>
+                      }
+                  />
 
-          <Route path="/auth/api/v1/login" element={<Login />} />
+                  <Route path="/auth/api/v1/login" element={<Login />} />
+                  <Route path="/auth/api/v1/signup" element={<Signup />} />
 
-          <Route path="/auth/api/v1/signup" element={<Signup />} />
+                  <Route
+                      path="/user/upload-video"
+                      element={
+                          <ProtectedComponent user={userData}>
+                              <VideoUpload />
+                          </ProtectedComponent>
+                      }
+                  />
 
-          <Route path="/user/upload-video" element={
-            <ProtectedComponent user={userData}>
-              <VideoUpload />
-            </ProtectedComponent>
-          } />
+                  <Route path="/videos/play" element={<VideoPlayerPage />} />
+              </Route>
+              <Route path="*" element={<NotFoundPage />} />
+          </>
+      )
+  );
 
-        <Route path="/videos/play" element={<VideoPlayerPage />} />
-
-        </Route>
-        <Route path='*' element={<NotFoundPage />} />
-      </>
-
-    )
-  )
-
-  if (error && error.message === "Cannot read properties of undefined (reading 'status')") return <ServerDown />
-
-  return (
-    <RouterProvider router={router} />
-  )
+  return <RouterProvider router={router} />;
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(

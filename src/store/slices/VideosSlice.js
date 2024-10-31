@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getSubscribedVideos, getVideos, playVideo, uploadVideo } from "../ayncThunks/videosThunk";
+import { getVideos, playVideo, uploadVideo } from "../asyncThunks/videosThunk";
 
 const initialState = {
-    videos: [],
+    videos: null,
     singleVideo: null,
     loading: false,
     error: null,
@@ -15,7 +15,7 @@ const videoSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(uploadVideo.fulfilled , (state, action) => {
-                state.videos = [...state.videos, action.payload]
+                state.videos.docs = [...state.videos.docs, action.payload]
                 state.loading = false;
                 state.error = null;
             })
@@ -28,7 +28,7 @@ const videoSlice = createSlice({
                 state.error = action.error;
             })
             .addCase(getVideos.fulfilled , (state, action) => {
-                state.videos = action.payload.data.docs;
+                state.videos = action.payload.data;
                 state.loading = false;
                 state.error = null;
             })
@@ -39,20 +39,7 @@ const videoSlice = createSlice({
             .addCase(getVideos.rejected , (state, action) => {
                 state.loading = false;
                 state.error = action.error;
-            })
-            // subs videos
-            .addCase(getSubscribedVideos.fulfilled, (state, action) => {
-                state.videos = action.payload.data.docs;
-                state.loading = false;
-                state.error = null;
-            })
-            .addCase(getSubscribedVideos.pending, (state, action) => {
-                state.loading = true;
-                state.error = null;
-            })
-            .addCase(getSubscribedVideos.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.error;
+                state.videos = [];
             })
             // give play video cases
             .addCase(playVideo.pending , (state, action) => {
