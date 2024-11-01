@@ -1,11 +1,11 @@
-import React, {useContext} from 'react'
+import React, { useContext } from 'react'
 import timeAgo from '../utils/timeAgo';
 import { displayContext } from "../context/displayContext"
 import { useNavigate } from 'react-router-dom';
 import formatViews from '../utils/formatViews';
 
-function VideoList({ video }) {
-    const {fourVideosInRow} = useContext(displayContext); // Add state for 4 videos in a row
+function VideoList({ video, isChannel = false }) {
+    const { fourVideosInRow } = useContext(displayContext); // Add state for 4 videos in a row
     const navigate = useNavigate()
     // Conditional rendering for loading and error
 
@@ -14,7 +14,13 @@ function VideoList({ video }) {
             <div
                 data-video-id={video._id}
                 key={video._id}
-                className={`flex flex-col w-full aspect-video sm:w-1/2 lg2:w-1/3 3xl:w-1/4 4xl:w-1/5 p-2 max-lg2:px-4 box-border ${fourVideosInRow ? "2xl:min-w-1/4 2xl:max-w-1/4" : null}`}
+
+                className={`
+                    flex flex-col w-full aspect-video box-border
+                    ${!isChannel ? "sm:w-1/2 lg2:w-1/3 3xl:w-1/4 4xl:w-1/5 max-lg2:px-4" : "sm:w-1/2 md2:w-1/3 lg2:w-1/4 3xl:w-1/5"}
+                    ${fourVideosInRow ? "2xl:min-w-1/4 2xl:max-w-1/4" : null}
+                     `}
+
                 onClick={(e) => {
                     console.log("Clicked")
                     const videoId = e.currentTarget.dataset.videoId
@@ -22,7 +28,7 @@ function VideoList({ video }) {
                     navigate(`/videos/play?v_id=${videoId}`);
                 }}
             >
-                <div className="relative mb-2 flex-grow w-full -z-10 ">
+                <div className="relative mb-2 flex-grow w-full -z-10">
                     <img
                         className="object-cover aspect-video w-full rounded-lg"
                         // src={`https://picsum.photos/id/${video}/1000/600`}
@@ -34,7 +40,7 @@ function VideoList({ video }) {
                     </div>
                 </div>
                 <div className='py-3 flex gap-x-4'>
-                    <div className='overflow-hidden cursor-pointer'>
+                    {!isChannel && <div className='overflow-hidden cursor-pointer'>
                         <img
                             data-channel-id={video.ownerId}
                             className='w-12 h-11 rounded-full object-cover'
@@ -48,7 +54,7 @@ function VideoList({ video }) {
                             }}
                         />
 
-                    </div>
+                    </div>}
                     <div className='text-left w-full'>
                         <h3
                             className="inline-block text-xl md2:text-lg font-semibold line-clamp-2"

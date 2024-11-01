@@ -1,6 +1,6 @@
 import React from 'react'
 
-function VideoSkeleton() {
+function PlayVideoSkeleton() {
     return (
         <>
             <div className="flex flex-col w-full h-screen md2:flex-row md2:w-11/12 m-auto">
@@ -44,4 +44,4 @@ function VideoSkeleton() {
     )
 }
 
-export default VideoSkeleton;
+export default PlayVideoSkeleton;

@@ -8,7 +8,7 @@ import VideoDescriptionBox from '../components/playVideoPAge/DescriptionBox';
 import ActionButtons from '../components/playVideoPAge/ActionButtons';
 import Comments from '../components/playVideoPAge/Comments';
 import formatViews from '../utils/formatViews';
-import VideoSkeleton from '../components/VideoSkeleton';
+import PlayVideoSkeleton from '../components/PlayVideoSkeleton';
 import { getComments } from '../store/asyncThunks/commentThunk';
 import { displayContext } from '../context/displayContext';
 
@@ -35,7 +35,7 @@ const VideoPlayerPage = () => {
         }
     }, [v_id])
 
-    if (loading) return <VideoSkeleton/>
+    if (loading) return <PlayVideoSkeleton/>
 
     if (error?.message.toLowerCase().includes("this video is private or cannot be played")) {
         navigate("/")
@@ -72,7 +72,7 @@ const VideoPlayerPage = () => {
                 </div>
 
                 {/* Related Videos Sidebar */}
-                <div className="md2:w-2/5 w-full p-4 ">
+                <div className="md2:w-2/5 w-full p-4">
 
                     <div className="space-y-4">
                         {singleVideo.randomVideos.map((video) => (
@@ -86,8 +86,8 @@ const VideoPlayerPage = () => {
                                     console.log("hello world!")
                                 }}
                             >
-                                <div className="w-2/5 aspect-video bg-gray-300 rounded-lg relative">
-                                    <img className='w-full h-full object-cover rounded-lg' src={video.thumbnail} alt="Thumbnail" />
+                                <div className="w-2/5 relative -z-10">
+                                    <img className='aspect-video object-cover rounded-lg' src={video.thumbnail} alt="Thumbnail" />
                                     <div className="absolute bottom-1 right-1 bg-black/70 px-1.5 py-0.5 font-semibold text-xs rounded-sm tracking-wider">
                                         {video.duration}
                                     </div>
@@ -103,6 +103,7 @@ const VideoPlayerPage = () => {
                                 </div>
                             </div>
                         ))}
+                        
 
                     </div>
                 </div>

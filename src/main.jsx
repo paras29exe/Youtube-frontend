@@ -6,16 +6,17 @@ import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } 
 import { ContextProvider } from './context/displayContext'
 import { store } from './store/store.js'
 import { Provider, useSelector } from 'react-redux'
-import { VideoUpload, Signup, HomeVideos, Login, NotFoundPage, VideoPlayerPage, ServerDown, SubscribedVideos } from "./pages"
+import { VideoUpload, Signup, HomeVideos, Login, NotFoundPage, VideoPlayerPage, ServerDown, SubscribedVideos, Channel } from "./pages"
 import ProtectedComponent from './components/ProtectedComponet.jsx'
-
 import { useDispatch } from 'react-redux'
 import { autoLogin } from './store/asyncThunks/authThunk.js'
+import Skeleton from './components/Skeleton.jsx'
+import InitialSkeleton from './components/InitialSkeleton.jsx'
 
 function Main() {
   const dispatch = useDispatch();
   const { userData, error } = useSelector(state => state.auth);
-  const [loading, setLoading] = React.useState(true);
+  const [initialLoading, setInitialLoading] = React.useState(true);
 
   React.useEffect(() => {
       const initiateAutoLogin = async () => {
@@ -24,14 +25,14 @@ function Main() {
           } catch (error) {
               console.error('Error during auto login:', error);
           } finally {
-              setLoading(false); // Stop loading once auto-login completes
+              setInitialLoading(false); // Stop loading once auto-login completes
           }
       };
 
       initiateAutoLogin();
-  }, [dispatch]);
+  }, []);
 
-  if (loading) return
+  if (initialLoading) return <InitialSkeleton />
 
   if (error && error.message === "Cannot read properties of undefined (reading 'status')") {
       return <ServerDown />;
@@ -42,7 +43,7 @@ function Main() {
           <>
               <Route path="/" element={<App />}>
                   <Route path="/" element={<HomeVideos />} />
-
+                  <Route path='/channel' element={<Channel />} />
                   <Route
                       path="/subscriptions"
                       element={

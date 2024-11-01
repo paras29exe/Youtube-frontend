@@ -24,9 +24,9 @@ function Videos({}) {
     if(videos && !videos.hasPrevPage && videos.totalDocs === 0) return <p className='text-3xl w-fit m-auto'>No Videos available</p>
 
     return (
-        <div className='w-full overflow-y-auto overflow-x-hidden px-2 flex flex-wrap content-start'>
+        <div className='w-full h-max overflow-y-auto overflow-x-hidden px-2 flex flex-wrap gap-2 content-start'>
             {
-               videos?.docs.map((video) => <VideoList key={video._id} video={video} loading={loading} /> )
+               videos?.docs?.map((video) => <VideoList key={video._id} video={video} loading={loading} /> )
             }
         </div >
     )

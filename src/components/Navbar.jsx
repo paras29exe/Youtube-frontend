@@ -35,7 +35,7 @@ function Navbar() {
 
     return (
         <>
-            <nav className={`bg-black/85 backdrop-blur-md navbar z-10 top-0 px-2 py-1.5 text-center flex items-center justify-between `}>
+            <nav className={`bg-black/85 backdrop-blur-md navbar top-0 px-2 py-1.5 text-center flex items-center justify-between z-20`}>
                 <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-3 max-md2:pl-0 ${sidebarSize === "small" ? "pl-4" : ""} `}>
                     <div onClick={toggleSidebar}
                         className='hover:bg-gray-400/20 p-1.5 rounded-full'>
@@ -68,7 +68,7 @@ function Navbar() {
                             </svg>
                         </div>
                         {dropdownVisible && (
-                            <div ref={dropdownRef} className='absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg z-20'>
+                            <div ref={dropdownRef} className='absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg '>
                                 <NavLink
                                     onClick={() => setDropdownVisible(prev => !prev)}
                                     to="/user/upload-video" className='block px-4 py-2 font-semibold rounded-t-md text-white hover:bg-gray-200 hover:text-black'>
@@ -102,7 +102,7 @@ function Navbar() {
                                 }
                             </div>
                             {accountDropdown && (
-                                <div ref={dropdownRef} className='absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg z-20'>
+                                <div ref={dropdownRef} className='absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg'>
                                     {userData ? (
                                         <>
                                             <NavLink
@@ -116,7 +116,7 @@ function Navbar() {
                                                 Logout
                                             </div>
                                             {confirmLogout && (
-                                                <div className="z-20 absolute w-64 right-52 -top-5  mt-4 p-4 border border-gray-300 bg-gray-100 rounded shadow">
+                                                <div className="absolute w-64 right-52 -top-5  mt-4 p-4 border border-gray-300 bg-gray-100 rounded shadow">
                                                     <p className="mb-4 text-black font-sans font-semibold">Are you sure you want to logout?</p>
                                                     <button
                                                         className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 mr-2"
