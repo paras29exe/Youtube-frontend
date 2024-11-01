@@ -14,7 +14,7 @@ function NavBtn(props) {
             }
         >
             {props.icon}
-            <span className={`max-lg2:text-center max-lg2:text-xs text-sm ${props.nameClasses}`}>{props.name}</span>
+            <span className={`md:text-center md:text-xs lg2:text-sm  ${props.nameClasses}`}>{props.name}</span>
         </NavLink>
     );
 }

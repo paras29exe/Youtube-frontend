@@ -1,7 +1,7 @@
 import React, {  useEffect, } from 'react';
 import { useDispatch,useSelector } from 'react-redux';
 import { getSubscribedVideos } from '../store/asyncThunks/subscriptionThunk';
-import VideoList from '../components/Videolist';
+import VideoCard from '../components/VideoCard';
 import Skeleton from '../components/Skeleton';
 
 function SubscribedVideos() {
@@ -23,7 +23,7 @@ function SubscribedVideos() {
     return (
         <div className='w-full overflow-y-auto overflow-x-hidden px-2 flex flex-wrap gap-2 content-start'>
             {
-                subscribedVideos?.docs.map((video) => <VideoList key={video._id} video={video} /> )
+                subscribedVideos?.docs.map((video) => <VideoCard key={video._id} video={video} /> )
             }
         </div >
     )

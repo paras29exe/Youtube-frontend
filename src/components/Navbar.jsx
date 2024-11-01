@@ -36,7 +36,7 @@ function Navbar() {
     return (
         <>
             <nav className={`bg-black/85 backdrop-blur-md navbar top-0 px-2 py-1.5 text-center flex items-center justify-between z-20`}>
-                <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-3 max-md2:pl-0 ${sidebarSize === "small" ? "pl-4" : ""} `}>
+                <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-5 max-md2:pl-1 ${sidebarSize === "small" ? "pl-5" : ""} `}>
                     <div onClick={toggleSidebar}
                         className='hover:bg-gray-400/20 p-1.5 rounded-full'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bg-transparent bi bi-list" viewBox="0 0 16 16">
