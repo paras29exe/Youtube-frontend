@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FaPlus, FaTimes } from 'react-icons/fa';
 import Cookies from 'js-cookie';
-import InputField from './InputField';
+import InputField from '../components/InputField';
 import { useDispatch, useSelector } from 'react-redux'
 import { signup } from '../store/asyncThunks/authThunk';
 import Lottie from 'lottie-react';
@@ -21,24 +21,23 @@ function Signup() {
     const { loading, error } = useSelector((state) => state.auth)
 
     const submit = async (data) => {
-        setShowAnimation(true)
-        const res = await dispatch(signup(data));
-        setTimeout(() => {
-            setShowAnimation(false)
-            error && !loading && setError(error.name, {
-                type: 'manual',
-                message: error.message
-            }) 
-        }, 2500);
+        try {
+            setShowAnimation(true)
+            setTimeout(() => {
+                setShowAnimation(false)
+            }, 2500);
 
-        if (res.error) {
-            throw res.error
-        } else {
+            const res = await dispatch(signup(data));
+
             Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
             Cookies.set("refreshToken", res.payload.data.refreshToken, { expires: 7 }); // Cookie expires in 7 days
             navigate(-1)
+        } catch (error) {
+            setError(error.name, {
+                type: 'manual',
+                message: error.message
+            })
         }
-
     };
 
     const handleAvatarChange = (e) => {

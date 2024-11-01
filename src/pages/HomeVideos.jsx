@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVideos } from '../store/asyncThunks/videosThunk';
-import VideoList from './Videolist';
-import Skeleton from './Skeleton';
+import VideoList from '../components/Videolist';
+import Skeleton from '../components/Skeleton';
 
 
 function Videos({}) {

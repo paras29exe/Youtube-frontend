@@ -22,6 +22,7 @@ function Navbar() {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
             setDropdownVisible(false);
             setAccountDropdown(false);
+            setConfirmLogout(false);
         }
     };
 
@@ -115,7 +116,7 @@ function Navbar() {
                                                 Logout
                                             </div>
                                             {confirmLogout && (
-                                                <div className="z-10 absolute w-64 right-52 -top-5  mt-4 p-4 border border-gray-300 bg-gray-100 rounded shadow">
+                                                <div className="z-20 absolute w-64 right-52 -top-5  mt-4 p-4 border border-gray-300 bg-gray-100 rounded shadow">
                                                     <p className="mb-4 text-black font-sans font-semibold">Are you sure you want to logout?</p>
                                                     <button
                                                         className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 mr-2"

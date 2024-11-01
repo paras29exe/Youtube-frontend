@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import InputField from './InputField';
+import InputField from '../components/InputField';
 import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { FaTimes, FaEye, FaEyeSlash } from 'react-icons/fa'; // Import Eye icons
@@ -19,25 +19,24 @@ function Login() {
     const navigate = useNavigate();
 
     const submit = async (data) => {
-        setShowAnimation(true)
-        setTimeout(() => {
-            setShowAnimation(false)
-            error && !loading && setError(error.name, {
-                type: 'manual',
-                message: error.message
-            }) 
-        }, 2500);
+        try {
+            setShowAnimation(true)
+            setTimeout(() => {
+                setShowAnimation(false)
+            }, 2500);
 
-        const res = await dispatch(login(data));
+            const res = await dispatch(login(data)).unwrap();
 
-        if (res.error) {
-            throw res.error
-        } else {
-            navigate(-1)
             Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
             Cookies.set("refreshToken", res.payload.data.refreshToken, { expires: 7 }); // Cookie expires in 7 days
-        }
+            navigate(-1)
 
+        } catch (error) {
+            setError(error.name, {
+                type: 'manual',
+                message: error.message
+            })
+        }
     };
 
     return (

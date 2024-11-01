@@ -2,15 +2,15 @@ import React, { useContext, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { playVideo } from '../../store/asyncThunks/videosThunk';
-import timeAgo from '../../utils/timeAgo';
-import VideoDescriptionBox from './DescriptionBox';
-import ActionButtons from './ActionButtons';
-import Comments from './Comments';
-import formatViews from '../../utils/formatViews';
-import VideoSkeleton from '../VideoSkeleton';
-import { getComments } from '../../store/asyncThunks/commentThunk';
-import { displayContext } from '../../context/displayContext';
+import { playVideo } from '../store/asyncThunks/videosThunk';
+import timeAgo from '../utils/timeAgo';
+import VideoDescriptionBox from '../components/playVideoPAge/DescriptionBox';
+import ActionButtons from '../components/playVideoPAge/ActionButtons';
+import Comments from '../components/playVideoPAge/Comments';
+import formatViews from '../utils/formatViews';
+import VideoSkeleton from '../components/VideoSkeleton';
+import { getComments } from '../store/asyncThunks/commentThunk';
+import { displayContext } from '../context/displayContext';
 
 const VideoPlayerPage = () => {
     const [searchParams] = useSearchParams();

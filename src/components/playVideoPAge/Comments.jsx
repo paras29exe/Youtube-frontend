@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux'
 import { displayContext } from '../../context/displayContext';
 import { toggleCommentLike } from '../../store/asyncThunks/likeSubscribeThunk';
+import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
 
 function Comments() {
     const { comments } = useSelector(state => state.comments)
@@ -165,7 +166,9 @@ function Comments() {
                                             }
                                         }
                                         }
-                                        className={`material-icons transition-all duration-300 ${(isLiked[index] && userData) ? "text-blue-600" : ""}`}>thumb_up</button>
+                                        className={`transition-all duration-300`}>
+                                            <FaThumbsUp className={`text-lg transition-all duration-300 ${(isLiked[index] && userData) ? "fill-blue-600" : ""}`}/>
+                                        </button>
 
                                     <span className="ml-1">{likesCount[index]}</span>
 
@@ -177,7 +180,9 @@ function Comments() {
                                                 togglePopup()
                                             }
                                         }}
-                                        className={`material-icons transition-all duration-200 ml-4 ${(isDisliked[index] && userData) ? "text-blue-600" : ""}`}>thumb_down</button>
+                                        className={` transition-all duration-200 ml-4 ${(isDisliked[index] && userData) ? "text-blue-600" : ""}`}>
+                                            <FaThumbsDown className={`text-lg transition-all duration-200 -scale-x-100 ${(isDisliked[index] && userData) ? "fill-blue-600" : ""}`}/>
+                                        </button>
                                 </div>
                             </div>
                         </div>

@@ -22,9 +22,9 @@ function VideoList({ video }) {
                     navigate(`/videos/play?v_id=${videoId}`);
                 }}
             >
-                <div className="relative overflow-hidden rounded-lg mb-2 flex-grow w-full aspect-video ">
+                <div className="relative mb-2 flex-grow w-full -z-10 ">
                     <img
-                        className="object-cover w-full h-full"
+                        className="object-cover aspect-video w-full rounded-lg"
                         // src={`https://picsum.photos/id/${video}/1000/600`}
                         src={video.thumbnail}
                         alt="Video thumbnail"

@@ -6,7 +6,8 @@ import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } 
 import { ContextProvider } from './context/displayContext'
 import { store } from './store/store.js'
 import { Provider, useSelector } from 'react-redux'
-import { VideoUpload, Signup, HomeVideos, Login, NotFoundPage, VideoPlayerPage, ServerDown, ProtectedComponent, SubscribedVideos } from "./components"
+import { VideoUpload, Signup, HomeVideos, Login, NotFoundPage, VideoPlayerPage, ServerDown, SubscribedVideos } from "./pages"
+import ProtectedComponent from './components/ProtectedComponet.jsx'
 
 import { useDispatch } from 'react-redux'
 import { autoLogin } from './store/asyncThunks/authThunk.js'

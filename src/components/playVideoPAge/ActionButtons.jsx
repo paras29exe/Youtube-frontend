@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toggleSubscribe, toggleVideoLike } from '../../store/asyncThunks/likeSubscribeThunk'
 import Popup from '../../utils/Popup'
 import { displayContext } from '../../context/displayContext'
+import { FaThumbsUp, FaThumbsDown, FaShare, FaBell, FaDownload } from 'react-icons/fa'
 
 function ActionButtons({ currentVideo }) {
     const [likesCount, setLikesCount] = React.useState(currentVideo.likesCount)
@@ -49,14 +50,14 @@ function ActionButtons({ currentVideo }) {
                     }}
                     className={`px-3 py-1.5 text-sm rounded-full flex items-center transition-all duration-300 ${isSubscribed && userData ? "bg-gray-600/35" : "bg-white text-black"}`}
                 >
-                    <span className="material-icons text-inherit">notifications</span>
+                    <FaBell className={` ${isSubscribed && userData ? "fill-white" : "fill-black "}`} />
                     <span className="ml-1 font-sans font-bold text-inherit">{isSubscribed && userData ? "Subscribed" : "Subscribe"}</span>
                 </button>
 
             </div>
             <div className="flex items-center justify-end space-x-3 w-1/2">
 
-                <div className="bg-gray-600/40 text-white px-3 py-2 text-sm rounded-full flex items-center gap-x-1">
+                <div className="bg-gray-700/30 text-white py-1.5 px-2 text-sm rounded-full flex items-center gap-x-1">
                     <button
                         onClick={(e) => {
                             if (userData) {
@@ -77,8 +78,11 @@ function ActionButtons({ currentVideo }) {
                                 togglePopup()
                             }
                         }}
-                        className={`material-icons transition-all duration-300 ${isLiked && userData ? "text-blue-600" : ""}`}
-                    >thumb_up</button>
+                        className={`text-lg transition-all duration-300 `}
+                    >
+                    <FaThumbsUp className={`text-lg transition-all duration-300 ${isLiked && userData ? "fill-blue-600" : ""}`} />
+
+                    </button>
 
                     <span>{likesCount}</span>
 
@@ -93,16 +97,19 @@ function ActionButtons({ currentVideo }) {
                                 togglePopup()
                             }
                         }}
-                        className={`material-icons pl-2 ml-2 border-l transition-all duration-300 ${isDisliked ? "text-blue-600" : ""}`}>thumb_down</button>
+                        className={` text-lg pl-2 ml-2 border-l transition-all duration-300 `}>
+
+                            <FaThumbsDown className={`text-lg transition-all duration-300 -scale-x-100 ${isDisliked ? "fill-blue-600" : ""}`} />
+                        </button>
                 </div>
 
-                <button onClick={shareVideo} className="bg-gray-600/40 text-white text-sm p-1 rounded-full flex items-center justify-center">
-                    <span className="material-icons">share</span>
+                <button onClick={shareVideo} className="bg-gray-700/30 text-white p-2 rounded-full flex items-center justify-center">
+                    <FaShare className='text-lg'/>
                     {/* <span className="ml-1">Share</span> */}
                 </button>
 
-                <button className="bg-gray-600/40 text-white text-sm p-1 rounded-full flex items-center justify-center">
-                    <span className="material-icons">download</span>
+                <button className="bg-gray-700/30 text-white text-sm p-2 rounded-full flex items-center justify-center">
+                    <FaDownload className='text-lg'/>
                     {/* <span className="ml-1">Download</span> */}
                 </button>
 

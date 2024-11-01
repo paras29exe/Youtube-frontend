@@ -1,8 +1,8 @@
 import React, {  useEffect, } from 'react';
 import { useDispatch,useSelector } from 'react-redux';
 import { getSubscribedVideos } from '../store/asyncThunks/subscriptionThunk';
-import VideoList from './Videolist';
-import Skeleton from './Skeleton';
+import VideoList from '../components/Videolist';
+import Skeleton from '../components/Skeleton';
 
 function SubscribedVideos() {
     const dispatch = useDispatch()
