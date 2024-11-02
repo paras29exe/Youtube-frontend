@@ -1,17 +1,33 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import VideoCard from '../VideoCard'
+import { getChannelVideos } from '../../store/asyncThunks/channelThunk'
+import { useLocation } from 'react-router-dom'
+import Skeleton from '../Skeleton'
 
 
 function ChannelVideos() {
-    const videos = [11, 52, 3, 24, 50, 60, 77, 88, 100, 100 + 1, 100 + 2, 100 + 3, 100 + 4, 100 + 5 + 1, 100 + 6 + 1];
+    const dispatch = useDispatch()
+    const path = window.location.pathname; 
+    const match = path.match(/\/channel\/@([^/]+)/);
 
-    // const { videos } = useSelector((state) => state.videos)
+    const username = match ? match[1] : null
 
-    return (
+    const { channelVideos, videosLoading } = useSelector(state =>  state.channel)
+
+    useEffect(() => {
+      async function loadChannelVideos() {
+        const res = await dispatch(getChannelVideos(username))
+      }
+      loadChannelVideos()
+    }, [])
+    
+    if(videosLoading) return <div className='text-2xl'>Loading.........</div>
+
+    if(channelVideos) return (
         <div className='w-full h-max overflow-y-auto overflow-x-hidden flex flex-wrap content-start '>
             {
-                videos?.map((video) => <VideoCard key={video._id} video={video} channelVideos padding={1} />)
+                channelVideos?.map((video) => <VideoCard key={video._id} video={video} channelVideos padding={1} />)
             }
         </div>
     )

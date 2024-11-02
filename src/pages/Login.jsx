@@ -24,12 +24,13 @@ function Login() {
             setTimeout(() => {
                 setShowAnimation(false)
             }, 2500);
-
+            
             const res = await dispatch(login(data)).unwrap();
-
+            
+            navigate(-1)
             Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
             Cookies.set("refreshToken", res.payload.data.refreshToken, { expires: 7 }); // Cookie expires in 7 days
-            navigate(-1)
+            
 
         } catch (error) {
             setError(error.name, {

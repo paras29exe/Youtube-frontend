@@ -4,6 +4,7 @@ import { toggleSubscribe, toggleVideoLike } from '../../store/asyncThunks/likeSu
 import Popup from '../../utils/Popup'
 import { displayContext } from '../../context/displayContext'
 import { FaThumbsUp, FaThumbsDown, FaShare, FaBell, FaDownload } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 
 function ActionButtons({ currentVideo }) {
     const [likesCount, setLikesCount] = React.useState(currentVideo.likesCount)
@@ -14,6 +15,7 @@ function ActionButtons({ currentVideo }) {
 
     const { showPopup, togglePopup } = useContext(displayContext)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { userData } = useSelector(state => state.auth)
 
     const shareVideo = () => {
@@ -27,9 +29,13 @@ function ActionButtons({ currentVideo }) {
 
                 <div className='flex items-center gap-x-2'>
                     <img
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            navigate(`/channel/${"@" + currentVideo.channelDetails.username}`, { state : {channelId : currentVideo.channelDetails._id} })
+                        }}
                         src={currentVideo.channelDetails.avatar}
                         alt="Channel Avatar"
-                        className="rounded-full w-10 h-10 object-cover"
+                        className="rounded-full w-10 aspect-square object-cover"
                     />
                     <div className="">
                         <span className="font-bold mr-1 text-md line-clamp-1">{currentVideo.channelDetails.channelName}</span>
@@ -80,7 +86,7 @@ function ActionButtons({ currentVideo }) {
                         }}
                         className={`text-lg transition-all duration-300 `}
                     >
-                    <FaThumbsUp className={`text-lg transition-all duration-300 ${isLiked && userData ? "fill-blue-600" : ""}`} />
+                        <FaThumbsUp className={`text-lg transition-all duration-300 ${isLiked && userData ? "fill-blue-600" : ""}`} />
 
                     </button>
 
@@ -99,17 +105,17 @@ function ActionButtons({ currentVideo }) {
                         }}
                         className={` text-lg pl-2 ml-2 border-l transition-all duration-300 `}>
 
-                            <FaThumbsDown className={`text-lg transition-all duration-300 -scale-x-100 ${isDisliked ? "fill-blue-600" : ""}`} />
-                        </button>
+                        <FaThumbsDown className={`text-lg transition-all duration-300 -scale-x-100 ${isDisliked ? "fill-blue-600" : ""}`} />
+                    </button>
                 </div>
 
                 <button onClick={shareVideo} className="bg-gray-700/30 text-white p-2 rounded-full flex items-center justify-center">
-                    <FaShare className='text-lg'/>
+                    <FaShare className='text-lg' />
                     {/* <span className="ml-1">Share</span> */}
                 </button>
 
                 <button className="bg-gray-700/30 text-white text-sm p-2 rounded-full flex items-center justify-center">
-                    <FaDownload className='text-lg'/>
+                    <FaDownload className='text-lg' />
                     {/* <span className="ml-1">Download</span> */}
                 </button>
 

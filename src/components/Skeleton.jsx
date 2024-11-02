@@ -15,10 +15,10 @@ function Skeleton() {
                             lg2:basis-[calc(33.33%-0.5rem)] 3xl:basis-[calc(25%-0.5rem)] 
                             4xl:basis-[calc(20%-0.5rem)]`}>
                             <div className="absolute bottom-1 border-slate-500 h-12 w-full border-t p-2">
-                                <div className="absolute bottom-1 w-8 h-8 animate-pulse bg-gray-500 rounded-full space-y-2"></div>
+                                <div className="absolute bottom-1 w-8 h-8 animate-pulse bg-gray-500/50 rounded-full space-y-2"></div>
                                 <div>
-                                    <div className="w-3/4 h-3 ml-10 bg-gray-500 rounded-sm mt-1"></div>
-                                    <div className="w-3/4 h-3 ml-10 bg-gray-500 rounded-sm mt-1"></div>
+                                    <div className="w-3/4 h-3 ml-10 bg-gray-500/50 rounded-sm mt-1"></div>
+                                    <div className="w-3/4 h-3 ml-10 bg-gray-500/50 rounded-sm mt-1"></div>
                                 </div>
                             </div>
                         </div>

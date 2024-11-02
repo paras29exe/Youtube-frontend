@@ -23,7 +23,7 @@ function SubscribedVideos() {
     return (
         <div className='w-full overflow-y-auto overflow-x-hidden px-2 flex flex-wrap gap-2 content-start'>
             {
-                subscribedVideos?.docs.map((video) => <VideoCard key={video._id} video={video} /> )
+                subscribedVideos?.docs?.map((video) => <VideoCard key={video._id} video={video} /> )
             }
         </div >
     )

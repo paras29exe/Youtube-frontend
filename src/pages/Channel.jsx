@@ -1,25 +1,94 @@
-import React from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import React, { useEffect, useContext } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { getChannel } from '../store/asyncThunks/channelThunk'
+import { displayContext } from '../context/displayContext'
+import { toggleSubscribe } from '../store/asyncThunks/likeSubscribeThunk'
+import { FaBell } from 'react-icons/fa'
+import Popup from '../utils/Popup'
+import defaultCover from '../assets/CoverImage.png'
 
 function Channel() {
-    
+    const path = window.location.pathname; 
+    const match = path.match(/\/channel\/@([^/]+)/);
 
-    return (
+    const username = match ? match[1] : null;
+    const dispatch = useDispatch()
+
+    const { userData } = useSelector(state => state.auth)
+    const { channel, loading } = useSelector((state) => state.channel)
+    const user = channel?.channelDetails
+
+    const [subscriberCount, setSubscriberCount] = React.useState(user?.subscribers)
+    const [isSubscribed, setIsSubscribed] = React.useState(user?.subscribedByViewer)
+    const { showPopup, togglePopup } = useContext(displayContext)
+
+    useEffect(() => {
+        async function fetchChannel() {
+            const res = await dispatch(getChannel(username))
+            console.log("hello world")
+        }
+        fetchChannel()
+    }, [])
+
+    useEffect(() => {
+        if (user) {
+            setSubscriberCount(user.subscribers);
+            setIsSubscribed(user.subscribedByViewer)
+        }
+    }, [user]);
+
+    if (loading) return 
+
+    if (user) return (
         <div className='h-screen w-screen overflow-y-auto box-border 2xl:px-28 xl:px-16 lg:px-5'>
             <div className="upper h-3/5 w-full bg-hite flex inset-0 flex-col gap-y-8 mb-1">
                 {/* cover  image */}
                 <div className='coverimage w-full h-2/5'>
-                    <img className='w-full h-full object-cover rounded-xl' src="https://yt3.googleusercontent.com/HyCEgMohPl_662tAM1JCmaTFIK7NmqEtDAG1kfoOTcDRlopscSz6XNP6AzD-OG7Qv1MFeqGa4Zw=w1707-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj" alt="" />
+                    <img className='w-full h-full object-cover rounded-xl' src={user.coverImage || defaultCover} alt="Cover Image" />
                 </div>
                 {/* profile info */}
                 <div className="profile w-full h-2/5">
                     <div className='h-full flex gap-x-4'>
-                        <img className='h-full aspect-square rounded-full object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgPbd2MBbw3o5_yzYC_pPjoVNKUx7WCrMN3g&s" alt="" />
-                        <div>
-                            <h2 className='text-4xl font-extrabold' >Channel Name</h2>
-                            <p className='text-gray-500'> 1,000,000</p>
+                        <img className='h-full aspect-square rounded-full object-cover' src={user.avatar} alt="Profile" />
+                        <div className='pt-2'>
+                            <h2 className='text-4xl font-extrabold' >{user.channelName}</h2>
+                            <div className='flex gap-x-1'>
+                                <p className='text-gray-500'>@{user.username}</p>
+                                <p className='text-gray-500'>•</p>
+                                <p className='text-gray-500'> {subscriberCount} subscribers </p>
+                                <p className='text-gray-500'>•</p>
+                                <p className="text-gray-500"> {user.totalVideos} videos</p>
+                            </div>
+                            <div className='mt-5'>
+                                <button
+                                    onClick={() => {
+                                        if (userData) {
+                                            dispatch(toggleSubscribe(user._id))
+                                            setIsSubscribed(prev => !prev)
+                                            setSubscriberCount(isSubscribed ? subscriberCount - 1 : subscriberCount + 1)
+                                        } else {
+                                            togglePopup()
+                                        }
+
+                                    }}
+                                    className={`px-3 py-1.5 text-sm rounded-full flex items-center transition-all duration-300 ${isSubscribed && userData ? "bg-gray-600/35" : "bg-white text-black"}`}
+                                >
+                                    <FaBell className={` ${isSubscribed && userData ? "fill-white" : "fill-black "}`} />
+                                    <span className="ml-1 font-sans font-bold text-inherit">{isSubscribed && userData ? "Subscribed" : "Subscribe"}</span>
+                                </button>
+
+                            </div>
+                            {
+                                showPopup &&
+                                <Popup
+                                    onClose={() => togglePopup()}
+                                    onConfirm={() => togglePopup()}
+                                />
+                            }
                         </div>
                     </div>
+
                 </div>
                 {/* navigation */}
                 <div className='navigation h-1/5 flex items-end gap-x-8'>

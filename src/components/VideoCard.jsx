@@ -31,8 +31,8 @@ function VideoCard({ video, channelHome = false, channelVideos = false }) {
                 <div className="relative mb-2 -z-10 aspect-video w-full">
                     <img
                         className="object-cover aspect-video w-full rounded-lg"
-                        src={`https://picsum.photos/id/${video}/1000/600`}
-                        // src={video.thumbnail}
+                        // src={`https://picsum.photos/id/${video}/1000/600`}
+                        src={video.thumbnail}
                         alt="Video thumbnail"
                     />
                     <div className="absolute bottom-1 right-3 bg-black/70 px-1.5 py-0.5 font-semibold text-xs rounded-sm tracking-widest">
@@ -44,9 +44,9 @@ function VideoCard({ video, channelHome = false, channelVideos = false }) {
                         !channelHome && !channelVideos && <div className='overflow-hidden cursor-pointer'>
                             <img
                                 data-channel-id={video.ownerId}
-                                className='w-12 h-11 rounded-full object-cover'
-                                src={`https://picsum.photos/id/${video}/1000/600`}
-                                // src={video.ownerAvatar}
+                                className='w-12 aspect-square rounded-full object-cover'
+                                // src={`https://picsum.photos/id/${video}/1000/600`}
+                                src={video.ownerAvatar}
                                 alt="Channel Avatar"
                                 onClick={(e) => {
                                     e.stopPropagation()
