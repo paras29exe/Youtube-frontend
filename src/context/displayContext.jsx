@@ -1,19 +1,24 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 
 export const displayContext = createContext({
     sidebarSize: "",
     showPopup: false,
+    notFound: false,
     togglePopup: () => { },
     toggleSidebar: () => { },
 }
 )
 
 export const ContextProvider = ({ children }) => {
+    const userData = useSelector(state => state.auth)
     const [changeSidebar, setChangeSidebar] = useState(true)
     const [fourVideosInRow, setFourVideosInRow] = useState(false); // Add state for 4 videos in a row
     const [sidebarSize, setSidebarSize] = useState("")
-
     const [showPopup, setShowPopup] = useState(false)
+    const [notFound, setNotFound] = useState(false)
+
+    const prevUserData = useRef(userData)
 
     const togglePopup = () => {
         setShowPopup(prev => !prev)
@@ -56,7 +61,7 @@ export const ContextProvider = ({ children }) => {
     }
 
     return (
-        <displayContext.Provider value={{ toggleSidebar, changeSidebar, sidebarSize, setSidebarSize, showPopup, togglePopup, fourVideosInRow }}>
+        <displayContext.Provider value={{ toggleSidebar, changeSidebar, sidebarSize, setSidebarSize, showPopup, togglePopup, fourVideosInRow, notFound, setNotFound, prevUserData }}>
             {children}
         </displayContext.Provider>
     )

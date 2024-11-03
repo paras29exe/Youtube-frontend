@@ -2,12 +2,14 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import VideoCard from '../VideoCard'
 import { getChannelVideos } from '../../store/asyncThunks/channelThunk'
-import { useLocation } from 'react-router-dom'
 import Skeleton from '../Skeleton'
+import Cookies from 'js-cookie'
+
 
 
 function ChannelVideos() {
     const dispatch = useDispatch()
+
     const path = window.location.pathname; 
     const match = path.match(/\/channel\/@([^/]+)/);
 
@@ -16,11 +18,12 @@ function ChannelVideos() {
     const { channelVideos, videosLoading } = useSelector(state =>  state.channel)
 
     useEffect(() => {
+
       async function loadChannelVideos() {
         const res = await dispatch(getChannelVideos(username))
       }
-      loadChannelVideos()
-    }, [])
+      !channelVideos && loadChannelVideos()
+    }, [username])
     
     if(videosLoading) return <div className='text-2xl'>Loading.........</div>
 

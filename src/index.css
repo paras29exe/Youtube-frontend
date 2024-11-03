@@ -11,6 +11,9 @@
 body{
     background-color: rgb(9, 9, 9);
 }
+img, button{
+    user-select: none;
+}
 
 label.floating{
     top: -65%;

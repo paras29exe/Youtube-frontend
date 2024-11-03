@@ -35,7 +35,7 @@ function VideoCard({ video, channelHome = false, channelVideos = false }) {
                         src={video.thumbnail}
                         alt="Video thumbnail"
                     />
-                    <div className="absolute bottom-1 right-3 bg-black/70 px-1.5 py-0.5 font-semibold text-xs rounded-sm tracking-widest">
+                    <div className="absolute select-none bottom-1 right-3 bg-black/70 px-1.5 py-0.5 font-semibold text-xs rounded-sm tracking-widest">
                         {video.duration || "10:10"}
                     </div>
                 </div>
@@ -63,9 +63,10 @@ function VideoCard({ video, channelHome = false, channelVideos = false }) {
                         > {String(video.title).trim()}
                         </h3>
                         {
-                            !channelHome && !channelVideos && <p
+                            !channelHome && !channelVideos &&
+                            <p
                                 data-channel-id={video.ownerId}
-                                className="text-xs text-gray-400 w-fit cursor-pointer -mb-1"
+                                className="text-xs text-gray-400 w-fit cursor-pointer -mb-1 hover:text-white"
                                 onClick={(e) => {
                                     e.stopPropagation()
                                     navigate(`/channel/${"@" + video.ownerUsername}`)

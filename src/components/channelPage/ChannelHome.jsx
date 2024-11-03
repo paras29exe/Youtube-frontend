@@ -18,6 +18,7 @@ function ChannelHome() {
                     }
                 </div>
             </div>
+            <div className=' w-screen h-0.5 bg-gray-500/40'></div>
             <div>
                 <p className='text-3xl font-bold mb-4'>Recent Videos</p>
                 <div className='w-full overflow-x-auto flex flex-wrap '>

@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { FaPlus, FaTimes } from 'react-icons/fa';
-import Cookies from 'js-cookie';
 import InputField from '../components/InputField';
 import { useDispatch, useSelector } from 'react-redux'
 import { signup } from '../store/asyncThunks/authThunk';
@@ -29,8 +28,6 @@ function Signup() {
 
             const res = await dispatch(signup(data));
 
-            Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
-            Cookies.set("refreshToken", res.payload.data.refreshToken, { expires: 7 }); // Cookie expires in 7 days
             navigate(-1)
         } catch (error) {
             setError(error.name, {

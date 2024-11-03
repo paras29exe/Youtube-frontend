@@ -1,35 +1,39 @@
 import React, { useEffect, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { getChannel } from '../store/asyncThunks/channelThunk'
 import { displayContext } from '../context/displayContext'
 import { toggleSubscribe } from '../store/asyncThunks/likeSubscribeThunk'
 import { FaBell } from 'react-icons/fa'
 import Popup from '../utils/Popup'
 import defaultCover from '../assets/CoverImage.png'
+import NotFoundPage from './NotFoundPage'
 
 function Channel() {
-    const path = window.location.pathname; 
+    const path = window.location.pathname;
     const match = path.match(/\/channel\/@([^/]+)/);
 
     const username = match ? match[1] : null;
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const { userData } = useSelector(state => state.auth)
-    const { channel, loading } = useSelector((state) => state.channel)
+    const { channel, loading, error } = useSelector((state) => state.channel)
     const user = channel?.channelDetails
 
     const [subscriberCount, setSubscriberCount] = React.useState(user?.subscribers)
     const [isSubscribed, setIsSubscribed] = React.useState(user?.subscribedByViewer)
-    const { showPopup, togglePopup } = useContext(displayContext)
+    const { showPopup, togglePopup, notFound, setNotFound } = useContext(displayContext)
 
     useEffect(() => {
         async function fetchChannel() {
             const res = await dispatch(getChannel(username))
-            console.log("hello world")
+
+            if (res.error?.message.toLowerCase() === "channel not found") setNotFound(true)
+            else setNotFound(false)
         }
         fetchChannel()
-    }, [])
+    }, [username])
 
     useEffect(() => {
         if (user) {
@@ -40,8 +44,8 @@ function Channel() {
 
     if (loading) return 
 
-    if (user) return (
-        <div className='h-screen w-screen overflow-y-auto box-border 2xl:px-28 xl:px-16 lg:px-5'>
+    if (user && !error) return (
+        <div className='h-screen w-screen overflow-x-hidden overflow-y-auto box-border 2xl:px-28 xl:px-16 lg:px-5'>
             <div className="upper h-3/5 w-full bg-hite flex inset-0 flex-col gap-y-8 mb-1">
                 {/* cover  image */}
                 <div className='coverimage w-full h-2/5'>
@@ -97,7 +101,7 @@ function Channel() {
                     <NavLink to={"playlists"} className={({ isActive }) => ` ${isActive ? "underline underline-offset-8 text-white" : "text-gray-400"} hover:underline-offset-8 hover:underline `}> Playlists </NavLink>
                 </div>
                 {/* dividor */}
-                <div className='-mt-7 relative -left-28 w-screen h-0.5 border border-gray-500/40'></div>
+                <div className='-mt-7 relative -left-28 w-screen h-0.5 flex-none bg-gray-500/40'></div>
             </div>
             {/* videos */}
 

@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import InputField from '../components/InputField';
 import { useForm } from 'react-hook-form';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
-import { FaTimes, FaEye, FaEyeSlash } from 'react-icons/fa'; // Import Eye icons
-import Cookies from 'js-cookie';
+import { FaTimes } from 'react-icons/fa'; // Import Eye icons
 import { login } from '../store/asyncThunks/authThunk';
 import { useDispatch, useSelector } from 'react-redux';
 import scanningAnimation from "../assets/scanning.json"
@@ -28,10 +27,6 @@ function Login() {
             const res = await dispatch(login(data)).unwrap();
             
             navigate(-1)
-            Cookies.set("accessToken", res.payload.data.accessToken, { expires: 7 }); // Cookie expires in 7 days
-            Cookies.set("refreshToken", res.payload.data.refreshToken, { expires: 7 }); // Cookie expires in 7 days
-            
-
         } catch (error) {
             setError(error.name, {
                 type: 'manual',
@@ -97,7 +92,7 @@ function Login() {
                 )}
             </form>
             {(loading || showAnimation) && (
-                <div className="absolute inset-0 flex items-center justify-center backdrop-blur-sm bg-black/30">
+                <div className="absolute z-20 inset-0 flex items-center justify-center backdrop-blur-sm bg-black/30">
                     <Lottie
                         animationData={scanningAnimation}
                         loop
