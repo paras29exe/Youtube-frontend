@@ -3,12 +3,13 @@ import { NavLink, redirect, useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../assets/LoadingSpinner.svg';
 import { displayContext } from '../context/displayContext'
 import { useDispatch, useSelector } from 'react-redux'
-import Cookies from 'js-cookie'
 import { logout } from '../store/asyncThunks/authThunk';
 import youtubeLogo from '../assets/YoutubeLogo.svg'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 function Navbar() {
-    const { sidebarSize, toggleSidebar } = useContext(displayContext)
+    const { sidebarSize, toggleSidebar, uploadStatus, setUploadStatus } = useContext(displayContext)
     const { userData, loading, error } = useSelector((state) => state.auth)
     const dropdownRef = React.useRef()
     const dispatch = useDispatch()
@@ -17,6 +18,18 @@ function Navbar() {
     const [dropdownVisible, setDropdownVisible] = React.useState(false);
     const [accountDropdown, setAccountDropdown] = React.useState(false);
     const [confirmLogout, setConfirmLogout] = React.useState(false)
+
+    const options = {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        
+    }
 
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -27,9 +40,18 @@ function Navbar() {
     };
 
     React.useEffect(() => {
+        if (uploadStatus === "success") {
+            toast.success(<p className=' font-sans font-semibold'>Video has been published</p>, options)
+            setUploadStatus(""); // Reset status
+        } else if (uploadStatus === "failed") {
+            toast.error(<p className=' font-sans font-semibold'>Video uploading failed. Try again</p>, options)
+            setUploadStatus(""); // Reset status
+        } else null
+
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
+            setUploadStatus("")
         };
     }, []);
 
@@ -111,7 +133,7 @@ function Navbar() {
                                                 Your Account
                                             </NavLink>
                                             <div
-                                                onClick={() => { setConfirmLogout(()=> true) }}
+                                                onClick={() => { setConfirmLogout(() => true) }}
                                                 className='select-none block px-4 py-2 rounded-b-md text-white font-semibold bg-gray-800 focus:bg-gray-200 focus:text-black hover:bg-gray-200 hover:text-black'>
                                                 Logout
                                             </div>
@@ -131,7 +153,7 @@ function Navbar() {
                                                     </button>
                                                     <button
                                                         className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700"
-                                                        onClick={() => setConfirmLogout(() => false) }
+                                                        onClick={() => setConfirmLogout(() => false)}
                                                     >
                                                         No
                                                     </button>
@@ -159,6 +181,7 @@ function Navbar() {
 
                 </div>
             </nav >
+            <ToastContainer />
         </>
 
     )

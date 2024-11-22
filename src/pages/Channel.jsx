@@ -1,6 +1,6 @@
 import React, { useEffect, useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
+import { NavLink, Outlet } from 'react-router-dom'
 import { getChannel } from '../store/asyncThunks/channelThunk'
 import { displayContext } from '../context/displayContext'
 import { toggleSubscribe } from '../store/asyncThunks/likeSubscribeThunk'
@@ -15,7 +15,6 @@ function Channel() {
 
     const username = match ? match[1] : null;
     const dispatch = useDispatch()
-    const navigate = useNavigate()
 
     const { userData } = useSelector(state => state.auth)
     const { channel, loading, error } = useSelector((state) => state.channel)

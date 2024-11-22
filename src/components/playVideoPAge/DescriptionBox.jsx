@@ -33,7 +33,7 @@ const VideoDescriptionBox = ({ currentVideo }) => {
          className="text-blue-500"
          onClick={handleToggleDescription}
         >
-          {isExpanded ? '...collapse' : '...more'}
+          {isExpanded ? '...see less' : '...more'}
         </button>
       )}
     </div>

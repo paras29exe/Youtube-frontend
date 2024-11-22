@@ -17,6 +17,7 @@ export const ContextProvider = ({ children }) => {
     const [sidebarSize, setSidebarSize] = useState("")
     const [showPopup, setShowPopup] = useState(false)
     const [notFound, setNotFound] = useState(false)
+    const [uploadStatus, setUploadStatus] = useState("")
 
     const prevUserData = useRef(userData)
 
@@ -61,7 +62,7 @@ export const ContextProvider = ({ children }) => {
     }
 
     return (
-        <displayContext.Provider value={{ toggleSidebar, changeSidebar, sidebarSize, setSidebarSize, showPopup, togglePopup, fourVideosInRow, notFound, setNotFound, prevUserData }}>
+        <displayContext.Provider value={{ toggleSidebar, changeSidebar, sidebarSize, setSidebarSize, showPopup, togglePopup, fourVideosInRow, notFound, setNotFound, prevUserData, uploadStatus, setUploadStatus }}>
             {children}
         </displayContext.Provider>
     )

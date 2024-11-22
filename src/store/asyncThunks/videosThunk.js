@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fulfilled, rejected } from "../../utils/responses";
 import AxiosInstance from "../../utils/AxiosInstance";
+import { setUploadProgress } from "../slices/VideosSlice";
 
 export const uploadVideo = createAsyncThunk(
     "videos/uploadVideo",
@@ -18,6 +19,10 @@ export const uploadVideo = createAsyncThunk(
                 {
                     headers: {
                         'Content-Type': 'multipart/form-data',
+                    },
+                    onUploadProgress: (progressEvent) => {
+                        const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        thunkAPI.dispatch(setUploadProgress(progress));
                     },
                 }
             );
@@ -39,7 +44,7 @@ export const updateVideoDetails = createAsyncThunk(
 
         try {
             const response = await AxiosInstance.patch("videos/update-video-details",
-                 formData,
+                formData,
                 {
                     headers: {
                         'Content-Type': 'multipart/form-data',
@@ -70,7 +75,7 @@ export const playVideo = createAsyncThunk(
     "videos/playVideo",
     async (v_id, thunkAPI) => {
         try {
-            const response = await AxiosInstance.get(`videos/play-video`, { 
+            const response = await AxiosInstance.get(`videos/play-video`, {
                 params: { videoId: v_id }
             });
             return fulfilled(response);

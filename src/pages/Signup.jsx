@@ -22,18 +22,17 @@ function Signup() {
     const submit = async (data) => {
         try {
             setShowAnimation(true)
-            setTimeout(() => {
-                setShowAnimation(false)
-            }, 2500);
 
             const res = await dispatch(signup(data));
-
             navigate(-1)
         } catch (error) {
-            setError(error.name, {
-                type: 'manual',
-                message: error.message
-            })
+            setTimeout(() => {
+                setShowAnimation(false)
+                setError(error.name, {
+                    type: 'manual',
+                    message: error.message
+                })
+            }, 1500);
         }
     };
 
