@@ -8,7 +8,7 @@ import { toggleCommentLike } from '../../store/asyncThunks/likeSubscribeThunk';
 import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa';
 
 function Comments() {
-    const { comments } = useSelector(state => state.comments)
+    const { comments = [] } = useSelector(state => state.comments)
     const { userData } = useSelector(state => state.auth)
 
     const { register, handleSubmit, formState: { errors }, reset, watch } = useForm()

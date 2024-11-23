@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import '../NotFoundPage.css'; // Assuming you're adding the CSS to a separate file
+import { displayContext } from '../context/displayContext';
 
 const NotFoundPage = () => {
+  const {setNotFound} = useContext(displayContext)
   return (
     <section className="page_404 h-screen flex items-center justify-center">
       <div className="container">
@@ -18,6 +20,7 @@ const NotFoundPage = () => {
                 <p className='text-black' >The page you are looking for is not available!</p>
                 <Link
                   to="/"
+                  onClick={() => setNotFound(false)}
                   className="inline-block px-6 py-3 my-4 bg-gradient-to-r from-green-500 to-green-700 text-white text-lg font-bold rounded-full shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl"
                 >
                   Go to Home

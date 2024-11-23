@@ -22,7 +22,7 @@ function Channel() {
 
     const [subscriberCount, setSubscriberCount] = React.useState(user?.subscribers)
     const [isSubscribed, setIsSubscribed] = React.useState(user?.subscribedByViewer)
-    const { showPopup, togglePopup, notFound, setNotFound } = useContext(displayContext)
+    const { showPopup, togglePopup, setNotFound } = useContext(displayContext)
 
     useEffect(() => {
         async function fetchChannel() {
@@ -41,7 +41,7 @@ function Channel() {
         }
     }, [user]);
 
-    if (loading) return 
+    if (loading ) return 
 
     if (user && !error) return (
         <div className='h-screen w-screen overflow-x-hidden overflow-y-auto box-border 2xl:px-28 xl:px-16 lg:px-5'>

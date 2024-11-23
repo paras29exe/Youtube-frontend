@@ -3,7 +3,7 @@ import App from './App.jsx'
 import './index.css'
 import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } from 'react-router-dom'
-import { ContextProvider } from './context/displayContext'
+import { DisplayContextProvider } from './context/displayContext'
 import { store } from './store/store.js'
 import { Provider, useSelector } from 'react-redux'
 import { VideoUpload, Signup, HomeVideos, Login, NotFoundPage, VideoPlayerPage, ServerDown, SubscribedVideos, Channel } from "./pages"
@@ -35,7 +35,7 @@ function Main() {
 
     if (initialLoading) return <InitialSkeleton />
 
-    if (error && error.message === "Cannot read properties of undefined (reading 'status')") {
+    if (error && error.code === "ERR_NETWORK") {
         return <ServerDown />;
     }
 
@@ -79,9 +79,9 @@ function Main() {
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <Provider store={store}>
-            <ContextProvider>
-                <Main />
-            </ContextProvider>
+                <DisplayContextProvider>
+                    <Main />
+                </DisplayContextProvider>
         </Provider>
     </React.StrictMode>
 )

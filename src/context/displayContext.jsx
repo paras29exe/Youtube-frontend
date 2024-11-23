@@ -7,10 +7,9 @@ export const displayContext = createContext({
     notFound: false,
     togglePopup: () => { },
     toggleSidebar: () => { },
-}
-)
+})
 
-export const ContextProvider = ({ children }) => {
+export const DisplayContextProvider = ({ children }) => {
     const userData = useSelector(state => state.auth)
     const [changeSidebar, setChangeSidebar] = useState(true)
     const [fourVideosInRow, setFourVideosInRow] = useState(false); // Add state for 4 videos in a row
@@ -62,7 +61,7 @@ export const ContextProvider = ({ children }) => {
     }
 
     return (
-        <displayContext.Provider value={{ toggleSidebar, changeSidebar, sidebarSize, setSidebarSize, showPopup, togglePopup, fourVideosInRow, notFound, setNotFound, prevUserData, uploadStatus, setUploadStatus }}>
+        <displayContext.Provider value={{  toggleSidebar, changeSidebar, sidebarSize, setSidebarSize, showPopup, togglePopup, fourVideosInRow, notFound, setNotFound, prevUserData, uploadStatus, setUploadStatus }}>
             {children}
         </displayContext.Provider>
     )

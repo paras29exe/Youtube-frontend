@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVideos } from '../store/asyncThunks/videosThunk';
 import VideoCard from '../components/VideoCard';
@@ -11,15 +11,18 @@ function Videos({ }) {
     const { videos, loading, error } = useSelector((state) => state.videos)
 
     const dispatch = useDispatch()
-    const {prevUserData} = useContext(displayContext)
+    const { prevUserData } = useContext(displayContext)
 
-    useCallback(() => {
-        const fetchVideos = async () => {
-            await dispatch(getVideos())
+    useEffect(() => {
+        try {
+            const fetchVideos = async () => {
+                await dispatch(getVideos())
+            }
+            (!videos || prevUserData.current !== userData) && fetchVideos()
+
+        } finally {
+            prevUserData.current = userData;
         }
-        (!videos || prevUserData.current !== userData) && fetchVideos()
-
-        prevUserData.current = userData;
 
     }, [userData]);
 
@@ -28,12 +31,12 @@ function Videos({ }) {
     if (videos && !videos.hasPrevPage && videos.totalDocs === 0) return <p className='text-3xl w-fit m-auto'>No Videos available</p>
 
     return (
-        <div className='w-full h-screen pb-16 overflow-y-auto px-2 flex flex-wrap content-start'>
+        <div className='w-full h-screen pb-16 overflow-y-auto px-10 flex flex-wrap content-start'>
             {
                 videos?.docs?.map((video) => <VideoCard key={video._id} video={video} />)
             }
         </div >
-        
+
     )
 }
 

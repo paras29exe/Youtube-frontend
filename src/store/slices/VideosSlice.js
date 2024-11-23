@@ -5,6 +5,7 @@ const initialState = {
     videos: null,
     singleVideo: null,
     uploadProgress: 0,
+    uploading: false,
     loading: false,
     error: null,
 };
@@ -21,18 +22,18 @@ const videoSlice = createSlice({
         builder
             .addCase(uploadVideo.fulfilled, (state, action) => {
                 // state.videos.docs = [...state.videos.docs, action.payload]
-                state.loading = false;
+                state.uploading = false;
                 state.error = null;
-                state.uploadProgress = 100
+                state.uploadProgress = 100;
             })
             .addCase(uploadVideo.pending, (state, action) => {
-                state.loading = true;
+                state.uploading = true;
                 state.error = null;
             })
             .addCase(uploadVideo.rejected, (state, action) => {
-                state.loading = false;
+                state.uploading = false;
                 state.error = action.error;
-                state.uploadProgress = 0
+                state.uploadProgress = 0;
             })
             .addCase(getVideos.fulfilled, (state, action) => {
                 state.videos = action.payload.data;

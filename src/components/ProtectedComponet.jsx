@@ -1,8 +1,6 @@
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const ProtectedComponent = ({ user, children }) => {
-
     if (!user) {
         return (
             <div className="flex items-center w-full justify-center min-h-screen bg-gray-900/30">

@@ -2,10 +2,10 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 function NavBtn(props) {
-
     return (
         <NavLink
             to={props.to}
+            // onClick={(e) => handleNavigation(e)}
             className={({ isActive }) =>
                 `${isActive ? "bg-gray-400/20" : ""}
             hover:bg-gray-400/20 w-full text-left p-2 font-medium rounded-lg flex items-center gap-3 cursor-pointer 

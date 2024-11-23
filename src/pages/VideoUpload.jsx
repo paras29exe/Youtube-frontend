@@ -5,14 +5,14 @@ import { uploadVideo } from '../store/asyncThunks/videosThunk';
 import { useDispatch, useSelector } from 'react-redux';
 import { displayContext } from '../context/displayContext';
 import Lottie from 'lottie-react';
-import uploading from '../assets/uploading.json'
+import uploadingAnimation from '../assets/uploading.json'
+import { Link } from 'react-router-dom';
 
 const VideoUpload = () => {
     const { register, handleSubmit, watch, formState: { errors }, setValue, setError, clearErrors, reset } = useForm();
     const [thumbnailPreview, setThumbnailPreview] = useState(null)
-    const [isUploading, setIsUploading] = useState(false)
     const { setUploadStatus } = useContext(displayContext)
-    const { uploadProgress, loading } = useSelector(state => state.videos)
+    const { uploadProgress, uploading } = useSelector(state => state.videos)
 
     const thumbnailInputRef = useRef(null)
     const watchedTitle = watch('title', 'Video Title');
@@ -20,9 +20,7 @@ const VideoUpload = () => {
     const dispatch = useDispatch();
 
     const onSubmit = async (data) => {
-        setIsUploading(true)
         const res = await dispatch(uploadVideo(data))
-        setIsUploading(false)
 
         if (res.error) {
             setUploadStatus("failed")
@@ -70,7 +68,7 @@ const VideoUpload = () => {
 
     return (
         <>
-            <div className="w-full max-w-5xl mx-auto overflow-auto flex items-center text-white flex-col lg:flex-row px-8">
+            <div className="w-full mx-auto overflow-auto flex items-center text-white flex-col lg:flex-row px-48">
                 {/* left section or thumbnail preview section */}
                 <div className="relative w-full h-auto md:w-1/2 flex flex-col items-center pt-8">
 
@@ -88,16 +86,17 @@ const VideoUpload = () => {
                                         <div className="absolute bottom-2 right-3 rounded-sm bg-black/75 px-1.5 py-0.5 font-semibold text-xs ">
                                             20:50
                                         </div>
+                                        <button
+                                            onClick={removePreview}
+                                            className="absolute top-0 right-0 mt-2 mr-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 focus:outline-none"
+                                        >
+                                            <FaTimes />
+                                        </button>
                                     </>
                                     :
                                     <p className="text-gray-400 text-center">No preview available</p>
                             }
-                            <button
-                                onClick={removePreview}
-                                className="absolute top-0 right-0 mt-2 mr-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 focus:outline-none"
-                            >
-                                <FaTimes />
-                            </button>
+
 
                         </div>
                         <div className="mt-2">
@@ -116,22 +115,26 @@ const VideoUpload = () => {
                                 <span className="text-sm text-gray-400">0 comments</span>
                             </div>
                         </div>
-
                     </div>
                     {
-                        isUploading && <div className='w-5/6 progress-bar flex gap-2 items-center mt-4 absolute -bottom-16'>
-                            <Lottie
-                                animationData={uploading}
-                                loop
-                                className='h-20 aspect-square align-center -m-2'
-                            />
-                            <div className="w-full bg-gray-200 h-1 rounded-lg">
-                                <div
-                                    className=" bg-green-500 h-full rounded-lg transition-all duration-300 "
-                                    style={{ width: `${uploadProgress}%` }}
-                                ></div>
+                        uploading && <div className='absolute -bottom-16 w-5/6'>
+                            <div className=' progress-bar flex gap-2 items-center'>
+                                <Lottie
+                                    animationData={uploadingAnimation}
+                                    loop
+                                    className='h-20 aspect-square align-center -m-2'
+                                />
+                                <div className="w-full bg-gray-200 h-1 rounded-lg">
+                                    <div
+                                        className=" bg-green-500 h-full rounded-lg transition-all duration-300 "
+                                        style={{ width: `${uploadProgress}%` }}
+                                    ></div>
+                                </div>
+                                <p className="text-md font-medium text-white text-center">{uploadProgress}%</p>
                             </div>
-                            <p className="text-md font-medium text-white text-center">{uploadProgress}%</p>
+                            <p className='text-center text-xs absolute bottom-0 left-1/2 -translate-x-1/2 w-full'>
+                                Uploading is in progress, <Link to="/" className='text-blue-600'>go back to home page</Link>
+                            </p>
                         </div>
                     }
                 </div>
@@ -208,7 +211,7 @@ const VideoUpload = () => {
 
                         <button
                             type="submit"
-                            disabled={isUploading}
+                            disabled={uploading}
                             className="disabled:bg-gray-600 w-full bg-blue-500 text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >Publish Now</button>
 

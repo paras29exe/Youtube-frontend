@@ -53,15 +53,15 @@ function Navbar() {
             document.removeEventListener('mousedown', handleClickOutside);
             setUploadStatus("")
         };
-    }, []);
+    }, [uploadStatus]);
 
     return (
         <>
             <nav className={`bg-black/85 backdrop-blur-md navbar top-0 px-2 py-1.5 text-center flex items-center justify-between z-20`}>
-                <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-5 max-md2:pl-1 ${sidebarSize === "small" ? "pl-5" : ""} `}>
+                <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-5 max-md2:pl-1 ${sidebarSize === "small" ? "pl-3" : ""} `}>
                     <div onClick={toggleSidebar}
                         className='hover:bg-gray-400/20 p-1.5 rounded-full'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bg-transparent bi bi-list" viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bg-transparent bi bi-list" viewBox="0 0 16 16">
                             <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
                         </svg>
                     </div>

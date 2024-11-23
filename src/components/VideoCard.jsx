@@ -22,9 +22,8 @@ function VideoCard({ video, channelHome = false, channelVideos = false }) {
                     `}
 
                 onClick={(e) => {
-                    console.log("Clicked")
+                    e.stopPropagation()
                     const videoId = e.currentTarget.dataset.videoId
-                    // console.log(e.currentTarget.dataset.videoId)
                     navigate(`/videos/play?v_id=${videoId}`);
                 }}
             >
