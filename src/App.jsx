@@ -10,19 +10,21 @@ import Skeleton from "./components/Skeleton";
 function App() {
   const { notFound } = useContext(displayContext);
   const loadingBar = useRef(null);
-  const [showLoadingBar, setShowLoadingBar] = useState(true)
+  // const [showLoadingBar, setShowLoadingBar] = useState(true)
   const location = useLocation();
 
   useEffect(() => {
-    setShowLoadingBar(true)
-    loadingBar.current.continuousStart()
+    // setShowLoadingBar(true);
+    loadingBar.current?.continuousStart();
 
-    setTimeout(() => {
-      loadingBar.current.complete()
-      setShowLoadingBar(false)
-    }, 1000);
+    const timer = setTimeout(() => {
+      loadingBar.current?.complete();
+      // setShowLoadingBar(false);
+    }, 500);
 
-  }, [location.pathname])
+    return () => clearTimeout(timer); // Clean up timer to avoid memory leaks
+  }, [location.pathname]);
+
 
   // If the page not found, show NotFoundPage
   if (notFound) return <NotFoundPage />;
@@ -34,7 +36,8 @@ function App() {
         <Navbar />
         <div className="h-screen overflow-hidden flex pb-20">
           <SideBar />
-          {showLoadingBar ? <Skeleton /> : <Outlet />}
+          <Outlet />
+          {/* {showLoadingBar ? "" : <Outlet />} */}
         </div>
       </div>
     </>

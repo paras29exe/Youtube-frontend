@@ -10,7 +10,17 @@ const initialState = {
 const authSlice = createSlice({
     name: "auth",
     initialState,
-    reducers: {},
+    reducers: {
+        setUserData(state, action) {
+            state.userData.user = {
+                ...state.userData.user,
+                fullName: action.payload.fullName,
+                username: action.payload.username,
+                avatar: action.payload.avatar,
+                coverImage: action.payload.coverImage,
+            };
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(signup.pending, (state) => {
@@ -38,11 +48,10 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.error;
             })
-            // refresh token thunk
+            // auto login thunk
             .addCase(autoLogin.pending, (state, action) => {
                 state.loading = true;
                 state.error = null;
-                state.userData = null; // Reset user data when refresh token is expired or invalid
             })
             .addCase(autoLogin.fulfilled, (state, action) => {
                 state.loading = false;
@@ -54,7 +63,6 @@ const authSlice = createSlice({
                 state.userData = null;
                 state.error = action.error;
             })
-            
             // logout thunk
             .addCase(logout.pending, (state) => {
                 state.loading = true;
@@ -71,4 +79,5 @@ const authSlice = createSlice({
     }
 })
 
+export const { setUserData } = authSlice.actions;
 export default authSlice.reducer;

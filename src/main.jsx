@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider, createRoutesFromElements, Route } 
 import { DisplayContextProvider } from './context/displayContext'
 import { store } from './store/store.js'
 import { Provider, useSelector } from 'react-redux'
-import { VideoUpload, Signup, HomeVideos, Login, NotFoundPage, VideoPlayerPage, ServerDown, SubscribedVideos, Channel } from "./pages"
+import { VideoUpload, Signup, HomeVideos, Login, NotFoundPage, VideoPlayerPage, ServerDown, SubscribedVideos, Channel, EditAccount } from "./pages"
 import ProtectedComponent from './components/ProtectedComponet.jsx'
 import { useDispatch } from 'react-redux'
 import { autoLogin } from './store/asyncThunks/authThunk.js'
@@ -58,6 +58,14 @@ function Main() {
                         }
                     />
                     <Route
+                        path="/users/current-user/dashboard"
+                        element={
+                            <ProtectedComponent user={userData}>
+                                <EditAccount />
+                            </ProtectedComponent>
+                        }
+                    />
+                    <Route
                         path="/user/upload-video"
                         element={
                             <ProtectedComponent user={userData}>
@@ -79,9 +87,9 @@ function Main() {
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
         <Provider store={store}>
-                <DisplayContextProvider>
-                    <Main />
-                </DisplayContextProvider>
+            <DisplayContextProvider>
+                <Main />
+            </DisplayContextProvider>
         </Provider>
     </React.StrictMode>
 )

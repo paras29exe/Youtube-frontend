@@ -121,7 +121,7 @@ function Signup() {
                     <div className='flex gap-x-4 grow'>
                         <InputField
                             type='text'
-                            label='Fullname'
+                            floatingLabel='Fullname'
                             register={register}
                             registerAs="fullName"
                             errors={errors}
@@ -129,7 +129,7 @@ function Signup() {
                         />
                         <InputField
                             type='text'
-                            label='Username'
+                            floatingLabel='Username'
                             register={register}
                             registerAs="username"
                             errors={errors}
@@ -138,7 +138,7 @@ function Signup() {
                     </div>
                     <InputField
                         type='email'
-                        label='Email'
+                        floatingLabel='Email'
                         register={register}
                         registerAs="email"
                         errors={errors}
@@ -146,7 +146,7 @@ function Signup() {
                     />
                     <InputField
                         type={showPassword ? 'text' : 'password'}
-                        label='Password'
+                        floatingLabel='Password'
                         register={register}
                         registerAs="password"
                         setShowPassword={setShowPassword}

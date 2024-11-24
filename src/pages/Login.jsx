@@ -38,7 +38,7 @@ function Login() {
         <div className='min-h-screen w-full flex items-center justify-center '>
             <form
                 onSubmit={handleSubmit(submit)}
-                className='relative bg-gray-900/50 p-10 rounded-xl shadow-xl max-w-md w-full text-white shadow-gray-800'
+                className='relative bg-gray-900/50 p-10 rounded-xl shadow-xl w-2/5 text-white shadow-gray-800'
             >
                 <FaTimes
                     className='absolute top-4 right-4 text-2xl bg-red-600 p-1 rounded-full text-white cursor-pointer hover:bg-red-700 transition'
@@ -48,14 +48,16 @@ function Login() {
 
                 <div className="flex flex-col">
                     <InputField
-                        label='Email or Username'
+                        floatingLabel='Email or Username'
+                        // placeholder='Enter your Email or Username'
                         register={register}
                         registerAs="username"
                         errors={errors}
                         className='form p-3 border border-gray-500 bg-gray-800 rounded-lg w-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
                     />
                     <InputField
-                        label='Password'
+                        floatingLabel='Password'
+                        // placeholder='Enter Password'
                         type={showPassword ? 'text' : 'password'}
                         register={register}
                         registerAs="password"

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import ReactDOM from 'react-dom'
 import { NavLink, redirect, useNavigate } from 'react-router-dom';
 import LoadingSpinner from '../assets/LoadingSpinner.svg';
 import { displayContext } from '../context/displayContext'
@@ -28,7 +29,7 @@ function Navbar() {
         draggable: true,
         progress: undefined,
         theme: "light",
-        
+
     }
 
     const handleClickOutside = (event) => {
@@ -123,59 +124,67 @@ function Navbar() {
                                             </svg>
                                 }
                             </div>
-                            {accountDropdown && (
-                                <div ref={dropdownRef} className='absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg'>
-                                    {userData ? (
-                                        <>
-                                            <NavLink
-                                                onClick={() => setAccountDropdown(prev => !prev)}
-                                                to="/user/account" className='select-none block px-4 py-2 rounded-t-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
-                                                Your Account
-                                            </NavLink>
-                                            <div
-                                                onClick={() => { setConfirmLogout(() => true) }}
-                                                className='select-none block px-4 py-2 rounded-b-md text-white font-semibold bg-gray-800 focus:bg-gray-200 focus:text-black hover:bg-gray-200 hover:text-black'>
-                                                Logout
-                                            </div>
-                                            {confirmLogout && (
-                                                <div className="absolute w-64 right-52 -top-5  mt-4 p-4 border border-gray-300 bg-gray-100 rounded shadow">
-                                                    <p className="mb-4 text-black font-sans font-semibold">Are you sure you want to logout?</p>
-                                                    <button
-                                                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 mr-2"
-                                                        onClick={() => {
-                                                            dispatch(logout())
-                                                            navigate("/")
-                                                            setAccountDropdown(prev => !prev)
-                                                            setConfirmLogout(() => false)
-                                                        }}
-                                                    >
-                                                        Yes
-                                                    </button>
-                                                    <button
-                                                        className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700"
-                                                        onClick={() => setConfirmLogout(() => false)}
-                                                    >
-                                                        No
-                                                    </button>
+                            {accountDropdown &&
+                                ReactDOM.createPortal(
+                                    <div ref={dropdownRef} className='absolute z-[1000] top-12 right-10 mt-2 w-48 bg-gray-800 rounded-md shadow-lg'>
+                                        {userData ? (
+                                            <>
+                                                <NavLink
+                                                    onClick={() => setAccountDropdown(prev => !prev)}
+                                                    to="/user/account"
+                                                    className='select-none block px-4 py-2 rounded-t-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
+                                                    Your Account
+                                                </NavLink>
+                                                <div
+                                                    onClick={() => { setConfirmLogout(() => true) }}
+                                                    className='select-none block px-4 py-2 rounded-b-md text-white font-semibold bg-gray-800 focus:bg-gray-200 focus:text-black hover:bg-gray-200 hover:text-black'>
+                                                    Logout
                                                 </div>
-                                            )}
-                                        </>
-                                    ) : (
-                                        <>
-                                            <NavLink
-                                                onClick={() => setAccountDropdown(prev => !prev)}
-                                                to="/auth/api/v1/login" className='block px-4 py-2 rounded-t-md text-white font-semibold bg-gray-800 hover:bg-gray-200  hover:text-black'>
-                                                Login
-                                            </NavLink>
-                                            <NavLink
-                                                onClick={() => setAccountDropdown(prev => !prev)}
-                                                to="auth/api/v1/signup" className='block px-4 py-2 rounded-b-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
-                                                Create an Account
-                                            </NavLink>
-                                        </>
-                                    )}
-                                </div>
-                            )}
+                                                {confirmLogout && (
+                                                    <div className="absolute text-center z-[1000] w-64 right-52 -top-5 mt-4 p-4 border border-gray-300 bg-gray-100 rounded shadow">
+                                                        <p className="mb-4 text-black font-sans font-semibold">Are you sure you want to logout?</p>
+                                                        <button
+                                                            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 mr-2"
+                                                            onClick={() => {
+                                                                dispatch(logout())
+                                                                navigate("/")
+                                                                setAccountDropdown(prev => !prev)
+                                                                setConfirmLogout(() => false)
+                                                            }}
+                                                        >
+                                                            Yes
+                                                        </button>
+                                                        <button
+                                                            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700"
+                                                            onClick={() => setConfirmLogout(() => false)}
+                                                        >
+                                                            No
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </>
+                                        ) : (
+                                            <>
+                                                <NavLink
+                                                    onClick={() => setAccountDropdown(prev => !prev)}
+                                                    to="/auth/api/v1/login"
+                                                    className='block px-4 py-2 rounded-t-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
+                                                    Login
+                                                </NavLink>
+                                                <NavLink
+                                                    onClick={() => setAccountDropdown(prev => !prev)}
+                                                    to="auth/api/v1/signup"
+                                                    className='block px-4 py-2 rounded-b-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
+                                                    Create an Account
+                                                </NavLink>
+                                            </>
+                                        )}
+                                    </div>,
+                                    document.body
+                                )
+                            }
+
+
                         </div>
                     </div>
 

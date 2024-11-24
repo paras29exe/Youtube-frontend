@@ -7,6 +7,7 @@ import VideoPlayerPage from './PlayVideo';
 import NotFoundPage from './NotFoundPage';
 import ServerDown from './ServerDown';
 import Channel from './Channel';
+import EditAccount from './EditAccount';
 
 export { 
     HomeVideos,
@@ -17,5 +18,6 @@ export {
     VideoPlayerPage,
     NotFoundPage,
     ServerDown,
-    Channel
+    Channel,
+    EditAccount,
 }

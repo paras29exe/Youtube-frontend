@@ -34,7 +34,7 @@ button {
 }
 
 label.floating {
-  top: -65%;
+  top: -1.5rem;
   left: 0.5rem;
   font-size: 1rem;
   color: #3b82f6;

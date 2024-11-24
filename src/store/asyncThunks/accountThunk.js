@@ -1,12 +1,38 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fulfilled, rejected } from "../../utils/responses";
 import AxiosInstance from "../../utils/AxiosInstance";
+import { setUserData } from "../slices/AuthSlice";
+
+export const getAccountDetails = createAsyncThunk(
+    "account/getDetails",
+    async (_, thunkAPI) => {
+        try {
+            const response = await AxiosInstance.get("/users/get-current-user");
+            return fulfilled(response);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err));
+        }
+    }
+)
 
 export const updateAccountDetails = createAsyncThunk(
     "account/updateDetails",
-    async (data, thunkAPI) => {
+    async (data, thunkAPI) => {        
+        const formdata = new FormData()
+        data.fullName && formdata.append("fullName", data.fullName)
+        data.username && formdata.append("username", data.username)
+        data.avatar?.[0] && formdata.append("avatar", data.avatar[0])
+        data.coverImage?.[0] && formdata.append("coverImage", data.coverImage[0])
+        formdata.append("sameCover", data.sameCover)
+
         try {
-            const response = await AxiosInstance.put("http://localhost:5000/api/v1/account/update-details", data);
+            const response = await AxiosInstance.put("/users/update-account-details",
+                formdata,
+                {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                }
+            );
+                await thunkAPI.dispatch(setUserData(response.data.data))
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err));

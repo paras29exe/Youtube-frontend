@@ -26,6 +26,7 @@ const VideoPlayerPage = () => {
 
     useEffect(() => {
         setSidebarSize("absolute")
+        console.log("hello")
         if (v_id) {
             const getVideo = async () => {
                 dispatch(playVideo(v_id))

@@ -10,7 +10,7 @@ import channelSlice from "./slices/ChannelSlice";
 export const store = configureStore({
     reducer: {
         auth: authSlice,
-
+        account: accountSlice,
         videos: videosSlice,
         likeSubscribe : likeSubscribeSlice,
         comments : commentSlice,
