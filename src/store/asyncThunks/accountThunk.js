@@ -39,3 +39,28 @@ export const updateAccountDetails = createAsyncThunk(
         }
     }
 )
+
+export const getChannelStats = createAsyncThunk(
+    "account/getChannelStats",
+    async (_, thunkAPI) => {
+        try {
+            const response = await AxiosInstance.get(`/dashboard/channel-stats`);
+            return fulfilled(response);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err));
+        }
+    }
+)
+
+export const getUserVideos = createAsyncThunk(
+    "account/getUserVideos",
+    async (_, thunkAPI) => {
+        try {
+            const response = await AxiosInstance.get(`/dashboard/user-videos`);
+
+            return fulfilled(response);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err));
+        }
+    }
+)

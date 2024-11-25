@@ -3,7 +3,7 @@ import { NavBtn } from './'
 import { displayContext } from '../context/displayContext'
 import { useLocation } from 'react-router-dom';
 
-function SideBar({navigateWithDelay}) {
+function SideBar() {
     const { sidebarSize, setSidebarSize } = useContext(displayContext);
     const { pathname } = useLocation()
 
@@ -18,7 +18,7 @@ function SideBar({navigateWithDelay}) {
     return (
         <div
             id='sidebar'
-            className={`z-10 pt-5 backdrop-blur-sm transition-all duration-200 ease-in-out h-screen overflow-y-auto px-1.5 box-border
+            className={`z-20 pt-5 backdrop-blur-sm transition-all duration-200 ease-in-out h-screen overflow-y-auto px-1.5 box-border
                 ${!pathname.includes("/videos/play") && "max-md2:min-w-52 max-md2:max-w-52 max-md2:bg-black/60 md2:bg-inherit max-lg2:min-w-20 max-lg2:max-w-20"} 
                 ${(sidebarSize === "absolute" || sidebarSize === "visible" ) && !pathname.includes("/videos/play") && "md2:relative"}
                 ${sidebarSize === "large" ? "relative left-0 min-w-52 max-w-52 max-md2:fixed"
@@ -28,7 +28,6 @@ function SideBar({navigateWithDelay}) {
                                 : ""}`}
         >
             <NavBtn
-                navigateWithDelay={navigateWithDelay}
                 to="/"
                 icon={
                     <svg className='bg-transparent' xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" fill="currentColor"><g><path d="M4 21V10.08l8-6.96 8 6.96V21h-6v-6h-4v6H4z"></path></g></svg>
@@ -38,7 +37,6 @@ function SideBar({navigateWithDelay}) {
                 nameClasses={`${sidebarSize === "small" ? "text-center" : ""} `}
             />
             <NavBtn
-                navigateWithDelay={navigateWithDelay}
                 to="/subscriptions"
                 icon={
                     <svg className='bg-transparent' xmlns="http://www.w3.org/2000/svg" fill='currentColor' height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true"><path d="M10 18v-6l5 3-5 3zm7-15H7v1h10V3zm3 3H4v1h16V6zm2 3H2v12h20V9zM3 10h18v10H3V10z"></path></svg>
@@ -48,15 +46,12 @@ function SideBar({navigateWithDelay}) {
                 nameClasses={`${sidebarSize === "small" ? " text-center" : ""} `}
             />
             <div className={`my-4 w-full h-0.5 bg-gray-400/50 max-md2:block max-lg2:hidden ${sidebarSize === "small" ? "hidden" : ""}`}></div>
+
+            <div className={`select-none sm:flex items-center gap-2 p-3 md:hidden  ${sidebarSize === "small" ? "hidden" : "lg:flex"}`}>
+                <p className='text-2xl'>You</p>
+                <svg xmlns="http://www.w3.org/2000/svg" className='bg-transparent' fill='currentColor' height="20" viewBox="0 0 16 16" width="20" focusable="false" aria-hidden="true" ><path d="M4.97 12.65 9.62 8 4.97 3.35l.71-.71L11.03 8l-5.35 5.35-.71-.7z"></path></svg>
+            </div>
             <NavBtn
-                navigateWithDelay={navigateWithDelay}
-                to="/dashboard"
-                icon="You"
-                name={<svg xmlns="http://www.w3.org/2000/svg" className='bg-transparent' fill='currentColor' height="20" viewBox="0 0 16 16" width="20" focusable="false" aria-hidden="true" ><path d="M4.97 12.65 9.62 8 4.97 3.35l.71-.71L11.03 8l-5.35 5.35-.71-.7z"></path></svg>}
-                className={`text-xl items-end gap-1 max-md2:block max-lg2:hidden ${sidebarSize === "small" ? "hidden" : ""}`}
-            />
-            <NavBtn
-                navigateWithDelay={navigateWithDelay}
                 to="/users/current-user/dashboard"
                 icon={
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className=" bg-transparent bi bi-person-check" viewBox="0 0 16 16">

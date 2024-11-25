@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { InputField } from "../components";
+import { InputField } from "../../components";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAccountDetails } from "../store/asyncThunks/accountThunk";
-import loadingSpinner from '../assets/LoadingSpinner.svg'
+import { updateAccountDetails } from "../../store/asyncThunks/accountThunk";
+import loadingSpinner from '../../assets/LoadingSpinner.svg'
 
 function EditAccount() {
     const { handleSubmit, register, watch, formState: { errors }, setValue, setError } = useForm();
@@ -20,7 +20,7 @@ function EditAccount() {
     const watchAvatar = watch("avatar");
     const watchCover = watch("coverImage");
 
-    const disabled = ((!watchFullName || watchFullName === currUser?.fullName) && (!watchUsername || watchUsername === currUser?.username) && (avatarImg === currUser?.avatar) && (coverImg === currUser?.coverImage ) )
+    const disabled = ((!watchFullName || watchFullName === currUser?.fullName) && (!watchUsername || watchUsername === currUser?.username) && (avatarImg === currUser?.avatar) && (coverImg === currUser?.coverImage))
 
     React.useEffect(() => {
         if (watchAvatar && watchAvatar[0]) {
@@ -60,12 +60,12 @@ function EditAccount() {
             })
         }
     };
-    if(!userData) return
+    if (!userData) return
 
     return (
         <>
-            <div className="w-full h-screen overflow-auto pb-20 pt-5 px-10">
-                <h1 className="text-3xl text-center font-bold mb-5 underline font-sans ">Edit Your Account Details</h1>
+            <div className="w-full h-full">
+                {/* <h1 className="text-3xl text-center font-bold mb-5 underline font-sans ">Edit Your Account Details</h1> */}
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
                     {/* Full Name Input */}
                     <InputField
@@ -117,6 +117,7 @@ function EditAccount() {
                         <div className="">
                             <p className="text-gray-500 text-sm">Choose a Profile image for your channel. <br /> Size Should be 800 X 800 and of 5MB or less. </p>
                             {/* <button
+                                type="button" 
                                 className="text-blue-600 disabled:text-gray-700"
                                 onClick={() => {
                                      setAvatarImg("")
@@ -152,8 +153,10 @@ function EditAccount() {
                         <div className="">
                             <p className="text-gray-500 text-sm ">Choose a cover image for your channel. <br /> Size Should be 2560 x 1440 and of 5MB or less. </p>
                             <button
+                                type="button"
                                 className="text-red-600 disabled:text-gray-700"
-                                onClick={() => {
+                                onClick={(e) => {
+                                    e.stopPropagation()
                                     setCoverImg("")
                                     setValue("coverImage", null)
                                 }}

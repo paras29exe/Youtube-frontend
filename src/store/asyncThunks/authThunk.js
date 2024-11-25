@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fulfilled, rejected } from '../../utils/responses'
 import AxiosInstance from "../../utils/AxiosInstance";
+import { clearAccountData } from "../slices/AccountSlice";
 
 export const signup = createAsyncThunk(
     "auth/signup",
@@ -65,6 +66,7 @@ export const logout = createAsyncThunk(
     async (_, thunkAPI) => {
         try {
             const response = await AxiosInstance.post("users/logout");
+            await thunkAPI.dispatch(clearAccountData())
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err))
