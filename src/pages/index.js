@@ -10,6 +10,7 @@ import Channel from './Channel';
 import EditAccount from './Dashboard/EditAccount';
 import DashBoard from './Dashboard/DashBoard';
 import UserVideosPage from './Dashboard/UserVideosPage';
+import EditVideo from './Dashboard/EditVideo';
 
 export { 
     HomeVideos,
@@ -22,6 +23,7 @@ export {
     ServerDown,
     Channel,
     EditAccount,
+    EditVideo,
     UserVideosPage,
     DashBoard,
 }

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getVideos, playVideo, uploadVideo } from "../asyncThunks/videosThunk";
+import { getVideos, getVideoById, playVideo, uploadVideo } from "../asyncThunks/videosThunk";
 
 const initialState = {
     videos: null,
@@ -60,6 +60,19 @@ const videoSlice = createSlice({
                 state.error = null;
             })
             .addCase(playVideo.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error;
+            })
+            .addCase(getVideoById.pending, (state, action) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getVideoById.fulfilled, (state, action) => {
+                state.singleVideo = action.payload.data;
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(getVideoById.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error;
             })

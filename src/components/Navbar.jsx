@@ -10,7 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
 function Navbar() {
-    const { sidebarSize, toggleSidebar, uploadStatus, setUploadStatus } = useContext(displayContext)
+    const { sidebarSize, toggleSidebar } = useContext(displayContext)
     const { userData, loading, error } = useSelector((state) => state.auth)
     const dropdownRef = React.useRef()
     const dispatch = useDispatch()
@@ -19,18 +19,6 @@ function Navbar() {
     const [dropdownVisible, setDropdownVisible] = React.useState(false);
     const [accountDropdown, setAccountDropdown] = React.useState(false);
     const [confirmLogout, setConfirmLogout] = React.useState(false)
-
-    const options = {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-
-    }
 
     const handleClickOutside = (event) => {
         if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -41,20 +29,11 @@ function Navbar() {
     };
 
     React.useEffect(() => {
-        if (uploadStatus === "success") {
-            toast.success(<p className=' font-sans font-semibold'>Video has been published</p>, options)
-            setUploadStatus(""); // Reset status
-        } else if (uploadStatus === "failed") {
-            toast.error(<p className=' font-sans font-semibold'>Video uploading failed. Try again</p>, options)
-            setUploadStatus(""); // Reset status
-        } else null
-
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
-            setUploadStatus("")
         };
-    }, [uploadStatus]);
+    }, []);
 
     return (
         <>
@@ -183,8 +162,6 @@ function Navbar() {
                                     document.body
                                 )
                             }
-
-
                         </div>
                     </div>
 

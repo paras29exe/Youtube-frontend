@@ -4,6 +4,7 @@ import NavBtn from "./NavBtn";
 import SideBar from "./SideBar";
 import ProtectedComponent from "./ProtectedComponet";
 import ServerDown from "../pages/ServerDown";
+import SingleComment from "./SingleComment";
 
 export {
     InputField,
@@ -12,4 +13,5 @@ export {
     SideBar,
     ProtectedComponent,
     ServerDown,
+    SingleComment
 }

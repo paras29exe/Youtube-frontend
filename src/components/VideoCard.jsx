@@ -27,7 +27,7 @@ function VideoCard({ video, channelHome = false, channelVideos = false }) {
                     navigate(`/videos/play?v_id=${videoId}`);
                 }}
             >
-                <div className="relative mb-2 -z-10 aspect-video w-full">
+                <div className="relative -z-10 aspect-video w-full">
                     <img
                         className="object-cover aspect-video w-full rounded-lg"
                         // src={`https://picsum.photos/id/${video}/1000/600`}
@@ -57,10 +57,10 @@ function VideoCard({ video, channelHome = false, channelVideos = false }) {
                     }
 
                     <div className='text-left w-full'>
-                        <h3
-                            className="inline-block text-xl md2:text-lg font-semibold line-clamp-2"
+                        <h2
+                            className="inline-block text-xl md2:text-lg font-semibold "
                         > {String(video.title).trim()}
-                        </h3>
+                        </h2>
                         {
                             !channelHome && !channelVideos &&
                             <p

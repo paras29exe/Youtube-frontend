@@ -17,6 +17,15 @@ export const DisplayContextProvider = ({ children }) => {
     const [showPopup, setShowPopup] = useState(false)
     const [notFound, setNotFound] = useState(false)
     const [uploadStatus, setUploadStatus] = useState("")
+    const options = {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+    }
 
     const prevUserData = useRef(userData)
 
@@ -61,7 +70,7 @@ export const DisplayContextProvider = ({ children }) => {
     }
 
     return (
-        <displayContext.Provider value={{  toggleSidebar, changeSidebar, sidebarSize, setSidebarSize, showPopup, togglePopup, fourVideosInRow, notFound, setNotFound, prevUserData, uploadStatus, setUploadStatus }}>
+        <displayContext.Provider value={{ options, toggleSidebar, changeSidebar, sidebarSize, setSidebarSize, showPopup, togglePopup, fourVideosInRow, notFound, setNotFound, prevUserData, uploadStatus, setUploadStatus }}>
             {children}
         </displayContext.Provider>
     )

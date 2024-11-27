@@ -18,31 +18,30 @@ const VideoPlayerPage = () => {
 
     const { singleVideo, loading, error } = useSelector((state) => state.videos)
     const { setSidebarSize } = useContext(displayContext)
-    const {showPopup} = useContext(displayContext)
-    const currentVideo = singleVideo?.videoDetails
+    const { showPopup } = useContext(displayContext)
+    const video = singleVideo?.videoDetails
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
     useEffect(() => {
         setSidebarSize("absolute")
-        console.log("hello")
-        if (v_id) {
-            const getVideo = async () => {
-                dispatch(playVideo(v_id))
-                dispatch(getComments())
-            }
-            getVideo()
+
+        const getVideo = async () => {
+            dispatch(playVideo(v_id))
+            dispatch(getComments(v_id))
         }
+        v_id && getVideo()
+
     }, [v_id])
 
-    if (loading) return <PlayVideoSkeleton/>
+    if (loading) return <PlayVideoSkeleton />
 
     if (error?.message.toLowerCase().includes("this video is private or cannot be played")) {
         navigate("/")
     }
 
-    if (singleVideo?.videoDetails) return (
+    if (video) return (
         <>
             <div className="flex flex-col md2:flex-row w-screen xl:px-20 max-xl:px-4 overflow-y-auto ">
                 {/* Main Video Section */}
@@ -50,25 +49,25 @@ const VideoPlayerPage = () => {
                     <div className="bg-black w-full aspect-video">
                         <ReactPlayer
                             className="outline-none aspect-video"
-                            url={currentVideo.videoFile || ""}
+                            url={video.videoFile || ""}
                             width="100%"
                             height="100%"
                             controls
                             autoPlay
-                            playing = {!showPopup}
+                            playing={!showPopup}
                         />
 
                     </div>
-                    <p className="text-2xl font-bold -my-2.5 line-clamp-3">{currentVideo.title}</p>
+                    <p className="text-2xl font-bold -my-2.5 line-clamp-3">{video.title}</p>
 
                     {/* action buttons */}
-                    <ActionButtons currentVideo={currentVideo} />
+                    <ActionButtons currentVideo={video} />
 
                     {/* description box */}
-                    <VideoDescriptionBox currentVideo={currentVideo} />
+                    <VideoDescriptionBox currentVideo={video} />
 
                     {/* comments */}
-                    <Comments currentVideo={currentVideo} />
+                    <Comments currentVideo={video} videoId={video._id} />
 
                 </div>
 
@@ -104,7 +103,7 @@ const VideoPlayerPage = () => {
                                 </div>
                             </div>
                         ))}
-                        
+
 
                     </div>
                 </div>

@@ -12,7 +12,7 @@ body {
   background-color: rgb(9, 9, 9);
 }
 .Toastify__toast-container--top-right {
-  top: 60px; /* Adjust this value to control the offset */
+  top: 60px !important; /* Adjust this value to control the offset */
 }
 .Toastify__toast-icon> svg {
   fill: white; /* Changes the SVG fill color */
@@ -20,11 +20,11 @@ body {
 }
 
 .Toastify__toast--success {
-  background-color: #1a9531;
+  background-color: #1b9732 !important;
   color: white;
 }
 .Toastify__toast--error {
-  background-color: #dd2b2b;
+  background-color: #dd2b2b !important;
   color: white;
 }
 

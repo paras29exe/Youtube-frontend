@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toggleSubscribe, toggleVideoLike } from '../../store/asyncThunks/likeSubscribeThunk'
 import Popup from '../../utils/Popup'
 import { displayContext } from '../../context/displayContext'
-import { FaThumbsUp, FaThumbsDown, FaShare, FaBell, FaDownload } from 'react-icons/fa'
+import { FaRegThumbsUp ,FaThumbsUp, FaRegThumbsDown, FaThumbsDown, FaShareSquare, FaBell, FaDownload } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 
 function ActionButtons({ currentVideo }) {
@@ -31,7 +31,7 @@ function ActionButtons({ currentVideo }) {
                     <img
                         onClick={(e) => {
                             e.stopPropagation()
-                            navigate(`/channel/${"@" + currentVideo.channelDetails.username}`, { state : {channelId : currentVideo.channelDetails._id} })
+                            navigate(`/channel/${"@" + currentVideo.channelDetails.username}`, { state: { channelId: currentVideo.channelDetails._id } })
                         }}
                         src={currentVideo.channelDetails.avatar}
                         alt="Channel Avatar"
@@ -86,7 +86,10 @@ function ActionButtons({ currentVideo }) {
                         }}
                         className={`text-lg transition-all duration-300 `}
                     >
-                        <FaThumbsUp className={`text-lg transition-all duration-300 ${isLiked && userData ? "fill-blue-600" : ""}`} />
+                        {
+                            isLiked ? <FaThumbsUp className={`text-lg transition-all duration-300 fill-blue-600 `} />
+                             : <FaRegThumbsUp className="text-lg transition-all duration-300 " />
+                        }
 
                     </button>
 
@@ -105,12 +108,15 @@ function ActionButtons({ currentVideo }) {
                         }}
                         className={` text-lg pl-2 ml-2 border-l transition-all duration-300 `}>
 
-                        <FaThumbsDown className={`text-lg transition-all duration-300 -scale-x-100 ${isDisliked ? "fill-blue-600" : ""}`} />
+                        {
+                            isDisliked ? <FaThumbsDown className={`text-lg transition-all duration-300 -scale-x-100 fill-blue-600 `} />
+                                : <FaRegThumbsDown className="text-lg transition-all duration-300 " />
+                        }
                     </button>
                 </div>
 
                 <button onClick={shareVideo} className="bg-gray-700/30 text-white p-2 rounded-full flex items-center justify-center">
-                    <FaShare className='text-lg' />
+                    <FaShareSquare className='text-lg' />
                     {/* <span className="ml-1">Share</span> */}
                 </button>
 

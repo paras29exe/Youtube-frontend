@@ -1,4 +1,4 @@
-import { VideoUpload, Signup, HomeVideos, Login, NotFoundPage, VideoPlayerPage, ServerDown, SubscribedVideos, Channel, DashBoard, EditAccount, UserVideosPage } from "./pages"
+import { VideoUpload, Signup, HomeVideos, Login, NotFoundPage, VideoPlayerPage, SubscribedVideos, Channel, DashBoard, EditAccount, UserVideosPage, EditVideo } from "./pages"
 import App from './App.jsx'
 import ProtectedComponent from './components/ProtectedComponet.jsx'
 import ChannelHome from './components/channelPage/ChannelHome.jsx'

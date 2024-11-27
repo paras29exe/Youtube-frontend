@@ -7,11 +7,12 @@ import { displayContext } from '../context/displayContext';
 import Lottie from 'lottie-react';
 import uploadingAnimation from '../assets/uploading.json'
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const VideoUpload = () => {
     const { register, handleSubmit, watch, formState: { errors }, setValue, setError, clearErrors, reset } = useForm();
     const [thumbnailPreview, setThumbnailPreview] = useState(null)
-    const { setUploadStatus } = useContext(displayContext)
+    const { setUploadStatus, options } = useContext(displayContext)
     const { uploadProgress, uploading } = useSelector(state => state.videos)
 
     const thumbnailInputRef = useRef(null)
@@ -23,13 +24,14 @@ const VideoUpload = () => {
         const res = await dispatch(uploadVideo(data))
 
         if (res.error) {
-            setUploadStatus("failed")
+            toast.error(<p className=' font-sans font-semibold'>Video uploading failed. Try again</p>, options)
             setError(res.error.name, {
                 type: 'manual',
                 message: res.error.message
             })
             throw res.error;
         } else {
+            toast.success(<p className='font-sans font-semibold'>Video has been published</p>, options)
             reset()
             setThumbnailPreview(null)
             setUploadStatus("success")
@@ -200,7 +202,7 @@ const VideoUpload = () => {
                             <label className="block text-sm font-medium text-gray-300 mb-2">Publish Status</label>
                             <select
                                 {...register('publishStatus', {
-                                    defaultValue: 'public'
+                                    value: 'public'
                                 })}
                                 className="block w-full text-sm text-white border border-gray-600 rounded-lg p-2 bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >

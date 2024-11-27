@@ -22,8 +22,7 @@ export const addComment = createAsyncThunk(
 
 export const getComments = createAsyncThunk(
     "comments/getComments",
-    async (_, thunkAPI) => {
-        const videoId = window.location.href.split("?v_id=")[1];
+    async (videoId, thunkAPI) => {
 
         try {
             const response = await AxiosInstance.get(`/comments/get-comments/${videoId}`);
@@ -37,10 +36,8 @@ export const getComments = createAsyncThunk(
 export const deleteComment = createAsyncThunk(
     "comments/deleteComment",
     async (commentId, thunkAPI) => {
-        const videoId = window.location.href.split("?v_id=")[1].trim();
-
         try {
-            const response = await AxiosInstance.delete(`/comments/delete-comment/${videoId}/${commentId}`);
+            const response = await AxiosInstance.delete(`/comments/delete-comment/${commentId}`);
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err));

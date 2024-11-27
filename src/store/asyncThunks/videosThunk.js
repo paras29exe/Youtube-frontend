@@ -70,6 +70,19 @@ export const getVideos = createAsyncThunk(
     }
 )
 
+// fetch video with id
+export const getVideoById = createAsyncThunk(
+    "videos/getVideo",
+    async (v_id, thunkAPI) => {
+        try {
+            const response = await AxiosInstance.get(`videos/get-video/` + v_id);
+            return fulfilled(response);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err));
+        }
+    }
+)
+
 // play video
 export const playVideo = createAsyncThunk(
     "videos/playVideo",
