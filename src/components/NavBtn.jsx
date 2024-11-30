@@ -1,27 +1,27 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-function NavBtn(props) {
+function NavBtn({to, sidebarSize, icon, name}) {
     return (
         <NavLink
-            to={props.to}
+            to={to}
             // onClick={(e) => handleNavigation(e)}
             className={({ isActive }) =>
                 `${isActive ? "bg-gray-400/20" : ""}
-            ${props.className ? props.className : "lg:flex-row  lg:gap-3"}
-            hover:bg-gray-400/20 w-full text-left font-medium rounded-lg flex  items-center flex-row gap-3 p-2 cursor-pointer 
-            ${!window.location.href.includes("/videos/play") && "sm:flex-row sm:gap-3 md:flex-col md:gap-2 md:p-3"}
-            `
-            }
+            ${sidebarSize === "small" ? "!flex-col !gap-2 p-3" : ""}
+            hover:bg-gray-400/20 w-full text-left font-medium rounded-lg flex items-center flex-row gap-3 p-2 pl-5 cursor-pointer 
+            ${!window.location.href.includes("/videos/play") && "md2:flex-col md2:gap-2 md2:p-3 lg2:flex-row lg2:gap-3 lg2:p-2"}
+            `}
         >
-            {props.icon}
-            <p className={`md:text-center md:text-xs lg:text-sm  ${props.nameClasses}`}>{props.name}</p>
+            {icon}
+            <p className={`md:text-center md:text-xs lg:text-sm ${sidebarSize === "small" ? "!text-xs text-center" : ""}`}>{name}</p>
         </NavLink>
     );
 }
 
 export default NavBtn;
 
+// ${className ? className : "lg:flex-row  lg:gap-3"} 
 // max-md2:flex-row max-md2:items-center max-md2:gap-3 max-lg2:flex-col max-lg2:gap-2 max-lg2:p-3
 
 // <NavBtn

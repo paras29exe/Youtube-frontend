@@ -9,7 +9,7 @@ import { BiDotsVerticalRounded } from 'react-icons/bi'
 import { RiDeleteBin5Line } from 'react-icons/ri'
 
 
-function SingleComment({ comment, userData, videoOwnerId, videoOwnerChannelName }) {
+function SingleComment({ comment, userData, videoOwnerId, videoOwnerChannelName, selfVideo = false }) {
 
     const { togglePopup } = useContext(displayContext)
     const deleteRef = useRef()
@@ -25,7 +25,7 @@ function SingleComment({ comment, userData, videoOwnerId, videoOwnerChannelName 
 
     const handleLike = () => {
         setIsLiked((prev) => !prev)
-        setLikedByOwner(prev => !prev)
+        selfVideo && setLikedByOwner(prev => !prev)
 
         isDisliked && setIsDisliked(false)
         // increasing the likes count
@@ -41,10 +41,9 @@ function SingleComment({ comment, userData, videoOwnerId, videoOwnerChannelName 
         if (isLiked) {
             setIsLiked(false)
             setLikesCount((prev) => prev - 1)
-            setLikedByOwner(false)
+            selfVideo && setLikedByOwner(false)
         }
     }
-    console.log(comment);
 
     // const handleClickOutside = (event) => {
     //     // If clicking outside both the delete menu and the more_vert button

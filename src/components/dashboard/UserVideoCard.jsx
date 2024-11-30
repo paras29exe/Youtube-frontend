@@ -28,7 +28,7 @@ function UserVideoCard({ video }) {
 
             {/* Video Title */}
             <div className="p-2">
-                <h3 className="font-semibold text-lg">"hjsdfisghihfirgrg"</h3>
+                <h3 className="font-semibold text-lg">{video?.title}</h3>
                 <p className='flex gap-x-2'>
                     <span className="text-xs text-gray-500">{formatViews(video.views)} views</span>
                     <span className="text-xs text-gray-500">•</span>
@@ -47,7 +47,7 @@ function UserVideoCard({ video }) {
                         <FaComment />
                         <span>{video?.comments}</span>
                     </div>
-                    <div className="text-sm px-6 box-border rounded-full border text-gray-500">
+                    <div className={`${video.publishStatus === "private" ? "bg-red-600/80" : ""} text-sm px-6 box-border rounded-full border text-gray-500"`}>
                         {/* making first letter capital */}
                         {(video?.publishStatus).charAt(0).toUpperCase() + video?.publishStatus.slice(1)}
                     </div>

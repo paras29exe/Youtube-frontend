@@ -38,7 +38,7 @@ const VideoPlayerPage = () => {
     if (loading) return <PlayVideoSkeleton />
 
     if (error?.message.toLowerCase().includes("this video is private or cannot be played")) {
-        navigate("/")
+        navigate(-1)
     }
 
     if (video) return (

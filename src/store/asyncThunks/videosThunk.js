@@ -2,18 +2,20 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fulfilled, rejected } from "../../utils/responses";
 import AxiosInstance from "../../utils/AxiosInstance";
 import { setUploadProgress } from "../slices/VideosSlice";
+import { resetUserVideos } from "../slices/AccountSlice";
 
 export const uploadVideo = createAsyncThunk(
     "videos/uploadVideo",
     async (data, thunkAPI) => {
-        const formData = new FormData();
-        formData.append("videoFile", data.videoFile[0]);
-        formData.append("thumbnail", data.thumbnail[0]);
-        formData.append("title", data.title);
-        formData.append("description", data.description);
-        formData.append("publishStatus", data.publishStatus);
 
         try {
+            const formData = new FormData();
+            formData.append("videoFile", data.videoFile[0]);
+            formData.append("thumbnail", data.thumbnail[0]);
+            formData.append("title", data.title);
+            formData.append("description", data.description);
+            formData.append("publishStatus", data.publishStatus);
+
             const response = await AxiosInstance.post("videos/upload-video",
                 formData,
                 {
@@ -35,15 +37,17 @@ export const uploadVideo = createAsyncThunk(
 
 export const updateVideoDetails = createAsyncThunk(
     "videos/updateVideoDetails",
-    async (data, thunkAPI) => {
+    async ({ data, videoId }, thunkAPI) => {
+
         const formData = new FormData();
-        formData.append("thumbnail", data.thumbnail[0]);
-        formData.append("title", data.title);
-        formData.append("description", data.description);
-        formData.append("publishStatus", data.publishStatus);
+        data?.thumbnail?.[0] && formData.append("thumbnail", data.thumbnail?.[0]);
+        data?.title && formData.append("title", data.title);
+        data?.description && formData.append("description", data.description);
+        data?.publishStatus && formData.append("publishStatus", data.publishStatus);
+
 
         try {
-            const response = await AxiosInstance.patch("videos/update-video-details",
+            const response = await AxiosInstance.patch("videos/update-video-details/" + videoId,
                 formData,
                 {
                     headers: {
@@ -51,6 +55,7 @@ export const updateVideoDetails = createAsyncThunk(
                     },
                 }
             );
+            thunkAPI.dispatch(resetUserVideos())
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err));

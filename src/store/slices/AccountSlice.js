@@ -21,6 +21,10 @@ const accountSlice = createSlice({
             state.loading = false;
             state.error = null;
         },
+        // reset userVideos on upload of new video, edit or delete video
+        resetUserVideos: (state) => {
+            state.userVideos = null;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -66,5 +70,5 @@ const accountSlice = createSlice({
     }
 })
 
-export const { clearAccountData } = accountSlice.actions;
+export const { clearAccountData, resetUserVideos } = accountSlice.actions;
 export default accountSlice.reducer

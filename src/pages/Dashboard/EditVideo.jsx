@@ -6,26 +6,30 @@ import { toast } from 'react-toastify'
 import { displayContext } from '../../context/displayContext'
 import EditButton from '../../components/dashboard/EditButton'
 import { useDispatch, useSelector } from 'react-redux'
-import { getVideoById } from '../../store/asyncThunks/videosThunk'
-import { useSearchParams } from 'react-router-dom'
+import { getVideoById, updateVideoDetails } from '../../store/asyncThunks/videosThunk'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getComments } from '../../store/asyncThunks/commentThunk'
+import loadingSpinner from '../../assets/LoadingSpinner.svg'
+import Popup from '../../utils/Popup'
 
 function EditVideo() {
 
-  const { register, handleSubmit, formState: { errors }, setValue, getValues, watch, setError } = useForm()
+  const { register, handleSubmit, formState: { errors }, setValue, watch, setError } = useForm()
   const { options } = useContext(displayContext)
 
   const [searchParams] = useSearchParams();
   const v_id = searchParams.get('v_id')
 
   const dispatch = useDispatch()
-  const { singleVideo } = useSelector(state => state.videos)
+  const navigate = useNavigate()
+  const { singleVideo, loading } = useSelector(state => state.videos)
   const { comments } = useSelector(state => state.comments)
   const { userData } = useSelector(state => state.auth)
 
   const [editableTitle, setEditableTitle] = useState(false)
   const [editableDescription, setEditableDescription] = useState(false)
   const [editablePublishStatus, setEditablePublishStatus] = useState(false)
+  const [unsavedChanges, setUnsavedChanges] = useState(false)
 
   const [title, setTitle] = useState(singleVideo?.title)
   const [thumbnailImg, setThumbnailImg] = useState(singleVideo?.thumbnail);
@@ -52,7 +56,7 @@ function EditVideo() {
     if (singleVideo) {
       setTitle(singleVideo.title || '');
       setThumbnailImg(singleVideo.thumbnail || '');
-      setPublishStatus(singleVideo.publishStatus || '');
+      setPublishStatus(singleVideo.publishStatus);
     }
   }, [singleVideo])
 
@@ -71,17 +75,29 @@ function EditVideo() {
   const submit = async (data) => {
     data = {
       ...(data.thumbnail?.[0] && { thumbnail: data.thumbnail }), // Include only if a file is uploaded
-      ...(data.title && data.title?.trim() !== "Here is your title" && { title: data.title }), // Include only if the title is different
-      ...(data.description && data.description?.trim() !== "This is your description" && { description: data.description }), // Include only if the description is different
-      ...(data.publishStatus && data.publishStatus !== "public" && { publishStatus: data.publishStatus }) // Include only if the status is not "public"
+      ...(data.title && data.title?.trim() !== singleVideo.title && { title: data.title }), // Include only if the title is different
+      ...(data.description && data.description?.trim() !== singleVideo.description && { description: data.description }), // Include only if the description is different
+      ...(data.publishStatus && data.publishStatus !== singleVideo.publishStatus && { publishStatus: data.publishStatus }) // Include only if the status is not "public"
     };
+    if (Object.keys(data).length === 0) {
+      toast.dismiss()
+      toast.info(<p className='font-sans font-semibold'>No changes Provided</p>, options);
+      return;
+    }
 
-    // console.log(data);
+    try {
+      await dispatch(updateVideoDetails({ data: data, videoId: v_id })).unwrap()
+      toast.success(<p className='font-sans font-semibold'>Video updated successfully</p>, options);
+      navigate(-1)
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   if (singleVideo) return (
+
     <div className='w-full overflow-auto'>
-      <form onSubmit={handleSubmit(submit)} className='flex gap-x-3 p-5 pb-10 box-border '>
+      <form onSubmit={handleSubmit(submit)} className='flex gap-x-3 p-3 pb-10 box-border '>
         {/* left section */}
         <div className='w-2/3 bg-red-00 flex flex-col gap-y-4 '>
           {/* thumbnail part */}
@@ -129,11 +145,11 @@ function EditVideo() {
                   {errors.title && (
                     <p className="text-red-500 text-sm">{errors.title.message}</p>
                   )}
-                  {/* buttons  */}
+                  {/* save and cancel buttons  */}
                   <div className='flex justify-end gap-x-3 pr-2'>
                     <button
                       type="button"
-                      className='px-3 py-1 bg-gray-500/20 rounded-full'
+                      className='px-3 py-1 cancel-changes-button bg-gray-500/20 rounded-full'
                       onClick={() => {
                         setEditableTitle(false)
                         setValue('title', title)
@@ -141,7 +157,7 @@ function EditVideo() {
                     >Cancel</button>
                     <button
                       type="button"
-                      className='px-3 py-1 bg-white hover:bg-white/80 text-black rounded-full'
+                      className='px-3 py-1 save-changes-button bg-white hover:bg-white/80 text-black rounded-full'
                       onClick={() => {
                         const titleValue = watch('title')
                         if (titleValue?.length > 150) {
@@ -175,7 +191,7 @@ function EditVideo() {
               <select
                 {...register('publishStatus')}
                 className="block text-sm text-white border border-gray-600 rounded-lg px-2 py-1 bg-black disabled:bg-gray-600 disabled:cursor-not-allowed"
-                defaultValue={publishStatus}
+                defaultValue={singleVideo.publishStatus}
                 autoFocus={editablePublishStatus}
                 disabled={!editablePublishStatus}
               >
@@ -184,21 +200,35 @@ function EditVideo() {
               </select>
             </div>
 
-            {editablePublishStatus && <button
-              type="button"
-              className='px-3  bg-white hover:bg-white/80 text-black rounded-full'
-              onClick={() => {
-                setEditablePublishStatus(false)
-              }}
-            >Save
-            </button>}
+            {editablePublishStatus &&
+              <div>
+                <button
+                  type="button"
+                  className='cancel-changes-button hidden'
+                  onClick={() => {
+                    setEditablePublishStatus(false)
+                    setValue('publishStatus', publishStatus)
+                  }}
+                >Cancel</button>
+                <button
+                  type="button"
+                  className='px-3 save-changes-button bg-white hover:bg-white/80 text-black rounded-full'
+                  onClick={() => {
+                    const watchPublishStatus = watch('publishStatus')
+                    setEditablePublishStatus(false)
+                    setValue('publishStatus', watchPublishStatus)
+                  }}
+                >Save
+                </button>
+              </div>
+            }
           </div>
 
           {/* comments */}
           <div className='mt-8'>
             <p className='font-semibold text-xl'>Comments</p>
             <div className="w-full border"></div>
-            <p className='text-gray-500 text-lg mt-5'>*(Removing comments is irreversible Action)</p>
+            <strong><p className='text-gray-500 text-lg mt-5'>Note: Removing comments is irreversible Action</p></strong>
 
             <div className='comments-list flex flex-col gap-y-1 pt-5'>
               {
@@ -207,7 +237,9 @@ function EditVideo() {
                     comment={comment}
                     videoOwnerId={singleVideo.ownerId}
                     videoOwnerChannelName={singleVideo.ownerChannelName}
-                    userData={userData} />
+                    userData={userData} 
+                    selfVideo= {true}
+                    />
                 ))
               }
             </div>
@@ -227,14 +259,51 @@ function EditVideo() {
           <EditButton editable={editableDescription} setEditable={setEditableDescription} text="Edit Description" />
           <EditButton editable={editablePublishStatus} setEditable={setEditablePublishStatus} text="Publish Status" />
 
-          <div className='w-full'>
+          <div className='w-full flex flex-col gap-y-2 items-center'>
+            {/* submit button here */}
             <button
               type="submit"
-              className='w-full disabled:bg-gray-700/50 disabled:cursor-not-allowed bg-blue-600 hover:bg-blue-700 backdrop-blur-md py-1.5 px-3 rounded-lg max-md:text-sm'
-            // disabled
+              onClick={(e) => {
+                if (editableTitle || editableDescription || editablePublishStatus) {
+                  e.preventDefault()
+                  setUnsavedChanges(true)
+                } else {
+                  handleSubmit(submit)
+                }
+              }}
+              className="w-full disabled:bg-gray-600 disabled:cursor-not-allowed bg-blue-600 hover:bg-blue-700 backdrop-blur-md py-1.5 px-3 rounded-lg max-md:text-sm"
+              disabled={loading}
             >
-              Save Details
+              {loading ? <img src={loadingSpinner} alt="" className="w-12 mx-auto -my-3" /> : "Save Changes"
+              }
             </button>
+
+            {
+              unsavedChanges && <div>
+                <p className='text-gray-300'>There are some unsaved changes</p>
+                <div className='flex gap-x-3 justify-center mt-2'>
+                  <button
+                    type="button"
+                    className='px-3 py-1.5 rounded-full bg-gray-500/20'
+                    onClick={() => {
+                      [...document.getElementsByClassName("cancel-changes-button")].forEach(element => element.click());
+                      setUnsavedChanges(false)
+                      handleSubmit(submit)()
+                    }}
+                  >Don't Save</button>
+                  <button
+                    type="button"
+                    className='px-3 py-1.5 rounded-full font-semibold bg-white text-black'
+                    onClick={() => {
+                      [...document.getElementsByClassName("save-changes-button")].forEach(element => element.click())
+                      setUnsavedChanges(false)
+                      handleSubmit(submit)()
+                    }}
+                  >Save</button>
+                </div>
+
+              </div>
+            }
 
           </div>
           <button
@@ -246,6 +315,8 @@ function EditVideo() {
           </button>
         </div>
       </form >
+
+
     </div >
 
   )

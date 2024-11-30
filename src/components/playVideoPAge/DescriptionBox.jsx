@@ -58,11 +58,11 @@ const VideoDescriptionBox = ({ currentVideo, editMode, setEditMode, register, se
                 setEditMode(false)
                 setValue('description', description)
               }}
-              className='px-3 py-1 bg-gray-500/20 rounded-full'
+              className='px-3 py-1 cancel-changes-button bg-gray-500/20 rounded-full'
             >Cancel</button>
             <button
               type="button"
-              className='px-3 py-1 bg-white hover:bg-white/80 text-black rounded-full'
+              className='px-3 py-1 save-changes-button bg-white hover:bg-white/80 text-black rounded-full'
               onClick={() => {
                 const descValue = watch('description')
                 setDescription(descValue)

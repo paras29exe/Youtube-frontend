@@ -20,7 +20,7 @@ function UserVideosPage() {
             }
         }
         !userVideos && fetchVideos()
-    }, [])
+    }, [v_id])
 
     if(v_id) return(
         <EditVideo v_id={v_id} />

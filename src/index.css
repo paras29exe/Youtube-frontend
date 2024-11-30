@@ -23,6 +23,10 @@ body {
   background-color: #1b9732 !important;
   color: white;
 }
+.Toastify__toast--info {
+  background-color: #b08a1f !important;
+  color: white;
+}
 .Toastify__toast--error {
   background-color: #dd2b2b !important;
   color: white;

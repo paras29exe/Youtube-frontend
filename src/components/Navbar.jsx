@@ -37,8 +37,9 @@ function Navbar() {
 
     return (
         <>
+            <ToastContainer limit={1}/>
             <nav className={`bg-black/85 backdrop-blur-md navbar top-0 px-2 py-1.5 text-center flex items-center justify-between z-20`}>
-                <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-5 max-md2:pl-1 ${sidebarSize === "small" ? "pl-3" : ""} `}>
+                <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-3 max-md2:pl-1 ${sidebarSize === "small" ? "pl-3" : ""} `}>
                     <div onClick={toggleSidebar}
                         className='hover:bg-gray-400/20 p-1.5 rounded-full'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bg-transparent bi bi-list" viewBox="0 0 16 16">
@@ -167,7 +168,6 @@ function Navbar() {
 
                 </div>
             </nav >
-            <ToastContainer />
         </>
 
     )

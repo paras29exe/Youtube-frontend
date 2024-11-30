@@ -35,8 +35,7 @@ export const DisplayContextProvider = ({ children }) => {
 
     const toggleSidebar = () => {
         setChangeSidebar(prev => !prev)
-        
-
+    
         const screenWidth = window.innerWidth
 
         if (!window.location.href.includes("videos/play")) {
