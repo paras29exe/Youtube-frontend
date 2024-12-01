@@ -14,7 +14,7 @@ import Popup from '../../utils/Popup'
 
 function EditVideo() {
 
-  const { register, handleSubmit, formState: { errors }, setValue, watch, setError } = useForm()
+  const { register, handleSubmit, formState: { errors }, setValue, watch, getValues, setError } = useForm()
   const { options } = useContext(displayContext)
 
   const [searchParams] = useSearchParams();
@@ -206,17 +206,17 @@ function EditVideo() {
                   type="button"
                   className='cancel-changes-button hidden'
                   onClick={() => {
-                    setEditablePublishStatus(false)
                     setValue('publishStatus', publishStatus)
+                    setEditablePublishStatus(false)
                   }}
                 >Cancel</button>
                 <button
                   type="button"
                   className='px-3 save-changes-button bg-white hover:bg-white/80 text-black rounded-full'
                   onClick={() => {
-                    const watchPublishStatus = watch('publishStatus')
-                    setEditablePublishStatus(false)
+                    const watchPublishStatus = getValues('publishStatus')
                     setValue('publishStatus', watchPublishStatus)
+                    setEditablePublishStatus(false)
                   }}
                 >Save
                 </button>

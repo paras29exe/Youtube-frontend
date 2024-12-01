@@ -3,6 +3,7 @@ import { fulfilled, rejected } from "../../utils/responses";
 import AxiosInstance from "../../utils/AxiosInstance";
 import { setUploadProgress } from "../slices/VideosSlice";
 import { resetUserVideos } from "../slices/AccountSlice";
+import { useSearchParams } from "react-router-dom";
 
 export const uploadVideo = createAsyncThunk(
     "videos/uploadVideo",
@@ -70,6 +71,23 @@ export const getVideos = createAsyncThunk(
             const response = await AxiosInstance.get("videos/get-videos");
             return fulfilled(response);
         } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err));
+        }
+    }
+)
+
+export const searchVideos = createAsyncThunk(
+    "videos/searchVideos",
+    async (query, thunkAPI) => {
+        
+        try {
+            const response = await AxiosInstance.get("videos/get-searched-videos", {
+                params: query
+            });
+            return fulfilled(response);
+        } catch (err) {
+            console.log(err);
+            
             return thunkAPI.rejectWithValue(rejected(err));
         }
     }

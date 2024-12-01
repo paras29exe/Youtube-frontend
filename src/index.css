@@ -56,6 +56,10 @@ input.form:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
 }
+input:-webkit-autofill {
+  background-color: transparent !important; 
+  color: transparent !important; 
+}
 
 ::-webkit-scrollbar {
   width: 8px;

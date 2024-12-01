@@ -1,4 +1,4 @@
-import { VideoUpload, Signup, HomeVideos, Login, NotFoundPage, VideoPlayerPage, SubscribedVideos, Channel, DashBoard, EditAccount, UserVideosPage, EditVideo } from "./pages"
+import { VideoUpload, Signup, HomeVideos, Login, NotFoundPage, VideoPlayerPage, SubscribedVideos, Channel, DashBoard, EditAccount, UserVideosPage, EditVideo, SearchResults } from "./pages"
 import App from './App.jsx'
 import ProtectedComponent from './components/ProtectedComponet.jsx'
 import ChannelHome from './components/channelPage/ChannelHome.jsx'
@@ -14,6 +14,7 @@ const AppRouter = () => {
             <>
                 <Route path="/" element={<App />}>
                     <Route index element={<HomeVideos />} />
+                    <Route path="results" element={<SearchResults />} />
                     <Route path="/auth/api/v1/login" element={<Login />} />
                     <Route path="/auth/api/v1/signup" element={<Signup />} />
                     <Route path='/channel/:username' element={<Channel />} >

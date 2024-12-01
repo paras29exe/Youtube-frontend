@@ -8,6 +8,7 @@ import { logout } from '../store/asyncThunks/authThunk';
 import youtubeLogo from '../assets/YoutubeLogo.svg'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
+import SearchBar from './SearchBar';
 
 function Navbar() {
     const { sidebarSize, toggleSidebar } = useContext(displayContext)
@@ -50,15 +51,7 @@ function Navbar() {
                         <img src={youtubeLogo} alt="Logo" />
                     </div>
                 </div>
-                <div className='search xl:w-2/5 md:w-1/2 m-auto flex w-1/3 h-9'>
-                    <input className='w-11/12  rounded-l-full px-4 text-lg  border border-gray-600 focus-within:outline-none focus-within:border-blue-600 bg-inherit placeholder:text-gray-400' type="search" name="search-bar" id="" placeholder='Search' />
-
-                    <button className='w-16 flex items-center justify-center bg-gray-600/40 rounded-r-full border border-gray-600 border-l-0'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bg-transparent bi bi-search" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                        </svg>
-                    </button>
-                </div>
+                <SearchBar />
                 <div className='w-1/3 flex items-center justify-end gap-x-8 pr-4'>
                     <div className='relative'>
                         <div
@@ -79,7 +72,8 @@ function Navbar() {
                                 </NavLink>
                                 <NavLink
                                     onClick={() => setDropdownVisible(prev => !prev)}
-                                    to="/user/edit-video" className='block px-4 py-2 font-semibold  rounded-b-md text-white hover:bg-gray-200 hover:text-black'>
+                                    to="/users/current-user/dashboard/videos"
+                                     className='block px-4 py-2 font-semibold  rounded-b-md text-white hover:bg-gray-200 hover:text-black'>
                                     Edit Video Details
                                 </NavLink>
                             </div>
@@ -111,7 +105,7 @@ function Navbar() {
                                             <>
                                                 <NavLink
                                                     onClick={() => setAccountDropdown(prev => !prev)}
-                                                    to="/user/account"
+                                                    to="/users/current-user/dashboard"
                                                     className='select-none block px-4 py-2 rounded-t-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
                                                     Your Account
                                                 </NavLink>

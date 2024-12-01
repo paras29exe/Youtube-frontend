@@ -11,6 +11,7 @@ import EditAccount from './Dashboard/EditAccount';
 import DashBoard from './Dashboard/DashBoard';
 import UserVideosPage from './Dashboard/UserVideosPage';
 import EditVideo from './Dashboard/EditVideo';
+import SearchResults from './SearchResults';
 
 export { 
     HomeVideos,
@@ -26,4 +27,5 @@ export {
     EditVideo,
     UserVideosPage,
     DashBoard,
+    SearchResults
 }
