@@ -53,8 +53,9 @@ function Login() {
                         register={register}
                         registerAs="username"
                         errors={errors}
-                        className='form p-3 border border-gray-500 bg-gray-800 rounded-lg w-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                    />
+                            // placeholder="Enter your email"
+                            type="text"
+                        />
                     <InputField
                         floatingLabel='Password'
                         // placeholder='Enter Password'
