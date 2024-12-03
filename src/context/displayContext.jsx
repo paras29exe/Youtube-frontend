@@ -16,7 +16,7 @@ export const DisplayContextProvider = ({ children }) => {
     const [sidebarSize, setSidebarSize] = useState("")
     const [showPopup, setShowPopup] = useState(false)
     const [notFound, setNotFound] = useState(false)
-    const [uploadStatus, setUploadStatus] = useState("")
+    const [askConfirmation, setAskConfirmation] = useState(false)
     const options = {
         position: "top-right",
         autoClose: 5000,
@@ -35,7 +35,7 @@ export const DisplayContextProvider = ({ children }) => {
 
     const toggleSidebar = () => {
         setChangeSidebar(prev => !prev)
-    
+
         const screenWidth = window.innerWidth
 
         if (!window.location.href.includes("videos/play")) {
@@ -69,7 +69,21 @@ export const DisplayContextProvider = ({ children }) => {
     }
 
     return (
-        <displayContext.Provider value={{ options, toggleSidebar, changeSidebar, sidebarSize, setSidebarSize, showPopup, togglePopup, fourVideosInRow, notFound, setNotFound, prevUserData, uploadStatus, setUploadStatus }}>
+        <displayContext.Provider value={{
+            options,
+            toggleSidebar,
+            changeSidebar,
+            sidebarSize,
+            setSidebarSize,
+            showPopup,
+            togglePopup,
+            fourVideosInRow,
+            notFound,
+            setNotFound,
+            prevUserData,
+            askConfirmation,
+            setAskConfirmation,
+        }}>
             {children}
         </displayContext.Provider>
     )

@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { searchVideos } from '../store/asyncThunks/videosThunk'
 import { useSearchParams } from 'react-router-dom'
 import SearchedVideoCard from '../components/SearchedVideoCard'
-import { PulseLoader  } from 'react-spinners'
 
 function SearchResults() {
     const dispatch = useDispatch()
@@ -28,7 +27,7 @@ function SearchResults() {
         }
         setTimeout(() => {
             fetchSearchedVideos()
-        }, 2000);
+        }, 1500);
     }, [searchParams.get("search_query")])
 
     if(loading) return <div className="w-8 h-8 mx-auto mt-5 border-4 border-white border-t-transparent rounded-full animate-spin"></div>

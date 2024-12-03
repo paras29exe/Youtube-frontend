@@ -120,3 +120,16 @@ export const playVideo = createAsyncThunk(
         }
     }
 )
+
+// delete video
+export const deleteVideo = createAsyncThunk(
+    "videos/deleteVideo",
+    async (v_id, thunkAPI) => {
+        try {
+            const response = await AxiosInstance.delete(`/videos/delete-video/${v_id}`);
+            return fulfilled(response);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err));
+        }
+    }
+)

@@ -9,6 +9,8 @@ import youtubeLogo from '../assets/YoutubeLogo.svg'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import SearchBar from './SearchBar';
+import ConfirmationPopup from '../utils/ConfirmationPopup';
+import { MdArrowBack } from 'react-icons/md';
 
 function Navbar() {
     const { sidebarSize, toggleSidebar } = useContext(displayContext)
@@ -38,7 +40,7 @@ function Navbar() {
 
     return (
         <>
-            <ToastContainer limit={1}/>
+            <ToastContainer limit={1} />
             <nav className={`bg-black/85 backdrop-blur-md navbar top-0 px-2 py-1.5 text-center flex items-center justify-between z-20`}>
                 <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-3 max-md2:pl-1 ${sidebarSize === "small" ? "pl-3" : ""} `}>
                     <div onClick={toggleSidebar}
@@ -53,7 +55,8 @@ function Navbar() {
                 </div>
                 <SearchBar />
                 <div className='w-1/3 flex items-center justify-end gap-x-8 pr-4'>
-                    <div className='relative'>
+
+                    <div className='relative z-50'>
                         <div
                             className='hover:bg-gray-400/20 p-2 rounded-full cursor-pointer'
                             onClick={() => setDropdownVisible(prev => !prev)}
@@ -64,7 +67,8 @@ function Navbar() {
                             </svg>
                         </div>
                         {dropdownVisible && (
-                            <div ref={dropdownRef} className='absolute right-0 mt-2 w-48 bg-gray-800 rounded-md shadow-lg '>
+                            ReactDOM.createPortal(
+                            <div ref={dropdownRef} className='absolute top-12 right-32 z-50 mt-2 w-48 bg-zinc-800 rounded-md shadow-lg '>
                                 <NavLink
                                     onClick={() => setDropdownVisible(prev => !prev)}
                                     to="/user/upload-video" className='block px-4 py-2 font-semibold rounded-t-md text-white hover:bg-gray-200 hover:text-black'>
@@ -73,10 +77,11 @@ function Navbar() {
                                 <NavLink
                                     onClick={() => setDropdownVisible(prev => !prev)}
                                     to="/users/current-user/dashboard/videos"
-                                     className='block px-4 py-2 font-semibold  rounded-b-md text-white hover:bg-gray-200 hover:text-black'>
+                                    className='block px-4 py-2 font-semibold  rounded-b-md text-white hover:bg-gray-200 hover:text-black'>
                                     Edit Video Details
                                 </NavLink>
-                            </div>
+                            </div>,
+                            document.body)
                         )}
                     </div>
 
@@ -100,55 +105,62 @@ function Navbar() {
                             </div>
                             {accountDropdown &&
                                 ReactDOM.createPortal(
-                                    <div ref={dropdownRef} className='absolute z-[1000] top-12 right-10 mt-2 w-48 bg-gray-800 rounded-md shadow-lg'>
+                                    <div ref={dropdownRef} className='absolute z-50 top-12 right-10 mt-2 w-48 bg-zinc-800 rounded-md shadow-lg'>
                                         {userData ? (
                                             <>
                                                 <NavLink
                                                     onClick={() => setAccountDropdown(prev => !prev)}
                                                     to="/users/current-user/dashboard"
-                                                    className='select-none block px-4 py-2 rounded-t-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
+                                                    className='select-none block px-4 py-2 rounded-t-md text-white font-semibold bg-zinc-800 hover:bg-gray-200 hover:text-black'>
                                                     Your Account
                                                 </NavLink>
                                                 <div
                                                     onClick={() => { setConfirmLogout(() => true) }}
-                                                    className='select-none block px-4 py-2 rounded-b-md text-white font-semibold bg-gray-800 focus:bg-gray-200 focus:text-black hover:bg-gray-200 hover:text-black'>
+                                                    className='select-none block px-4 py-2 rounded-b-md text-white font-semibold bg-zinc-800 focus:bg-gray-200 focus:text-black hover:bg-gray-200 hover:text-black'>
                                                     Logout
                                                 </div>
-                                                {confirmLogout && (
-                                                    <div className="absolute text-center z-[1000] w-64 right-52 -top-5 mt-4 p-4 border border-gray-300 bg-gray-100 rounded shadow">
-                                                        <p className="mb-4 text-black font-sans font-semibold">Are you sure you want to logout?</p>
-                                                        <button
-                                                            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700 mr-2"
-                                                            onClick={() => {
-                                                                dispatch(logout())
-                                                                navigate("/")
-                                                                setAccountDropdown(prev => !prev)
-                                                                setConfirmLogout(() => false)
-                                                            }}
-                                                        >
-                                                            Yes
-                                                        </button>
-                                                        <button
-                                                            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-700"
-                                                            onClick={() => setConfirmLogout(() => false)}
-                                                        >
-                                                            No
-                                                        </button>
+                                                {confirmLogout
+                                                    && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                                                        <div className="bg-white relative rounded-lg p-6 max-w-md">
+                                                            <MdArrowBack
+                                                                onClick={() => setConfirmLogout(false)}
+                                                                className='absolute top-2 left-2 fill-black text-3xl' />
+                                                            <h2 className="text-3xl font-bold text-black mb-3 mt-5 font-sans">You Sure?</h2>
+                                                            <p className="text-base text-gray-600 mb-6">Aren't You happy with Us? You really want to logout from your account?</p>
+                                                            <div className="flex justify-end">
+                                                                <button
+                                                                    className=" text-black font-semibold px-4 py-2 rounded-md mr-2"
+                                                                    onClick={() => {
+                                                                        dispatch(logout())
+                                                                        navigate("/")
+                                                                        setAccountDropdown(prev => !prev)
+                                                                        setConfirmLogout(() => false)
+                                                                    }}>
+                                                                    Logout
+                                                                </button>
+                                                                <button
+                                                                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"
+                                                                    onClick={() => { setConfirmLogout(false); setAccountDropdown(false) }}
+                                                                >
+                                                                    Stay here
+                                                                </button>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                )}
+                                                }
                                             </>
                                         ) : (
                                             <>
                                                 <NavLink
                                                     onClick={() => setAccountDropdown(prev => !prev)}
                                                     to="/auth/api/v1/login"
-                                                    className='block px-4 py-2 rounded-t-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
+                                                    className='block px-4 py-2 rounded-t-md text-white font-semibold bg-zinc-800 hover:bg-gray-200 hover:text-black'>
                                                     Login
                                                 </NavLink>
                                                 <NavLink
                                                     onClick={() => setAccountDropdown(prev => !prev)}
                                                     to="auth/api/v1/signup"
-                                                    className='block px-4 py-2 rounded-b-md text-white font-semibold bg-gray-800 hover:bg-gray-200 hover:text-black'>
+                                                    className='block px-4 py-2 rounded-b-md text-white font-semibold bg-zinc-800 hover:bg-gray-200 hover:text-black'>
                                                     Create an Account
                                                 </NavLink>
                                             </>

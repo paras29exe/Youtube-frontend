@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import { NavBtn } from './'
 import { displayContext } from '../context/displayContext'
 import { useLocation } from 'react-router-dom';
+import { MdHome, MdHistory, MdSubscriptions } from 'react-icons/md'
 
 function SideBar() {
     const { sidebarSize, setSidebarSize } = useContext(displayContext);
@@ -29,19 +30,15 @@ function SideBar() {
         >
             <NavBtn
                 to="/"
-                icon={
-                    <svg className='bg-transparent' xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true" fill="currentColor"><g><path d="M4 21V10.08l8-6.96 8 6.96V21h-6v-6h-4v6H4z"></path></g></svg>
-                }
+                icon={<MdHome className='text-2xl' />}
                 name="Home"
-                sidebarSize = {sidebarSize}
+                sidebarSize={sidebarSize}
             />
             <NavBtn
                 to="/subscriptions"
-                icon={
-                    <svg className='bg-transparent' xmlns="http://www.w3.org/2000/svg" fill='currentColor' height="24" viewBox="0 0 24 24" width="24" focusable="false" aria-hidden="true"><path d="M10 18v-6l5 3-5 3zm7-15H7v1h10V3zm3 3H4v1h16V6zm2 3H2v12h20V9zM3 10h18v10H3V10z"></path></svg>
-                }
+                icon={<MdSubscriptions className='text-2xl' />}
                 name="Subscription"
-                sidebarSize = {sidebarSize}
+                sidebarSize={sidebarSize}
             />
             <div className={`my-4 w-full h-0.5 bg-gray-400/50 block md2:hidden lg2:block ${sidebarSize === "small" ? "!hidden " : ""}`}></div>
 
@@ -49,8 +46,9 @@ function SideBar() {
                 <p className='text-2xl'>You</p>
                 <svg xmlns="http://www.w3.org/2000/svg" className='bg-transparent' fill='currentColor' height="20" viewBox="0 0 16 16" width="20" focusable="false" aria-hidden="true" ><path d="M4.97 12.65 9.62 8 4.97 3.35l.71-.71L11.03 8l-5.35 5.35-.71-.7z"></path></svg>
             </div>
+
             <NavBtn
-                to="/users/current-user/dashboard"
+                to="/dashboard"
                 icon={
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className=" bg-transparent bi bi-person-check" viewBox="0 0 16 16">
                         <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
@@ -58,7 +56,13 @@ function SideBar() {
                     </svg>
                 }
                 name="Your Channel"
-                sidebarSize = {sidebarSize}
+                sidebarSize={sidebarSize}
+            />
+            <NavBtn
+                to="/current-user/watch-history"
+                icon={<MdHistory className='text-2xl' />}
+                name="Watch History"
+                sidebarSize={sidebarSize}
             />
 
         </div>

@@ -6,35 +6,42 @@ import { toast } from 'react-toastify'
 import { displayContext } from '../../context/displayContext'
 import EditButton from '../../components/dashboard/EditButton'
 import { useDispatch, useSelector } from 'react-redux'
-import { getVideoById, updateVideoDetails } from '../../store/asyncThunks/videosThunk'
+import { getVideoById, updateVideoDetails, deleteVideo } from '../../store/asyncThunks/videosThunk'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getComments } from '../../store/asyncThunks/commentThunk'
 import loadingSpinner from '../../assets/LoadingSpinner.svg'
-import Popup from '../../utils/Popup'
+import { MdArrowBack } from 'react-icons/md'
+import ConfirmationPopup from '../../utils/ConfirmationPopup'
 
 function EditVideo() {
 
   const { register, handleSubmit, formState: { errors }, setValue, watch, getValues, setError } = useForm()
   const { options } = useContext(displayContext)
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [discardAllPopup, setDiscardAllPopup] = useState(false)
+  const [unsavedChangesPopup, setUnsavedChangesPopup] = useState(false)
+  const [deleteVideoPopup, setDeleteVideoPopup] = useState(false)
 
   const [searchParams] = useSearchParams();
   const v_id = searchParams.get('v_id')
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { singleVideo, loading } = useSelector(state => state.videos)
+  const { singleVideo, loading, error } = useSelector(state => state.videos)
   const { comments } = useSelector(state => state.comments)
   const { userData } = useSelector(state => state.auth)
 
   const [editableTitle, setEditableTitle] = useState(false)
   const [editableDescription, setEditableDescription] = useState(false)
   const [editablePublishStatus, setEditablePublishStatus] = useState(false)
-  const [unsavedChanges, setUnsavedChanges] = useState(false)
 
-  const [title, setTitle] = useState(singleVideo?.title)
-  const [thumbnailImg, setThumbnailImg] = useState(singleVideo?.thumbnail);
-  const [publishStatus, setPublishStatus] = useState(singleVideo?.publishStatus)
 
+  const [thumbnailImg, setThumbnailImg] = useState(null);
+  const [title, setTitle] = useState(null)
+  const [description, setDescription] = useState(null)
+  const [publishStatus, setPublishStatus] = useState(null)
+
+  // function to handle thumbnail preview
   const handleThumbnailChange = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -42,21 +49,25 @@ function EditVideo() {
     reader.readAsDataURL(file);
   }
 
+  // function to handle the title input box height
   const handleInputTitle = (event) => {
     const textarea = event?.target || document.getElementById('title-input');
     textarea.style.height = "auto";
     textarea.style.height = `${textarea.scrollHeight + 5}px`;
   }
 
+  // call the input height handler on enable of input box for title
   useEffect(() => {
     editableTitle && handleInputTitle()
   }, [editableTitle])
 
+  // set the states after the fetching from API is complete
   useEffect(() => {
     if (singleVideo) {
-      setTitle(singleVideo.title || '');
       setThumbnailImg(singleVideo.thumbnail || '');
-      setPublishStatus(singleVideo.publishStatus);
+      setTitle(singleVideo.title || '');
+      setDescription(singleVideo.description || '');
+      setPublishStatus(singleVideo.publishStatus || '');
     }
   }, [singleVideo])
 
@@ -65,6 +76,7 @@ function EditVideo() {
       try {
         await dispatch(getVideoById(v_id))
         await dispatch(getComments(v_id))
+
       } catch (error) {
       }
     }
@@ -81,22 +93,30 @@ function EditVideo() {
     };
     if (Object.keys(data).length === 0) {
       toast.dismiss()
-      toast.info(<p className='font-sans font-semibold'>No changes Provided</p>, options);
+      toast.warning(<p className='font-sans font-semibold'>No changes Provided</p>, options);
       return;
     }
 
     try {
+      setIsUpdating(true)
       await dispatch(updateVideoDetails({ data: data, videoId: v_id })).unwrap()
+      setIsUpdating(false)
       toast.success(<p className='font-sans font-semibold'>Video updated successfully</p>, options);
-      navigate(-1)
+      navigate(-2)
     } catch (error) {
       console.error(error);
     }
   };
 
+  if (error) navigate(-1)
+
   if (singleVideo) return (
 
     <div className='w-full overflow-auto'>
+      <MdArrowBack
+        onClick={() => navigate("/users/current-user/dashboard/videos")}
+        className="text-4xl" />
+
       <form onSubmit={handleSubmit(submit)} className='flex gap-x-3 p-3 pb-10 box-border '>
         {/* left section */}
         <div className='w-2/3 bg-red-00 flex flex-col gap-y-4 '>
@@ -181,16 +201,24 @@ function EditVideo() {
 
           {/* description */}
           <div>
-            <VideoDescriptionBox currentVideo={singleVideo} editMode={editableDescription} setEditMode={setEditableDescription} setValue={setValue} watch={watch} register={register} errors={errors} />
+            <VideoDescriptionBox
+              currentVideo={singleVideo}
+              editMode={editableDescription}
+              setEditMode={setEditableDescription}
+              description={description}
+              setDescription={setDescription}
+              setValue={setValue}
+              watch={watch}
+              register={register}
+              errors={errors} />
           </div>
 
           {/* publish status */}
-          <div className='flex gap-x-4'>
-
+          <div className="flex items-center gap-x-4">
             <div>
               <select
                 {...register('publishStatus')}
-                className="block text-sm text-white border border-gray-600 rounded-lg px-2 py-1 bg-black disabled:bg-gray-600 disabled:cursor-not-allowed"
+                className="block w-full text-sm text-white border border-gray-600 rounded-lg px-2 py-1 bg-black disabled:bg-gray-600 disabled:cursor-not-allowed"
                 defaultValue={singleVideo.publishStatus}
                 autoFocus={editablePublishStatus}
                 disabled={!editablePublishStatus}
@@ -200,29 +228,34 @@ function EditVideo() {
               </select>
             </div>
 
-            {editablePublishStatus &&
-              <div>
+            {editablePublishStatus && (
+              <div className="flex gap-x-2">
                 <button
                   type="button"
-                  className='cancel-changes-button hidden'
+                  className="cancel-changes-button hidden text-sm px-3 py-1 text-gray-800 bg-gray-200 rounded hover:bg-gray-300"
                   onClick={() => {
-                    setValue('publishStatus', publishStatus)
-                    setEditablePublishStatus(false)
+                    setValue('publishStatus', publishStatus); // Revert to original value
+                    setEditablePublishStatus(false);
                   }}
-                >Cancel</button>
+                >
+                  Cancel
+                </button>
                 <button
                   type="button"
-                  className='px-3 save-changes-button bg-white hover:bg-white/80 text-black rounded-full'
+                  className="save-changes-button text-sm px-3 py-1 text-white bg-blue-600 rounded hover:bg-blue-700"
                   onClick={() => {
-                    const watchPublishStatus = getValues('publishStatus')
-                    setValue('publishStatus', watchPublishStatus)
-                    setEditablePublishStatus(false)
+                    const watchPublishStatus = watch('publishStatus');
+                    setValue('publishStatus', watchPublishStatus || publishStatus)
+                    setPublishStatus(watchPublishStatus); // Update to new value
+                    setEditablePublishStatus(false);
                   }}
-                >Save
+                >
+                  Save
                 </button>
               </div>
-            }
+            )}
           </div>
+
 
           {/* comments */}
           <div className='mt-8'>
@@ -237,9 +270,9 @@ function EditVideo() {
                     comment={comment}
                     videoOwnerId={singleVideo.ownerId}
                     videoOwnerChannelName={singleVideo.ownerChannelName}
-                    userData={userData} 
-                    selfVideo= {true}
-                    />
+                    userData={userData}
+                    selfVideo={true}
+                  />
                 ))
               }
             </div>
@@ -266,56 +299,121 @@ function EditVideo() {
               onClick={(e) => {
                 if (editableTitle || editableDescription || editablePublishStatus) {
                   e.preventDefault()
-                  setUnsavedChanges(true)
+                  setUnsavedChangesPopup(true)
                 } else {
                   handleSubmit(submit)
                 }
               }}
               className="w-full disabled:bg-gray-600 disabled:cursor-not-allowed bg-blue-600 hover:bg-blue-700 backdrop-blur-md py-1.5 px-3 rounded-lg max-md:text-sm"
-              disabled={loading}
+              // disabled={loading || (
+              //   thumbnailImg === singleVideo.thumbnail
+              //   && title === singleVideo.title
+              //   && description === singleVideo.description
+              //   && publishStatus === singleVideo.publishStatus
+              // )}
             >
-              {loading ? <img src={loadingSpinner} alt="" className="w-12 mx-auto -my-3" /> : "Save Changes"
+              {isUpdating ? <img src={loadingSpinner} alt="" className="w-12 mx-auto -my-3" /> : "Save Changes"
               }
             </button>
 
+            {/* if unsaved changes then popup will showup  */}
             {
-              unsavedChanges && <div>
-                <p className='text-gray-300'>There are some unsaved changes</p>
-                <div className='flex gap-x-3 justify-center mt-2'>
-                  <button
-                    type="button"
-                    className='px-3 py-1.5 rounded-full bg-gray-500/20'
-                    onClick={() => {
-                      [...document.getElementsByClassName("cancel-changes-button")].forEach(element => element.click());
-                      setUnsavedChanges(false)
-                      handleSubmit(submit)()
-                    }}
-                  >Don't Save</button>
-                  <button
-                    type="button"
-                    className='px-3 py-1.5 rounded-full font-semibold bg-white text-black'
-                    onClick={() => {
-                      [...document.getElementsByClassName("save-changes-button")].forEach(element => element.click())
-                      setUnsavedChanges(false)
-                      handleSubmit(submit)()
-                    }}
-                  >Save</button>
+              unsavedChangesPopup
+              && <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black bg-opacity-50">
+                <div className="bg-white dark:bg-zinc-900 relative rounded-lg p-6 max-w-md">
+                  <MdArrowBack
+                    onClick={() => setUnsavedChangesPopup(false)}
+                    className='absolute top-2 left-2 text-3xl' />
+                  <h2 className="text-2xl font-bold text-white mb-3 mt-5">Unsaved Changes</h2>
+                  <p className="text-base text-zinc-400 mb-6">You have unsaved changes. Do you want to save them or discard?</p>
+                  <div className="flex justify-end">
+                    <button
+                      className=" text-white bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md mr-2"
+                      onClick={() => {
+                        [...document.getElementsByClassName("save-changes-button")].forEach(element => element.click())
+                        setUnsavedChangesPopup(false)
+                        handleSubmit(submit)()
+                      }}>Save
+                    </button>
+                    <button
+                      className="bg-red-500 hover:bg-red-600 text-red-50 px-4 py-2 rounded-md"
+                      onClick={() => {
+                        [...document.getElementsByClassName("cancel-changes-button")].forEach(element => element.click());
+                        setUnsavedChangesPopup(false)
+                        handleSubmit(submit)()
+                      }}
+                    >
+                      Don't Save
+                    </button>
+                  </div>
                 </div>
-
               </div>
             }
 
+            {/* discard all changes */}
+            <button
+              type="button"
+              className='w-full disabled:bg-gray-700/50 disabled:cursor-not-allowed bg-red-600 hover:bg-red-700 backdrop-blur-md py-1.5 px-3 rounded-lg max-md:text-sm'
+              onClick={() => setDiscardAllPopup(true)}
+            >
+              Discard all changes
+            </button>
+            {
+              discardAllPopup
+              && <ConfirmationPopup
+                cancelFunc={() => setDiscardAllPopup(false)}
+                cancelText={"Cancel"}
+                confirmFunc={() => {
+                  setTitle(singleVideo.title)
+                  setDescription(singleVideo.description)
+                  setThumbnailImg(singleVideo.thumbnail)
+                  setPublishStatus(singleVideo.publishStatus)
+                  setEditableTitle(false)
+                  setEditableDescription(false)
+                  setEditablePublishStatus(false)
+                  setUnsavedChangesPopup(false)
+                  setValue('description', singleVideo.description)
+                  setValue('title', singleVideo.title)
+                  setValue('thumbnail', singleVideo.thumbnail)
+                  setValue('publishStatus', singleVideo.publishStatus)
+                }}
+                confirmText={"Discard All"}
+                message="Are you sure you want to discard all the changes?"
+                extraInfo="This will revert all the changes that you've made."
+              />
+            }
           </div>
+
+          {/* deleting video */}
           <button
             type="button"
-            className='w-full disabled:bg-gray-700/50 disabled:cursor-not-allowed bg-red-600 hover:bg-red-700 backdrop-blur-md py-1.5 px-3 rounded-lg max-md:text-sm'
-          // disabled
+            className='w-full mt-8 disabled:bg-gray-700/50 disabled:cursor-not-allowed bg-red-600 hover:bg-red-700 backdrop-blur-md py-1.5 px-3 rounded-lg max-md:text-sm'
+            // disabled
+            onClick={() => {
+              setDeleteVideoPopup(true)
+            }}
           >
             Delete Video
           </button>
+
+          {
+            deleteVideoPopup
+            && <ConfirmationPopup
+              cancelFunc={() => setDeleteVideoPopup(false)}
+              cancelText={"No"}
+              confirmFunc={async () => {
+                await dispatch(deleteVideo(v_id))
+                // show the toast 
+                toast.error(<p className='font-sans font-semibold'>Video has been Removed!</p>, options);
+                navigate(-2)
+                setDeleteVideoPopup(false)
+              }}
+              confirmText={"Delete Video"}
+              message="Are you sure you want to delete this video?"
+            />
+          }
         </div>
       </form >
-
 
     </div >
 

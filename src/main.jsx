@@ -13,28 +13,28 @@ import AppRouter from './Routing.jsx'
 
 function Main() {
     const dispatch = useDispatch();
-    const { error } = useSelector(state => state.auth);
+    const { error, loading } = useSelector(state => state.auth);
     const [initialLoading, setInitialLoading] = React.useState(true);
 
-    React.useEffect(() => {
-        const initiateAutoLogin = async () => {
-            try {
-                await dispatch(autoLogin()); // use .unwrap() to handle any errors
-            } catch (error) {
-                console.error('Error during auto login:', error);
-            } finally {
-                setInitialLoading(false); // Stop loading once auto-login completes
-            }
-        };
+    // React.useEffect(() => {
+    //     const initiateAutoLogin = async () => {
+    //         try {
+    //             await dispatch(autoLogin()); // use .unwrap() to handle any errors
+    //         } catch (error) {
+    //             console.error('Error during auto login:', error);
+    //         } finally {
+    //             setInitialLoading(false); // Stop loading once auto-login completes
+    //         }
+    //     };
 
-        initiateAutoLogin();
-    }, []);
+    //     initiateAutoLogin();
+    // }, []);
 
-    if (initialLoading) return <InitialSkeleton />
+    // if (initialLoading || loading) return <InitialSkeleton />
 
-    if (error && error.code === "ERR_NETWORK") {
-        return <ServerDown />;
-    }
+    // if (error && error.code === "ERR_NETWORK") {
+    //     return <ServerDown />;
+    // }
 
     return <AppRouter />;
 }

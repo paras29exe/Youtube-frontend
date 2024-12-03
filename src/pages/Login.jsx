@@ -35,75 +35,54 @@ function Login() {
     };
 
     return (
-        <div className='min-h-screen w-full flex items-center justify-center '>
-            <form
-                onSubmit={handleSubmit(submit)}
-                className='relative bg-gray-900/50 p-10 rounded-xl shadow-xl w-2/5 text-white shadow-gray-800'
-            >
-                <FaTimes
-                    className='absolute top-4 right-4 text-2xl bg-red-600 p-1 rounded-full text-white cursor-pointer hover:bg-red-700 transition'
-                    onClick={(e) => { e.stopPropagation(); navigate(-1); }}
-                />
-                <h2 className='text-3xl font-extrabold mb-8 text-center'>Login to Your Account</h2>
+        <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white">
 
-                <div className="flex flex-col">
-                    <InputField
-                        floatingLabel='Email or Username'
-                        // placeholder='Enter your Email or Username'
-                        register={register}
-                        registerAs="username"
-                        errors={errors}
+            <div className="w-full max-w-md p-8 bg-gray-900 bg-opacity-90 rounded-lg shadow-lg">
+                <h1 className="text-3xl font-bold text-center mb-6">Login to Your Account</h1>
+                <form onSubmit={handleSubmit(submit)} className="space-y-4">
+                    <div className='flex flex-col box-border'>
+                        {/* Email Input */}
+                        <InputField
+                            floatingLabel="Email or Username"
+                            register={register}
+                            registerAs="username"
+                            errors={errors}
                             // placeholder="Enter your email"
                             type="text"
+                            className="focus:outline-none focus:ring-1 focus:ring-blue-600"
                         />
-                    <InputField
-                        floatingLabel='Password'
-                        // placeholder='Enter Password'
-                        type={showPassword ? 'text' : 'password'}
-                        register={register}
-                        registerAs="password"
-                        errors={errors}
-                        passwordField={true}
-                        showPassword={showPassword}
-                        setShowPassword={setShowPassword}
-                        className='form p-3 border border-gray-500 bg-gray-800 rounded-lg w-full text-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500'
-                    />
-                </div>
-
-                <div className='flex justify-end mb-6'>
-                    <p className='text-sm text-gray-400'>
-                        New user? <NavLink to="/auth/api/v1/signup" className='text-blue-400 hover:text-blue-500 transition hover:underline'>Sign up here</NavLink>
-                    </p>
-                </div>
-
-                {loading || showAnimation ? (
-                    <div className='flex items-center justify-center mb-4'>
-                        <svg xmlns="http://www.w3.org/2000/svg" style={{ margin: 'auto', background: 'none', display: 'block', shapeRendering: 'auto' }} width="40px" height="40px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-                            <circle cx="50" cy="50" fill="none" stroke="#00BFFF" strokeWidth="8" r="35" strokeDasharray="164.93361431346415 56.97787143782138">
-                                <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;360 50 50" keyTimes="0;1" />
-                            </circle>
-                        </svg>
+                        {/* Password Input */}
+                        <InputField
+                            floatingLabel="Password"
+                            register={register}
+                            registerAs="password"
+                            errors={errors}
+                            // placeholder="Enter your password"
+                            type={showPassword ? "text" : "password"}
+                            setShowPassword={setShowPassword}
+                            showPassword={showPassword}
+                            className="focus:outline-none focus:ring-1 focus:ring-blue-600"
+                        />
                     </div>
-                ) : (
+                    <div className="flex justify-between items-center text-sm">
+                        <a href="/forgot-password" className="text-gray-400 hover:text-gray-200">Forgot Password?</a>
+                        <a href="/auth/api/v1/signup" className="text-red-500 hover:underline">Create Account</a>
+                    </div>
                     <button
-                        type='submit'
-                        className='w-full bg-blue-600 text-white py-2 rounded-lg font-semibold text-lg hover:bg-blue-700 transition duration-200'
+                        type="submit"
+                        className="w-full py-2 bg-red-600 rounded-lg hover:bg-red-700 transition text-white font-semibold"
                     >
-                        Login
+                        {loading || showAnimation 
+                        ? <div className="w-7 aspect-square mx-auto border-4 border-white border-t-transparent rounded-full animate-spin"></div> 
+                        : "Login"
+                        }
                     </button>
-                )}
-            </form>
-            {(loading || showAnimation) && (
-                <div className="absolute z-20 inset-0 flex items-center justify-center backdrop-blur-sm bg-black/30">
-                    <Lottie
-                        animationData={scanningAnimation}
-                        loop
-                        className='w-72 h-72'
-                    />
-                </div>
-            )}
+                </form>
+                <p className="text-center text-gray-500 text-xs mt-4">
+                    By logging in, you agree to our <a href="#" className="text-red-400 hover:underline">Terms</a> and <a href="#" className="text-red-400 hover:underline">Privacy Policy</a>.
+                </p>
+            </div>
         </div>
-
     );
 }
 

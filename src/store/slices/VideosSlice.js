@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getVideos, searchVideos, getVideoById, playVideo, uploadVideo, updateVideoDetails } from "../asyncThunks/videosThunk";
+import { getVideos, searchVideos, getVideoById, playVideo, uploadVideo, updateVideoDetails, deleteVideo } from "../asyncThunks/videosThunk";
 
 const initialState = {
     videos: null,
@@ -34,7 +34,7 @@ const videoSlice = createSlice({
             .addCase(getVideos.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error;
-                state.videos = [];
+                state.videos = null;
             })
             // searched videos
             .addCase(searchVideos.fulfilled, (state, action) => {
@@ -95,7 +95,6 @@ const videoSlice = createSlice({
                 state.loading = false;
                 state.error = action.error;
             })
-
             // give play video cases
             .addCase(playVideo.pending, (state, action) => {
                 state.loading = true;
@@ -107,6 +106,20 @@ const videoSlice = createSlice({
                 state.error = null;
             })
             .addCase(playVideo.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error;
+            })
+            // delete video cases
+            .addCase(deleteVideo.fulfilled, (state, action) => {
+                // state.videos = state.videos.filter((video) => video._id !== action.payload.data._id);
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(deleteVideo.pending, (state, action) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(deleteVideo.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error;
             })

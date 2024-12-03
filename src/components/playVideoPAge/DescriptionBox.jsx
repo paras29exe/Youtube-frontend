@@ -3,11 +3,10 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import timeAgo from '../../utils/timeAgo';
 import formatViews from '../../utils/formatViews';
 
-const VideoDescriptionBox = ({ currentVideo, editMode, setEditMode, register, setValue, errors, watch }) => {
+const VideoDescriptionBox = ({ currentVideo, description, setDescription, editMode, setEditMode, register, setValue, errors, watch }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const descriptionRef = useRef(null);
-  const [description, setDescription] = useState(currentVideo.description)
 
   useEffect(() => {
     if (descriptionRef.current) {
