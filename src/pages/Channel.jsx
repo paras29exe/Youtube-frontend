@@ -44,7 +44,7 @@ function Channel() {
     if (loading ) return 
 
     if (user && !error) return (
-        <div className='h-screen w-screen overflow-x-hidden overflow-y-auto box-border 2xl:px-28 xl:px-16 lg:px-5'>
+        <div className='h-full w-full overflow-x-hidden overflow-y-auto box-border 2xl:px-28 xl:px-16 lg:px-5'>
             <div className="upper h-3/5 w-full bg-hite flex inset-0 flex-col gap-y-8 mb-1">
                 {/* cover  image */}
                 <div className='coverimage w-full h-2/5'>

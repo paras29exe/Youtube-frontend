@@ -8,13 +8,13 @@ function NavBtn({to, sidebarSize, icon, name}) {
             // onClick={(e) => handleNavigation(e)}
             className={({ isActive }) =>
                 `${isActive ? "bg-gray-400/20" : ""}
-            ${sidebarSize === "small" ? "!flex-col !gap-2 p-3" : ""}
+            ${sidebarSize === "small" ? "!flex-col !gap-2 max-md2:!flex-row max-md2:!gap-2" : ""}
             hover:bg-gray-400/20 w-full text-left font-medium rounded-lg flex items-center flex-row gap-3 p-2 pl-5 mb-1 cursor-pointer 
-            ${!window.location.href.includes("/videos/play") && "md2:flex-col md2:gap-2 md2:p-3 lg2:flex-row lg2:gap-3 lg2:p-2"}
+            ${!window.location.href.includes("/videos/play") && "md2:flex-col md2:gap-2 !p-3 lg2:flex-row lg2:gap-3"}
             `}
         >
             {icon}
-            <p className={`md:text-center md:text-xs lg:text-sm ${sidebarSize === "small" ? "!text-xs text-center" : ""}`}>{name}</p>
+            <p className={`text-sm md:text-center md:text-xs lg:text-sm ${sidebarSize === "small" ? "!text-xs text-center max-md2:!text-sm" : ""}`}>{name}</p>
         </NavLink>
     );
 }

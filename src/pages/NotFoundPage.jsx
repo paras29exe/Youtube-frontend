@@ -1,35 +1,26 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import '../NotFoundPage.css'; // Assuming you're adding the CSS to a separate file
 import { displayContext } from '../context/displayContext';
 
 const NotFoundPage = () => {
-  const {setNotFound} = useContext(displayContext)
+  const { setNotFound } = useContext(displayContext)
   return (
-    <section className="page_404 h-screen flex items-center justify-center">
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-12">
-            <div className="col-sm-10 col-sm-offset-1 text-center">
-              <div className="four_zero_four_bg">
-                <p className="text-9xl text-center text-black ">404</p>
-              </div>
+    <section className=" bg-slate-200 h-screen flex flex-col items-center justify-center">
 
-              <div className="contant_box_404 text-black">
-                <h2 className="text-3xl font-semibold text-black font-serif">Look like you're lost !</h2>
-                <p className='text-black' >The page you are looking for is not available!</p>
-                <Link
-                  to="/"
-                  onClick={() => setNotFound(false)}
-                  className="inline-block px-6 py-3 my-4 bg-gradient-to-r from-green-500 to-green-700 text-white text-lg font-bold rounded-full shadow-lg transition-transform transform hover:scale-105 hover:shadow-xl"
-                >
-                  Go to Home
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+      <p className="text-9xl text-center text-black mb-20">404</p>
+      <div className=" text-black flex justify-center flex-col items-center">
+        <img src="https://www.gstatic.com/youtube/src/web/htdocs/img/monkey.png" alt="Monkey searching" />
+        <h2 className="text-3xl font-semibold text-black ">Look like you're lost!</h2>
+        <p className='text-black' >The page you are looking for is not available!</p>
+        <Link
+          to="/"
+          onClick={() => setNotFound(false)}
+          className="inline-block px-6 py-3 my-4 bg-gradient-to-r from-blue-600 to-blue-800 text-white text-lg font-bold rounded-full shadow-lg transition-transform duration-200 hover:scale-105 "
+        >
+          Go to Home
+        </Link>
       </div>
+
     </section>
   );
 };

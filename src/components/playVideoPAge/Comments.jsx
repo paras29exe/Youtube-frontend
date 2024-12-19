@@ -2,10 +2,13 @@ import { addComment } from '../../store/asyncThunks/commentThunk';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux'
 import SingleComment from '../SingleComment';
+import { useContext } from 'react';
+import { displayContext } from '../../context/displayContext';
 
 function Comments({ currentVideo }) {
     const { comments = [] } = useSelector(state => state.comments)
     const { userData } = useSelector(state => state.auth)
+    const { togglePopup } = useContext(displayContext)
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm()
 
@@ -34,7 +37,7 @@ function Comments({ currentVideo }) {
     }
 
     return (
-        <div className='mt-6'>
+        <div className='mt-2'>
             <h2 className="text-xl font-bold">Comments</h2>
             <form onSubmit={handleSubmit(submitComment)} className="flex items-start mt-4 space-x-4">
 
@@ -54,7 +57,7 @@ function Comments({ currentVideo }) {
 
             </form>
 
-            <div className="flex flex-col gap-y-6 py-6 px-1">
+            <div className="flex flex-col gap-y-6 pt-6 px-1">
 
                 {comments && comments.map((comment) => (
                     <SingleComment key={comment._id}

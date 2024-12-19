@@ -67,7 +67,7 @@ const videoSlice = createSlice({
             })
             // video upload
             .addCase(uploadVideo.fulfilled, (state, action) => {
-                // state.videos.docs = [...state.videos.docs, action.payload]
+                // state.userVideos = [...state.UserVideos, action.payload]
                 state.uploading = false;
                 state.error = null;
                 state.uploadProgress = 100;

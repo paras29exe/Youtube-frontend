@@ -9,7 +9,7 @@
   color: white;
 }
 body {
-  background-color: rgb(9, 9, 9);
+  background-color: rgb(20, 20, 20);
 }
 .Toastify__toast-container--top-right {
   top: 60px !important; /* Adjust this value to control the offset */
@@ -48,7 +48,7 @@ label.floating {
   color: #3b82f6;
 }
 
-input.form:focus + label {
+input.form:focus label {
   top: -65%;
   left: 0.5rem;
   font-size: 1rem;
@@ -58,7 +58,6 @@ input.form:focus + label {
 input.form:focus {
   border-color: #3b82f6;
   outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
 }
 input:-webkit-autofill {
   background-color: transparent !important; 
@@ -82,4 +81,13 @@ input:-webkit-autofill {
 
 ::-webkit-scrollbar-thumb:hover {
   background-color: #555;
+}
+
+@media (max-width: 639px) { /* Tailwind's 'sm' breakpoint is 640px */
+  ::-webkit-scrollbar {
+    display: none; /* Hides scrollbar in WebKit browsers */
+  }
+  * {
+    scrollbar-width: none; /* Hides scrollbar in Firefox */
+  }
 }

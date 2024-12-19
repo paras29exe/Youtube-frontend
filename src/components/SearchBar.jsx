@@ -16,7 +16,7 @@ function SearchBar() {
     }
 
     return (
-        <div className='search xl:w-2/5 md:w-1/2 m-auto flex w-1/3 h-9'>
+        <div className='search xl:w-2/5 md:w-1/2 m-auto flex w-2/3 h-9 max-sm:w-[80%]'>
             <form onSubmit={handleSubmit(search)} className='flex w-full'>
                 <input
                     type="search"

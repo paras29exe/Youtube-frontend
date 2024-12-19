@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 const ProtectedComponent = ({ user, children }) => {
     if (!user) {
         return (
-            <div className="min-h-screen w-full flex items-center justify-center bg-black dark:bg-zinc-900">
-                <div className="max-w-md w-full mx-4 bg-white dark:bg-zinc-800 rounded-lg shadow-lg p-6">
+            <div className="min-h-screen w-full flex items-center justify-center bg-zinc-900">
+                <div className="max-w-md w-full mx-4 bg-zinc-800 rounded-lg shadow-lg p-6">
                     <div className="text-center">
                         <div className="text-6xl text-blue-500 dark:text-white mb-4">🎥</div>
                         <h2 className="text-2xl font-bold text-blue-500 dark:text-white mb-2">Access Denied</h2>

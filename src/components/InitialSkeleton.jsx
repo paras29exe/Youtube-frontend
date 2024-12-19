@@ -19,7 +19,7 @@ function InitialSkeleton() {
             </div>
             {/* sidebar and videos */}
             <div className=' flex gap-x-2'>
-                <div className="w-1/6 h-screen bg-[#222222] border-slate-500 animate-pulse p-3 flex flex-col gap-y-4">
+                <div className="w-1/6 max-sm:hidden h-screen bg-[#222222] border-slate-500 animate-pulse p-3 flex flex-col gap-y-4">
                     <div className='w-full h-8 rounded-md bg-gray-500/50'></div>
                     <div className='w-full h-8 rounded-md bg-gray-500/50'></div>
                     <div className='w-full h-8 rounded-md bg-gray-500/50'></div>

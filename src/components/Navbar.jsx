@@ -11,6 +11,9 @@ import 'react-toastify/dist/ReactToastify.css'
 import SearchBar from './SearchBar';
 import ConfirmationPopup from '../utils/ConfirmationPopup';
 import { MdArrowBack } from 'react-icons/md';
+import { FaBars } from 'react-icons/fa6';
+import { FaSpinner } from 'react-icons/fa';
+
 
 function Navbar() {
     const { sidebarSize, toggleSidebar } = useContext(displayContext)
@@ -41,22 +44,22 @@ function Navbar() {
     return (
         <>
             <ToastContainer limit={1} />
-            <nav className={`bg-black/85 backdrop-blur-md navbar top-0 px-2 py-1.5 text-center flex items-center justify-between z-20`}>
-                <div className={`left flex items-center gap-x-4 w-1/3 max-lg2:pl-3 max-md2:pl-1 ${sidebarSize === "small" ? "pl-3" : ""} `}>
+            <nav className={`bg-[rgb(16,16,16)] backdrop-blur-md navbar top-0 px-3 max-sm:px-2 py-1.5 text-center flex items-center justify-between z-20`}>
+
+                <div className={`left flex items-center gap-x-4 bg-red-20 w-1/3 pl-0 md2:pl-3 lg2:pl-0  ${sidebarSize === "small" ? "!pl-3 max-md2:!pl-1 " : ""} `}>
                     <div onClick={toggleSidebar}
-                        className='hover:bg-gray-400/20 p-1.5 rounded-full'>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" className="bg-transparent bi bi-list" viewBox="0 0 16 16">
-                            <path fillRule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
-                        </svg>
+                        className='hover:bg-gray-400/20 p-2 rounded-full max-sm:hidden'>
+                        <FaBars className='text-xl' />
                     </div>
                     <div>
                         <img src={youtubeLogo} alt="Logo" />
                     </div>
                 </div>
                 <SearchBar />
-                <div className='w-1/3 flex items-center justify-end gap-x-8 pr-4'>
+                <div className='w-1/3 flex items-center justify-end gap-x-8 sm:pr-4'>
 
-                    <div className='relative z-50'>
+                    {/* video options */}
+                    <div className='relative z-50 max-sm:hidden'>
                         <div
                             className='hover:bg-gray-400/20 p-2 rounded-full cursor-pointer'
                             onClick={() => setDropdownVisible(prev => !prev)}
@@ -68,24 +71,25 @@ function Navbar() {
                         </div>
                         {dropdownVisible && (
                             ReactDOM.createPortal(
-                            <div ref={dropdownRef} className='absolute top-12 right-32 z-50 mt-2 w-48 bg-zinc-800 rounded-md shadow-lg '>
-                                <NavLink
-                                    onClick={() => setDropdownVisible(prev => !prev)}
-                                    to="/user/upload-video" className='block px-4 py-2 font-semibold rounded-t-md text-white hover:bg-gray-200 hover:text-black'>
-                                    Upload Video
-                                </NavLink>
-                                <NavLink
-                                    onClick={() => setDropdownVisible(prev => !prev)}
-                                    to="/users/current-user/dashboard/videos"
-                                    className='block px-4 py-2 font-semibold  rounded-b-md text-white hover:bg-gray-200 hover:text-black'>
-                                    Edit Video Details
-                                </NavLink>
-                            </div>,
-                            document.body)
+                                <div ref={dropdownRef} className='absolute top-12 right-32 z-50 mt-2 w-48 bg-zinc-800 rounded-md shadow-lg '>
+                                    <NavLink
+                                        onClick={() => setDropdownVisible(prev => !prev)}
+                                        to="/user/upload-video" className='block px-4 py-2 font-semibold rounded-t-md text-white hover:bg-gray-200 hover:text-black'>
+                                        Upload Video
+                                    </NavLink>
+                                    <NavLink
+                                        onClick={() => setDropdownVisible(prev => !prev)}
+                                        to="/users/current-user/dashboard/videos"
+                                        className='block px-4 py-2 font-semibold  rounded-b-md text-white hover:bg-gray-200 hover:text-black'>
+                                        Edit Video Details
+                                    </NavLink>
+                                </div>,
+                                document.body)
                         )}
                     </div>
 
-                    <div className='flex items-center justify-end gap-x-8 pr-4'>
+                    {/* account options */}
+                    <div className='flex items-center justify-end gap-x-8 '>
                         <div className='relative'>
                             <div
                                 className='bg-blue-400/30 rounded-full overflow-hidden w-10 h-10 cursor-pointer flex items-center justify-center'
@@ -110,7 +114,7 @@ function Navbar() {
                                             <>
                                                 <NavLink
                                                     onClick={() => setAccountDropdown(prev => !prev)}
-                                                    to="/users/current-user/dashboard"
+                                                    to="/dashboard"
                                                     className='select-none block px-4 py-2 rounded-t-md text-white font-semibold bg-zinc-800 hover:bg-gray-200 hover:text-black'>
                                                     Your Account
                                                 </NavLink>
@@ -119,6 +123,7 @@ function Navbar() {
                                                     className='select-none block px-4 py-2 rounded-b-md text-white font-semibold bg-zinc-800 focus:bg-gray-200 focus:text-black hover:bg-gray-200 hover:text-black'>
                                                     Logout
                                                 </div>
+                                                {/* popup before logout */}
                                                 {confirmLogout
                                                     && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
                                                         <div className="bg-white relative rounded-lg p-6 max-w-md">
@@ -129,14 +134,17 @@ function Navbar() {
                                                             <p className="text-base text-gray-600 mb-6">Aren't You happy with Us? You really want to logout from your account?</p>
                                                             <div className="flex justify-end">
                                                                 <button
-                                                                    className=" text-black font-semibold px-4 py-2 rounded-md mr-2"
-                                                                    onClick={() => {
-                                                                        dispatch(logout())
+                                                                    className=" text-red-600 text-lg font-bold px-4 py-2 rounded-md mr-2"
+                                                                    onClick={async () => {
+                                                                        await dispatch(logout())
                                                                         navigate("/")
                                                                         setAccountDropdown(prev => !prev)
                                                                         setConfirmLogout(() => false)
                                                                     }}>
-                                                                    Logout
+                                                                    {loading
+                                                                        ? <FaSpinner className='animate-spin text-center fill-red-600 text-2xl mx-auto' />
+                                                                        : "Logout"
+                                                                    }
                                                                 </button>
                                                                 <button
                                                                     className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md"

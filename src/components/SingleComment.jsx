@@ -118,7 +118,7 @@ function SingleComment({ comment, userData, videoOwnerId, videoOwnerChannelName,
                         >
                             {
                                 (isDisliked && userData)
-                                    ? <FaThumbsDown className={`text-lg transition-all duration-300 -scale-x-100 fill-blue-600 `} /> : <FaRegThumbsDown className="text-lg transition-all duration-300 " />
+                                    ? <FaThumbsDown className={`text-lg transition-all duration-300 -scale-x-100 fill-blue-600 `} /> : <FaRegThumbsDown className="text-lg -scale-x-100 transition-all duration-300 " />
                             }
                         </button>
                         {

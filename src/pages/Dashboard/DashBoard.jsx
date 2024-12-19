@@ -26,7 +26,7 @@ function DashBoard() {
     }, [])
 
     if (stats) return (
-        <div className="w-full h-full overflow-auto relative">
+        <div className="w-full h-full pb-20 overflow-auto relative">
             {/* Subscribers Badge */}
             <div className="absolute right-0 top-2 z-50">
                 <p className="flex items-center gap-x-2 px-3 py-1 rounded-full bg-red-600">
@@ -46,7 +46,7 @@ function DashBoard() {
                     to={"edit-details"}
                     className={({ isActive }) =>
                         `${isActive ? "fill-black text-black bg-white" : "fill-white text-white"
-                        } bg-inherit w-1/4 p-2 flex items-center justify-center gap-x-2 whitespace-nowrap cursor-pointer transition-all duration-300 border-r hover:bg-white hover:text-black hover:fill-black`
+                        } bg-inherit max-sm:w-1/2 max-sm:border-b w-1/4 p-2 flex items-center justify-center gap-x-2 whitespace-nowrap cursor-pointer transition-all duration-300 border-r hover:bg-white hover:text-black hover:fill-black`
                     }
                 >
                     <p className="text-xs xs:text-sm md2:text-base text-inherit">Edit Details</p>
@@ -57,7 +57,7 @@ function DashBoard() {
                     to="videos"
                     className={({ isActive }) =>
                         `${isActive ? "fill-black text-black bg-white" : "fill-white text-white"
-                        } bg-inherit w-1/4 p-2 flex items-center justify-center gap-x-2 whitespace-nowrap cursor-pointer transition-all duration-200 border-r hover:bg-white hover:text-black hover:fill-black`
+                        } bg-inherit max-sm:w-1/2 max-sm:border-b w-1/4 p-2 flex items-center justify-center gap-x-2 whitespace-nowrap cursor-pointer transition-all duration-200 border-r hover:bg-white hover:text-black hover:fill-black`
                     }
                 >
                     <p className="text-xs xs:text-sm md2:text-base text-inherit">({stats.totalVideos}) Videos</p>
@@ -68,7 +68,7 @@ function DashBoard() {
                     to="playlists"
                     className={({ isActive }) =>
                         `${isActive ? "fill-black text-black bg-white" : "fill-white text-white"
-                        } bg-inherit w-1/4 p-2 flex items-center justify-center gap-x-2 whitespace-nowrap cursor-pointer transition-all duration-200 border-r hover:bg-white hover:text-black hover:fill-black`
+                        } bg-inherit max-sm:w-1/2 w-1/4 p-2 flex items-center justify-center gap-x-2 whitespace-nowrap cursor-pointer transition-all duration-200 border-r hover:bg-white hover:text-black hover:fill-black`
                     }
                 >
                     <p className="text-xs xs:text-sm md2:text-base text-inherit">({stats.totalPlaylists}) Playlists</p>
@@ -79,7 +79,7 @@ function DashBoard() {
                     to="/subscribed-channels"
                     className={({ isActive }) =>
                         `${isActive ? "fill-black text-black bg-white" : "fill-white text-white"
-                        } bg-inherit w-1/4 p-2 flex items-center justify-center gap-x-2 whitespace-nowrap cursor-pointer transition-all duration-200 hover:bg-white hover:text-black hover:fill-black`
+                        } bg-inherit max-sm:w-1/2 w-1/4 p-2 flex items-center justify-center gap-x-2 whitespace-nowrap cursor-pointer transition-all duration-200 hover:bg-white hover:text-black hover:fill-black`
                     }
                 >
                     <p className="text-xs xs:text-sm md2:text-base text-inherit">Subscribed Channels</p>
@@ -88,7 +88,7 @@ function DashBoard() {
             </div>
 
             {/* Main Content */}
-            <div className="pt-6 px-4 xs:px-6 md2:px-10">
+            <div className="pt-6 ">
                 <Outlet />
             </div>
         </div>

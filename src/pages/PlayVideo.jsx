@@ -17,6 +17,7 @@ const VideoPlayerPage = () => {
     const v_id = searchParams.get('v_id');
 
     const { singleVideo, loading, error } = useSelector((state) => state.videos)
+    const { userData } = useSelector((state) => state.auth)
     const { setSidebarSize } = useContext(displayContext)
     const { showPopup } = useContext(displayContext)
     const video = singleVideo?.videoDetails
@@ -28,8 +29,9 @@ const VideoPlayerPage = () => {
         setSidebarSize("absolute")
 
         const getVideo = async () => {
-            dispatch(playVideo(v_id))
-            dispatch(getComments(v_id))
+            const res = await dispatch(playVideo(v_id))
+
+            await dispatch(getComments(v_id))
         }
         v_id && getVideo()
 
@@ -42,10 +44,10 @@ const VideoPlayerPage = () => {
     }
 
     if (video) return (
-        <>
-            <div className="flex flex-col md2:flex-row w-screen xl:px-20 max-xl:px-4 overflow-y-auto ">
+        <div className='w-full overflow-y-auto overflow-x-hidden'>
+            <div className='pb-20 flex max-lg:flex-col'>
                 {/* Main Video Section */}
-                <div className="flex-1 p-3 md2:w-3/5 flex flex-col gap-y-5">
+                <div className=" w-full lg:px-2 h-full lg:w-3/5 flex flex-col gap-y-4 xl:pl-20">
                     <div className="bg-black w-full aspect-video">
                         <ReactPlayer
                             className="outline-none aspect-video"
@@ -56,26 +58,28 @@ const VideoPlayerPage = () => {
                             autoPlay
                             playing={!showPopup}
                         />
-
                     </div>
-                    <p className="text-2xl font-bold -my-2.5 line-clamp-3">{video.title}</p>
+                    <div className='flex flex-col gap-y-4 px-3'>
+                        <div>
+                            <p className="text-2xl max-md:text-xl max-sm:text-lg font-bold line-clamp-3">{video.title}</p>
+                        </div>
 
-                    {/* action buttons */}
-                    <ActionButtons currentVideo={video} />
+                        {/* action buttons */}
+                        {video.ownerId != userData?.user?._id ? <ActionButtons currentVideo={video} /> : null}
 
-                    {/* description box */}
-                    <VideoDescriptionBox currentVideo={video} />
+                        {/* description box */}
+                        <VideoDescriptionBox currentVideo={video} />
 
-                    {/* comments */}
-                    <Comments currentVideo={video} videoId={video._id} />
-
+                        {/* comments */}
+                        {video.ownerId != userData?.user?._id ? <Comments currentVideo={video} videoId={video._id} /> : null}
+                    </div>
                 </div>
 
                 {/* Related Videos Sidebar */}
-                <div className="md2:w-2/5 w-full p-4">
-
+                <div className="lg:w-2/5 w-full lg:p-2">
+                    <h1 className='text-2xl max-lg:hidden mb-4 font-bold'>Related Videos</h1>
                     <div className="space-y-4">
-                        {singleVideo.randomVideos.map((video) => (
+                        {singleVideo?.randomVideos?.map((video) => (
                             <div
                                 key={video._id}
                                 data-video-id={video._id}
@@ -93,7 +97,7 @@ const VideoPlayerPage = () => {
                                     </div>
                                 </div>
                                 <div className='w-3/5 flex flex-col gap-y-1.5'>
-                                    <h3 className="text-md font-bold line-clamp-2">{video.title} </h3>
+                                    <h3 className="text-base max-lg:text-xl font-bold line-clamp-2">{video.title} </h3>
                                     <p className="text-gray-400 font-semibold text-xs">{video.channelName}</p>
                                     <div className='flex gap-x-2 text-xs'>
                                         <p className="text-gray-400"> {formatViews(video.views)} views </p>
@@ -108,7 +112,8 @@ const VideoPlayerPage = () => {
                     </div>
                 </div>
             </div>
-        </>
+
+        </div>
     );
 };
 

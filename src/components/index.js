@@ -5,6 +5,7 @@ import SideBar from "./SideBar";
 import ProtectedComponent from "./ProtectedComponet";
 import ServerDown from "../pages/ServerDown";
 import SingleComment from "./SingleComment";
+import FooterNav from "./FooterNav";
 
 export {
     InputField,
@@ -13,5 +14,6 @@ export {
     SideBar,
     ProtectedComponent,
     ServerDown,
-    SingleComment
+    SingleComment,
+    FooterNav
 }

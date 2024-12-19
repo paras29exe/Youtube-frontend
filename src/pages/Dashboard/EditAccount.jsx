@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { InputField } from "../../components";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAccountDetails } from "../../store/asyncThunks/accountThunk";
 import loadingSpinner from '../../assets/LoadingSpinner.svg'
+import { toast } from "react-toastify";
+import { displayContext } from "../../context/displayContext";
 
 function EditAccount() {
     const { handleSubmit, register, watch, formState: { errors }, setValue, setError } = useForm();
     const { userData } = useSelector((state) => state.auth)
     const { loading } = useSelector(state => state.account)
     const currUser = userData?.user
+
+    const { options } = useContext(displayContext)
 
     const [avatarImg, setAvatarImg] = useState(currUser?.avatar);
     const [coverImg, setCoverImg] = useState(currUser?.coverImg);
@@ -53,6 +57,7 @@ function EditAccount() {
 
         try {
             await dispatch(updateAccountDetails(data)).unwrap()
+            toast.success(<p className='font-sans font-semibold'>Changes have been made.</p>, options);
         } catch (error) {
             setError(error.name, {
                 type: 'manual',
@@ -64,7 +69,7 @@ function EditAccount() {
 
     return (
         <>
-            <div className="w-full h-full">
+            <div className="w-full h-full px-4">
                 {/* <h1 className="text-3xl text-center font-bold mb-5 underline font-sans ">Edit Your Account Details</h1> */}
                 <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
                     {/* Full Name Input */}

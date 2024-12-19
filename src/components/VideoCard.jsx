@@ -12,14 +12,16 @@ function VideoCard({ video, channelHome = false, channelVideos = false }) {
     return (
         <>
             <div
-                data-video-id={video._id}
+                data-video-id={video?._id}
                 className={`
-                    flex flex-col w-full aspect-video box-border
-                    ${(!channelHome && !channelVideos) ? "sm:w-1/2 lg2:w-1/3 3xl:w-1/4 4xl:w-1/5 p-1.5"
-                        : channelVideos ? "md:w-1/2 lg:w-1/3 xl:w-1/4 3xl:w-1/5 p-1"
-                            : "sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 3xl:w-1/6 p-0.5"}
-                    ${fourVideosInRow && !channelHome && !channelVideos ? "2xl:min-w-1/4 2xl:max-w-1/4" : null}
-                    `}
+                    flex flex-col basis-full h-fit aspect-video box-border p-1.5
+                    ${(!channelHome && !channelVideos)
+                        ? "sm:basis-1/2 lg2:basis-1/3 3xl:basis-1/4 4xl:basis-1/5"
+                        : (channelVideos)
+                            ? "md:basis-1/2 lg:basis-1/3 xl:basis-1/4 3xl:basis-1/5 "
+                            : "sm:basis-1/2 md:basis-1/3 lg:basis-1/4 xl:basis-1/5 3xl:basis-1/6"
+                    }
+                    ${fourVideosInRow && !channelHome && !channelVideos ? "2xl:basis-1/4" : null}`}
 
                 onClick={(e) => {
                     e.stopPropagation()
@@ -31,25 +33,25 @@ function VideoCard({ video, channelHome = false, channelVideos = false }) {
                     <img
                         className="object-cover aspect-video w-full rounded-lg"
                         // src={`https://picsum.photos/id/${video}/1000/600`}
-                        src={video.thumbnail}
+                        src={video?.thumbnail}
                         alt="Video thumbnail"
                     />
                     <div className="absolute select-none bottom-1 right-3 bg-black/70 px-1.5 py-0.5 font-semibold text-xs rounded-sm tracking-widest">
-                        {video.duration || "10:10"}
+                        {video?.duration || "10:10"}
                     </div>
                 </div>
-                <div className='py-3 flex gap-x-4'>
+                <div className='py-3 flex gap-x-4 p-1.5'>
                     {
                         !channelHome && !channelVideos && <div className='overflow-hidden cursor-pointer'>
                             <img
-                                data-channel-id={video.ownerId}
+                                data-channel-id={video?.ownerId}
                                 className='w-12 aspect-square rounded-full object-cover'
                                 // src={`https://picsum.photos/id/${video}/1000/600`}
-                                src={video.ownerAvatar}
+                                src={video?.ownerAvatar}
                                 alt="Channel Avatar"
                                 onClick={(e) => {
                                     e.stopPropagation()
-                                    navigate(`/channel/${"@" + video.ownerUsername}`)
+                                    navigate(`/channel/${"@" + video?.ownerUsername}`)
                                 }}
                             />
 
@@ -58,26 +60,26 @@ function VideoCard({ video, channelHome = false, channelVideos = false }) {
 
                     <div className='text-left w-full'>
                         <h2
-                            className="inline-block text-xl md2:text-lg font-semibold "
-                        > {String(video.title).trim()}
+                            className="line-clamp-2 text-base font-semibold max-sm:text-[12px]  mb-1"
+                        > {String(video?.title).trim()}
                         </h2>
                         {
                             !channelHome && !channelVideos &&
                             <p
-                                data-channel-id={video.ownerId}
+                                data-channel-id={video?.ownerId}
                                 className="text-xs text-gray-400 w-fit cursor-pointer -mb-1 hover:text-white"
                                 onClick={(e) => {
                                     e.stopPropagation()
-                                    navigate(`/channel/${"@" + video.ownerUsername}`)
+                                    navigate(`/channel/${"@" + video?.ownerUsername}`)
                                 }}
                             >
-                                {video.ownerChannelName || "Channel Name" }
+                                {video?.ownerChannelName || "Channel Name"}
                             </p>
                         }
                         <p>
-                            <span className="text-xs text-gray-400">{formatViews(video.views)} views</span>
+                            <span className="text-xs text-gray-400">{formatViews(video?.views)} views</span>
                             <span className='text-xs text-gray-400'> • </span>
-                            <span className="text-xs text-gray-400">{timeAgo(video.createdAt)}</span>
+                            <span className="text-xs text-gray-400">{timeAgo(video?.createdAt)}</span>
                         </p>
                     </div>
                 </div>

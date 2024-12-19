@@ -21,10 +21,20 @@ const accountSlice = createSlice({
             state.loading = false;
             state.error = null;
         },
-        // reset userVideos on upload of new video, edit or delete video
+        // fetch videos again after updating details of video 
         resetUserVideos: (state) => {
             state.userVideos = null;
         },
+        // adding video to userVideo without again making a call to database
+        addVideoAfterUpload: (state, action) => {
+            state.userVideos = [...state.userVideos, action.payload.data];
+            state.stats.totalVideos += 1
+        },
+        // removing video from userVideo without again making a call to database
+        removeVideoAfterDelete: (state, action) => {
+            state.userVideos =  state.userVideos.filter((video) => video._id !== action.payload.data._id);
+            state.stats.totalVideos -= 1
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -70,5 +80,5 @@ const accountSlice = createSlice({
     }
 })
 
-export const { clearAccountData, resetUserVideos } = accountSlice.actions;
+export const { clearAccountData, resetUserVideos, addVideoAfterUpload, removeVideoAfterDelete } = accountSlice.actions;
 export default accountSlice.reducer

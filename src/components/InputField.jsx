@@ -17,7 +17,7 @@ function InputField({
     const [value, setValue] = useState(defaultValue);
 
     return (
-        <div className={`w-full ${floatingLabel ? "my-3" : "my-1"}`}>
+        <div className={`w-full ${floatingLabel ? "mt-6" : "mt-2"}`}>
             <div className="relative w-full bg-inherit">
                 {floatingLabel ? (
                     <label
@@ -43,7 +43,7 @@ function InputField({
                     placeholder={placeholder}
                     type={type}
                     accept={accept}
-                    className={`relative text-white block w-full px-3 py-2 border border-zinc-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-md ${className}`}
+                    className={`relative text-white block w-full px-3 py-2 bg-transparent border-2 border-zinc-500 rounded-md shadow-sm focus:outline-none sm:text-md ${value && "!border-blue-500"} ${className}`}
                     autoComplete={registerAs === 'password' ? "off" : "on"}
                 />
                 <p className="text-sm text-zinc-500 my-0.5">{fieldInfo}</p>

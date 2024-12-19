@@ -7,6 +7,7 @@ import { login } from '../store/asyncThunks/authThunk';
 import { useDispatch, useSelector } from 'react-redux';
 import scanningAnimation from "../assets/scanning.json"
 import Lottie from 'lottie-react';
+import { CgSpinner } from 'react-icons/cg';
 
 function Login() {
     const { handleSubmit, register, setError, formState: { errors } } = useForm();
@@ -35,8 +36,7 @@ function Login() {
     };
 
     return (
-        <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white">
-
+        <div className="h-screen w-full overflow-auto flex items-center justify-center bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white">
             <div className="w-full max-w-md p-8 bg-gray-900 bg-opacity-90 rounded-lg shadow-lg">
                 <h1 className="text-3xl font-bold text-center mb-6">Login to Your Account</h1>
                 <form onSubmit={handleSubmit(submit)} className="space-y-4">
@@ -73,7 +73,7 @@ function Login() {
                         className="w-full py-2 bg-red-600 rounded-lg hover:bg-red-700 transition text-white font-semibold"
                     >
                         {loading || showAnimation 
-                        ? <div className="w-7 aspect-square mx-auto border-4 border-white border-t-transparent rounded-full animate-spin"></div> 
+                        ? <CgSpinner className='animate-spin text-3xl mx-auto' />
                         : "Login"
                         }
                     </button>

@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fulfilled, rejected } from "../../utils/responses";
 import AxiosInstance from "../../utils/AxiosInstance";
 import { setUploadProgress } from "../slices/VideosSlice";
-import { resetUserVideos } from "../slices/AccountSlice";
+import { addVideoAfterUpload, removeVideoAfterDelete, resetUserVideos } from "../slices/AccountSlice";
 import { useSearchParams } from "react-router-dom";
 
 export const uploadVideo = createAsyncThunk(
@@ -29,6 +29,8 @@ export const uploadVideo = createAsyncThunk(
                     },
                 }
             );
+            
+            await thunkAPI.dispatch(addVideoAfterUpload(response.data))
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err));
@@ -56,7 +58,7 @@ export const updateVideoDetails = createAsyncThunk(
                     },
                 }
             );
-            thunkAPI.dispatch(resetUserVideos())
+            await thunkAPI.dispatch(resetUserVideos())
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err));
@@ -86,8 +88,6 @@ export const searchVideos = createAsyncThunk(
             });
             return fulfilled(response);
         } catch (err) {
-            console.log(err);
-            
             return thunkAPI.rejectWithValue(rejected(err));
         }
     }
@@ -111,9 +111,7 @@ export const playVideo = createAsyncThunk(
     "videos/playVideo",
     async (v_id, thunkAPI) => {
         try {
-            const response = await AxiosInstance.get(`videos/play-video`, {
-                params: { videoId: v_id }
-            });
+            const response = await AxiosInstance.get(`videos/play-video/` + v_id);
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err));
@@ -127,6 +125,7 @@ export const deleteVideo = createAsyncThunk(
     async (v_id, thunkAPI) => {
         try {
             const response = await AxiosInstance.delete(`/videos/delete-video/${v_id}`);
+            thunkAPI.dispatch(removeVideoAfterDelete(response.data))
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err));

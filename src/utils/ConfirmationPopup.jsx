@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import LoadingSpinner from './LoadingSpinner';
+import { CgSpinner } from 'react-icons/cg';
 
 const ConfirmationPopup = ({
     cancelText,
@@ -38,9 +38,9 @@ const ConfirmationPopup = ({
                     <button
                         type='button'
                         onClick={confirmFunc}
-                        className="bg-blue-600 text-white hover:bg-blue-700 px-3 py-1.5 rounded-md transition-colors duration-200"
+                        className="bg-blue-600 text-white hover:bg-blue-800 px-3 py-1.5 rounded-md transition-colors duration-200"
                     >
-                        {loading ? <LoadingSpinner width='28px' /> : confirmText }
+                        {loading ? <CgSpinner className='animate-spin text-3xl mx-auto' /> : confirmText }
                     </button>
                 </div>
             </div>

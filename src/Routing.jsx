@@ -6,6 +6,7 @@ import ChannelVideos from './components/channelPage/ChannelVideos.jsx'
 import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom'
 import { useSelector } from "react-redux"
 import ConfirmationPopup from "./utils/ConfirmationPopup.jsx"
+import PlayUserVideo from "./pages/Dashboard/PlayUserVideo.jsx"
 
 const AppRouter = () => {
     const { userData } = useSelector(state => state.auth);
@@ -14,7 +15,7 @@ const AppRouter = () => {
         createRoutesFromElements(
             <>
                 <Route path="/" element={<App />}>
-                    <Route index element={<VideoUpload />} />
+                    <Route index element={<HomeVideos />} />
                     <Route path="results" element={<SearchResults />} />
                     <Route path="/auth/api/v1/login" element={<Login />} />
                     <Route path="/auth/api/v1/signup" element={<Signup />} />
@@ -39,6 +40,7 @@ const AppRouter = () => {
                     >
                         <Route path="edit-details" element={<EditAccount />} />
                         <Route path='videos' element={<UserVideosPage />} />
+                        <Route path="videos/play" element={<PlayUserVideo />} />
                         <Route path='videos/edit' element={<EditVideo />} />
                     </Route>
                     <Route

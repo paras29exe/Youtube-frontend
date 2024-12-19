@@ -49,17 +49,17 @@ function EditVideo() {
     reader.readAsDataURL(file);
   }
 
-  // function to handle the title input box height
-  const handleInputTitle = (event) => {
-    const textarea = event?.target || document.getElementById('title-input');
-    textarea.style.height = "auto";
-    textarea.style.height = `${textarea.scrollHeight + 5}px`;
-  }
+  // // function to handle the title input box height
+  // const handleInputTitle = (event) => {
+  //   const textarea = event?.target || document.getElementById('title-input');
+  //   textarea.style.height = "auto";
+  //   textarea.style.height = `${textarea.scrollHeight + 5}px`;
+  // }
 
-  // call the input height handler on enable of input box for title
-  useEffect(() => {
-    editableTitle && handleInputTitle()
-  }, [editableTitle])
+  // // call the input height handler on enable of input box for title
+  // useEffect(() => {
+  //   editableTitle && handleInputTitle()
+  // }, [editableTitle])
 
   // set the states after the fetching from API is complete
   useEffect(() => {
@@ -112,9 +112,9 @@ function EditVideo() {
 
   if (singleVideo) return (
 
-    <div className='w-full overflow-auto'>
+    <div className='w-full h-full overflow-auto'>
       <MdArrowBack
-        onClick={() => navigate("/users/current-user/dashboard/videos")}
+        onClick={() => navigate(-2)}
         className="text-4xl" />
 
       <form onSubmit={handleSubmit(submit)} className='flex gap-x-3 p-3 pb-10 box-border '>
@@ -147,18 +147,17 @@ function EditVideo() {
             {
               editableTitle ?
                 <div className=' rounded-sm'>
-                  <textarea
+                  <input
                     {...register('title', {
                       value: title,
                       maxLength: {
                         value: 150,
-                        message: 'Title cannot exceed 100 characters',
+                        message: 'Title cannot exceed 150 characters',
                       }
                     })}
                     id='title-input'
                     autoFocus={editableTitle}
                     onInput={(e) => { handleInputTitle(e) }}
-                    rows={1}
                     className={`w-full text-lg font-semibold p-2 border rounded bg-inherit focus:outline-none ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
                     placeholder="Enter Title"
                   />
@@ -245,7 +244,7 @@ function EditVideo() {
                   className="save-changes-button text-sm px-3 py-1 text-white bg-blue-600 rounded hover:bg-blue-700"
                   onClick={() => {
                     const watchPublishStatus = watch('publishStatus');
-                    setValue('publishStatus', watchPublishStatus || publishStatus)
+                    setValue('publishStatus', watchPublishStatus)
                     setPublishStatus(watchPublishStatus); // Update to new value
                     setEditablePublishStatus(false);
                   }}
@@ -255,7 +254,6 @@ function EditVideo() {
               </div>
             )}
           </div>
-
 
           {/* comments */}
           <div className='mt-8'>
@@ -305,12 +303,12 @@ function EditVideo() {
                 }
               }}
               className="w-full disabled:bg-gray-600 disabled:cursor-not-allowed bg-blue-600 hover:bg-blue-700 backdrop-blur-md py-1.5 px-3 rounded-lg max-md:text-sm"
-              // disabled={loading || (
-              //   thumbnailImg === singleVideo.thumbnail
-              //   && title === singleVideo.title
-              //   && description === singleVideo.description
-              //   && publishStatus === singleVideo.publishStatus
-              // )}
+            disabled={loading || (
+              thumbnailImg === singleVideo.thumbnail
+              && title === singleVideo.title
+              && description === singleVideo.description
+              && publishStatus === singleVideo.publishStatus
+            )}
             >
               {isUpdating ? <img src={loadingSpinner} alt="" className="w-12 mx-auto -my-3" /> : "Save Changes"
               }
@@ -355,6 +353,12 @@ function EditVideo() {
               type="button"
               className='w-full disabled:bg-gray-700/50 disabled:cursor-not-allowed bg-red-600 hover:bg-red-700 backdrop-blur-md py-1.5 px-3 rounded-lg max-md:text-sm'
               onClick={() => setDiscardAllPopup(true)}
+              disabled={loading || (
+                thumbnailImg === singleVideo.thumbnail
+                && title === singleVideo.title
+                && description === singleVideo.description
+                && publishStatus === singleVideo.publishStatus
+              )}
             >
               Discard all changes
             </button>
@@ -371,7 +375,7 @@ function EditVideo() {
                   setEditableTitle(false)
                   setEditableDescription(false)
                   setEditablePublishStatus(false)
-                  setUnsavedChangesPopup(false)
+                  setDiscardAllPopup(false)
                   setValue('description', singleVideo.description)
                   setValue('title', singleVideo.title)
                   setValue('thumbnail', singleVideo.thumbnail)
@@ -408,6 +412,7 @@ function EditVideo() {
                 navigate(-2)
                 setDeleteVideoPopup(false)
               }}
+              loading={loading}
               confirmText={"Delete Video"}
               message="Are you sure you want to delete this video?"
             />

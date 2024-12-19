@@ -31,10 +31,11 @@ function Videos({ }) {
     if (videos && !videos.hasPrevPage && videos.totalDocs === 0) return <p className='text-3xl w-fit m-auto'>No Videos available</p>
 
     return (
-        <div className='w-full h-screen pb-16 overflow-y-auto px-10 flex flex-wrap content-start'>
+        <div className='w-full pb-16 overflow-y-auto flex g flex-wrap content-start'>
             {
                 videos?.docs?.map((video) => <VideoCard key={video._id} video={video} />)
             }
+            
         </div >
 
     )

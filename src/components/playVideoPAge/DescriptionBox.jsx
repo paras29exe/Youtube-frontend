@@ -12,38 +12,30 @@ const VideoDescriptionBox = ({ currentVideo, description, setDescription, editMo
     if (descriptionRef.current) {
       setIsOverflowing(descriptionRef.current.scrollHeight > descriptionRef.current.clientHeight);
     }
-    editMode && handleInput()
   }, [currentVideo.description, editMode]);
 
   const handleToggleDescription = () => {
     setIsExpanded(!isExpanded);
   };
 
-  const handleInput = (event) => {
-    const textarea = event?.target || document.getElementById('desc-input');
-    textarea.style.height = "auto";
-    textarea.style.height = `${textarea.scrollHeight + 5}px`;
-  }
-
   return (
-    <div className="bg-gray-600/20 p-4 rounded-lg">
-      <p >
-        <span className='text-gray-400'>{formatViews(currentVideo.views)} views</span>
-        <span className="text-gray-400 text-sm"> • </span>
-        <span className='text-gray-400'>{timeAgo(currentVideo.createdAt)}</span>
+    <div className="bg-black/30 p-4 rounded-md relative">
+      <p className='mb-2'>
+        <span className='text-gray-500'>{formatViews(currentVideo.views)} views</span>
+        <span className="text-gray-500 text-sm"> • </span>
+        <span className='text-gray-500'>{timeAgo(currentVideo.createdAt)}</span>
       </p>
 
       {editMode ? (
         <div className=' rounded-sm'>
-          <textarea
+          <input
             ref={descriptionRef}
             {...register('description', {
               value: description,
             })}
             id='desc-input'
             autoFocus={editMode}
-            onInput={(e) => { handleInput(e) }}
-            rows={1}
+            rows={6}
             className={`w-full p-2 border focus:outline-none rounded  bg-inherit ${errors.description ? 'border-red-500' : 'border-gray-300'}`}
             placeholder="Enter video description"
           />
@@ -74,15 +66,16 @@ const VideoDescriptionBox = ({ currentVideo, description, setDescription, editMo
       ) : (
         <div
           ref={descriptionRef}
-          className={`mb-2 ${isExpanded ? '' : 'line-clamp-3'} whitespace-pre-wrap`}
+          className={`mb-2 ${isExpanded ? '' : 'line-clamp-3'} max-sm:text-sm whitespace-pre-wrap `}
         >
-          {description}
+          {description || currentVideo.description}
         </div>
       )}
       {
         isOverflowing && (
           <button
-            className="text-blue-500"
+          type='button'
+            className="text-blue-500 absolute right-2 bottom-0"
             onClick={handleToggleDescription}
           >
             {isExpanded ? '...see less' : '...more'}

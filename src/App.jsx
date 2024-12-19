@@ -1,4 +1,4 @@
-import { Navbar, SideBar } from "./components";
+import { FooterNav, Navbar, SideBar } from "./components";
 import { Outlet, useLocation } from 'react-router-dom';
 import './App.css';
 import { useContext, useRef, useEffect, useState } from "react";
@@ -32,13 +32,18 @@ function App() {
   return (
     <>
       <TopLoadingBar color="#FF0000" ref={loadingBar} height={3} />
-      <div className="h-screen overflow-hidden px-2">
+      <div className="h-screen overflow-hidden">
         <Navbar />
-        <div className="h-screen overflow-hidden flex pb-20">
+        <div className="h-screen overflow-hidden flex max-sm:pb-16">
+          {/* this side bbar have classname hidden for smaller width sizes like phone */}
           <SideBar />
+
           <Outlet />
-          {/* {showLoadingBar ? "" : <Outlet />} */}
+
+
         </div>
+        {/* this footer will be visible when the sidebar disappear or we can say for phone widths */}
+        <FooterNav />
       </div>
     </>
   );
