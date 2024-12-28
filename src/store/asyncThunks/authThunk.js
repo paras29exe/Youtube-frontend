@@ -51,6 +51,25 @@ export const login = createAsyncThunk(
     }
 )
 
+export const loginWithGoogle = createAsyncThunk(
+    "auth/loginWithGoogle",
+    async (token, thunkAPI) => {
+        try {
+            const response = await AxiosInstance.post("users/login-with-google",
+                {token },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
+            return fulfilled(response);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err))
+        }
+    }
+)
+
 export const autoLogin = createAsyncThunk(
     "auth/autoLogin",
     async (_, thunkAPI) => {

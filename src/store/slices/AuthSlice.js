@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signup, login, logout, autoLogin } from "../asyncThunks/authThunk"
+import { signup, login, loginWithGoogle, logout, autoLogin } from "../asyncThunks/authThunk"
 
 const initialState = {
     userData: null,
@@ -45,6 +45,19 @@ const authSlice = createSlice({
                 state.userData = action.payload.data;
             })
             .addCase(login.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error;
+            })
+            // login with google
+            .addCase(loginWithGoogle.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(loginWithGoogle.fulfilled, (state, action) => {
+                state.loading = false;
+                state.userData = action.payload.data;
+            })
+            .addCase(loginWithGoogle.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error;
             })

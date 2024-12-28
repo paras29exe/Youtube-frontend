@@ -1,7 +1,7 @@
 import React from 'react'
 import './index.css'
 import ReactDOM from 'react-dom/client'
-import { RouterProvider} from 'react-router-dom'
+import { RouterProvider } from 'react-router-dom'
 import { DisplayContextProvider } from './context/displayContext'
 import { store } from './store/store.js'
 import { Provider, useSelector } from 'react-redux'
@@ -10,6 +10,7 @@ import { autoLogin } from './store/asyncThunks/authThunk.js'
 import InitialSkeleton from './components/InitialSkeleton.jsx'
 import ServerDown from './pages/ServerDown.jsx'
 import AppRouter from './Routing.jsx'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 
 function Main() {
     const dispatch = useDispatch();
@@ -41,10 +42,13 @@ function Main() {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <Provider store={store}>
-            <DisplayContextProvider>
-                <Main />
-            </DisplayContextProvider>
-        </Provider>
+        <GoogleOAuthProvider clientId="1044836111492-te2vo25809mmsldgesbfvldppj032ch8.apps.googleusercontent.com" >
+            <Provider store={store}>
+                <DisplayContextProvider>
+                    <Main />
+                </DisplayContextProvider>
+            </Provider>
+        </GoogleOAuthProvider>
+
     </React.StrictMode>
 )

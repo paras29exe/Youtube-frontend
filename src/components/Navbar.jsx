@@ -13,6 +13,7 @@ import ConfirmationPopup from '../utils/ConfirmationPopup';
 import { MdArrowBack } from 'react-icons/md';
 import { FaBars } from 'react-icons/fa6';
 import { FaSpinner } from 'react-icons/fa';
+import { googleLogout } from '@react-oauth/google';
 
 
 function Navbar() {
@@ -96,8 +97,8 @@ function Navbar() {
                                 onClick={() => setAccountDropdown(prev => !prev)}
                             >
                                 {
-                                    userData?.user.avatar ?
-                                        <img src={userData.user.avatar} className="object-cover min-w-full min-h-full" alt='avatar' />
+                                    userData?.avatar ?
+                                        <img src={userData.avatar} className="object-cover min-w-full min-h-full" alt='avatar' />
                                         : loading ?
                                             <img src={LoadingSpinner} alt="loading" />
                                             :
@@ -136,6 +137,7 @@ function Navbar() {
                                                                 <button
                                                                     className=" text-red-600 text-lg font-bold px-4 py-2 rounded-md mr-2"
                                                                     onClick={async () => {
+                                                                        googleLogout();
                                                                         await dispatch(logout())
                                                                         navigate("/")
                                                                         setAccountDropdown(prev => !prev)

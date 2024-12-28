@@ -8,7 +8,7 @@ import Lottie from 'lottie-react';
 import uploadingAnimation from '../assets/uploading.json'
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { BiVideo, BiImageAdd } from 'react-icons/bi';
+import { BiVideo, BiImageAdd, BiVideoPlus, BiDownArrow } from 'react-icons/bi';
 import { CgSpinner } from 'react-icons/cg';
 
 const VideoUpload = () => {
@@ -26,8 +26,18 @@ const VideoUpload = () => {
 
     const dispatch = useDispatch();
 
+    const [playlists, setPlaylists] = useState([
+        { id: 1, title: 'Playlist 1', cover: 'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg' },
+        { id: 2, title: 'Playlist 2', cover: 'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg' },
+        { id: 3, title: 'Playlist 3', cover: 'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg' },
+    ]);
+    const [selectedPlaylists, setSelectedPlaylists] = useState([]);
+    const [showPlaylistOverlay, setShowPlaylistOverlay] = useState(false);
+
     const onSubmit = async (data) => {
         const res = await dispatch(uploadVideo(data))
+        console.log(data);
+        
 
         if (res.error) {
             toast.error(<p className=' font-sans font-semibold'>Video uploading failed. Try again</p>, options)
@@ -181,6 +191,70 @@ const VideoUpload = () => {
                                     placeholder="Enter video description"
                                     rows="5"
                                 />
+                            </div>
+                            {/* add to playlist */}
+                            <div className="relative">
+                                <label htmlFor='playlist-input' className="block text-sm font-medium text-blue-500 mb-1">Add to Playlist</label>
+                                <div className="relative">
+                                    <button
+                                        type="button"
+                                        className="block w-full text-sm text-white border border-zinc-600 rounded-md p-2 bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        onClick={() => setShowPlaylistOverlay(!showPlaylistOverlay)}
+                                    >
+                                        My playlists <BiDownArrow className='inline-block ml-2' />
+
+                                    </button>
+                                    {showPlaylistOverlay && (
+                                        <div className="fixed inset-0 z-10 bg-black bg-opacity-50 flex items-center justify-center">
+                                            <div className="bg-zinc-800 border border-zinc-600 rounded-md shadow-lg p-4 w-1/3" >
+                                            <h2 className="text-white text-lg mb-4  flex items-center justify-center gap-x-3"><BiVideoPlus /> Add video to....... </h2>
+                                            <div className="max-h-60 overflow-y-auto">
+                                                {playlists.map((playlist) => (
+                                                    <div
+                                                        key={playlist.id}
+                                                        className="flex items-center p-2 hover:bg-zinc-700 cursor-pointer"
+                                                        onClick={() => {
+                                                            const isSelected = selectedPlaylists.includes(playlist.id);
+                                                            if (isSelected) {
+                                                                setSelectedPlaylists(selectedPlaylists.filter(id => id !== playlist.id));
+                                                            } else {
+                                                                setSelectedPlaylists([...selectedPlaylists, playlist.id]);
+                                                            }
+                                                        }}
+                                                    >
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={selectedPlaylists.includes(playlist.id)}
+                                                            onChange={() => {
+                                                                const isSelected = selectedPlaylists.includes(playlist.id);
+                                                                if (isSelected) {
+                                                                    setSelectedPlaylists(selectedPlaylists.filter(id => id !== playlist.id));
+                                                                } else {
+                                                                    setSelectedPlaylists([...selectedPlaylists, playlist.id]);
+                                                                }
+                                                            }}
+                                                            className="mr-2"
+                                                        />
+                                                        <img src={playlist.cover} alt={playlist.title} className="h-10 aspect-video rounded-md mr-2" />
+                                                        <span className="text-white">{playlist.title}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            <button
+                                                type="button"
+                                                className="mt-4 w-full text-sm text-white border border-zinc-600 rounded-md p-2 bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                onClick={() => {
+                                                    setShowPlaylistOverlay(false)
+                                                    setValue('playlist', selectedPlaylists)
+                                                }}
+                                            >
+                                                Close
+                                            </button>
+                                        </div>
+                                        </div>
+                                    )}
+                                
+                                </div>
                             </div>
                             {/* publish status */}
                             <div>
