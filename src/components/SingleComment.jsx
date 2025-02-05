@@ -24,6 +24,7 @@ function SingleComment({ comment, userData, videoOwnerId, videoOwnerChannelName,
 
 
     const handleLike = () => {
+
         setIsLiked((prev) => !prev)
         selfVideo && setLikedByOwner(prev => !prev)
 
@@ -132,6 +133,7 @@ function SingleComment({ comment, userData, videoOwnerId, videoOwnerChannelName,
                 </div>
             </div>
             {
+                // owner can remove any comment
                 userData?.user?._id === videoOwnerId
                     ? <button
                         type="button"
@@ -141,7 +143,8 @@ function SingleComment({ comment, userData, videoOwnerId, videoOwnerChannelName,
                         Remove <RiDeleteBin5Line className='fill-red-600 cursor-pointer' />
                     </button>
                     :
-                    comment.ownerId === userData?.user?._id
+                    // comment owner can remove his/her comment
+                    comment.ownerId === userData?._id
                         ? <div className='relative mr-6 mt-2 select-none'>
 
                             <BiDotsVerticalRounded

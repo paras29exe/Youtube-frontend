@@ -7,6 +7,7 @@ import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } 
 import { useSelector } from "react-redux"
 import ConfirmationPopup from "./utils/ConfirmationPopup.jsx"
 import PlayUserVideo from "./pages/Dashboard/PlayUserVideo.jsx"
+import WatchHistory from './pages/WatchHistory.jsx'
 
 const AppRouter = () => {
     const { userData } = useSelector(state => state.auth);
@@ -31,6 +32,15 @@ const AppRouter = () => {
                         }
                     />
                     <Route
+                        path="/user/upload-video"
+                        element={
+                            <ProtectedComponent user={userData}>
+                                <VideoUpload />
+                            </ProtectedComponent>
+                        }
+                    />
+                    <Route path="/videos/play" element={<VideoPlayerPage />} />
+                    <Route
                         path="/dashboard"
                         element={
                             <ProtectedComponent user={userData}>
@@ -44,14 +54,14 @@ const AppRouter = () => {
                         <Route path='videos/edit' element={<EditVideo />} />
                     </Route>
                     <Route
-                        path="/user/upload-video"
+                        path="/current-user/activity"
                         element={
                             <ProtectedComponent user={userData}>
-                                <VideoUpload />
+                                <WatchHistory />
                             </ProtectedComponent>
                         }
                     />
-                    <Route path="/videos/play" element={<VideoPlayerPage />} />
+
                 </Route>
 
                 <Route path="*" element={<NotFoundPage />} />

@@ -83,6 +83,7 @@ input:-webkit-autofill {
   background-color: #555;
 }
 
+
 @media (max-width: 639px) { /* Tailwind's 'sm' breakpoint is 640px */
   ::-webkit-scrollbar {
     display: none; /* Hides scrollbar in WebKit browsers */

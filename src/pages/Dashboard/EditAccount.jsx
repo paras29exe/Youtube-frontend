@@ -11,12 +11,11 @@ function EditAccount() {
     const { handleSubmit, register, watch, formState: { errors }, setValue, setError } = useForm();
     const { userData } = useSelector((state) => state.auth)
     const { loading } = useSelector(state => state.account)
-    const currUser = userData?.user
 
     const { options } = useContext(displayContext)
 
-    const [avatarImg, setAvatarImg] = useState(currUser?.avatar);
-    const [coverImg, setCoverImg] = useState(currUser?.coverImg);
+    const [avatarImg, setAvatarImg] = useState(userData?.avatar);
+    const [coverImg, setCoverImg] = useState(userData?.coverImg);
     const dispatch = useDispatch()
 
     const watchFullName = watch("fullName");
@@ -24,7 +23,7 @@ function EditAccount() {
     const watchAvatar = watch("avatar");
     const watchCover = watch("coverImage");
 
-    const disabled = ((!watchFullName || watchFullName === currUser?.fullName) && (!watchUsername || watchUsername === currUser?.username) && (avatarImg === currUser?.avatar) && (coverImg === currUser?.coverImage))
+    const disabled = ((!watchFullName || watchFullName === userData?.fullName) && (!watchUsername || watchUsername === userData?.username) && (avatarImg === userData?.avatar) && (coverImg === userData?.coverImage))
 
     React.useEffect(() => {
         if (watchAvatar && watchAvatar[0]) {
@@ -42,16 +41,16 @@ function EditAccount() {
     }, [watchAvatar, watchCover]);
 
     React.useEffect(() => {
-        setAvatarImg(currUser?.avatar)
-        setCoverImg(currUser?.coverImage)
-    }, [currUser?.avatar, currUser?.coverImage, userData])
+        setAvatarImg(userData?.avatar)
+        setCoverImg(userData?.coverImage)
+    }, [userData?.avatar, userData?.coverImage, userData])
 
     const onSubmit = async (data) => {
         data = {
-            fullName: (data.fullName !== currUser?.fullName) ? data.fullName : null,
-            username: (data.username !== currUser?.username) ? data.username : null,
+            fullName: (data.fullName !== userData?.fullName) ? data.fullName : null,
+            username: (data.username !== userData?.username) ? data.username : null,
             avatar: data.avatar ? data.avatar : null,
-            sameCover: (coverImg === currUser?.coverImage),
+            sameCover: (coverImg === userData?.coverImage),
             coverImage: data.coverImage ? data.coverImage : null,
         }
 
@@ -77,7 +76,7 @@ function EditAccount() {
                         label="Full Name"
                         type="text"
                         required={false}
-                        defaultValue={currUser?.fullName}
+                        defaultValue={userData?.fullName}
                         register={register}
                         registerAs="fullName"
                         errors={errors}
@@ -90,7 +89,7 @@ function EditAccount() {
                         label="Username"
                         type="text"
                         required={false}
-                        defaultValue={currUser?.username}
+                        defaultValue={userData?.username}
                         register={register}
                         registerAs="username"
                         errors={errors}

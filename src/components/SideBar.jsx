@@ -3,7 +3,7 @@ import { NavBtn } from './'
 import { displayContext } from '../context/displayContext'
 import { useLocation } from 'react-router-dom';
 import { MdHome, MdHistory, MdSubscriptions } from 'react-icons/md'
-
+import { FiActivity } from 'react-icons/fi';
 function SideBar() {
     const { sidebarSize, setSidebarSize } = useContext(displayContext);
     const { pathname } = useLocation()
@@ -59,9 +59,9 @@ function SideBar() {
                 sidebarSize={sidebarSize}
             />
             <NavBtn
-                to="/current-user/watch-history"
+                to="/current-user/activity"
                 icon={<MdHistory className='text-2xl' />}
-                name="Watch History"
+                name=" Activity"
                 sidebarSize={sidebarSize}
             />
 
