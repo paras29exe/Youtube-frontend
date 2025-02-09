@@ -40,7 +40,8 @@ function Navbar() {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, []);
+        
+    }, [userData]);
 
     return (
         <>

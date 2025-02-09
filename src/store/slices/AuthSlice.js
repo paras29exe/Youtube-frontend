@@ -12,8 +12,8 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         setUserData(state, action) {
-            state.userData.user = {
-                ...state.userData.user,
+            state.userData = {
+                ...state.userData,
                 fullName: action.payload.fullName,
                 username: action.payload.username,
                 avatar: action.payload.avatar,
@@ -55,7 +55,7 @@ const authSlice = createSlice({
             })
             .addCase(loginWithGoogle.fulfilled, (state, action) => {
                 state.loading = false;
-                state.userData = action.payload.data;
+                state.userData = action.payload;
             })
             .addCase(loginWithGoogle.rejected, (state, action) => {
                 state.loading = false;

@@ -12,7 +12,6 @@ function VideoCard({ video, channelHome = false, channelVideos = false }) {
     return (
         <>
             <div
-                data-video-id={video?._id}
                 className={`
                     flex flex-col basis-full h-fit aspect-video box-border p-1.5
                     ${(!channelHome && !channelVideos)
@@ -25,7 +24,7 @@ function VideoCard({ video, channelHome = false, channelVideos = false }) {
 
                 onClick={(e) => {
                     e.stopPropagation()
-                    const videoId = e.currentTarget.dataset.videoId
+                    const videoId = video?._id
                     navigate(`/videos/play?v_id=${videoId}`);
                 }}
             >

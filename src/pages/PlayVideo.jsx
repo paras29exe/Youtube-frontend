@@ -45,7 +45,7 @@ const VideoPlayerPage = () => {
 
     if (video) return (
         <div className='w-full overflow-y-auto overflow-x-hidden'>
-            <div className='pb-20 flex max-lg:flex-col'>
+            <div className='pb-20 xl:px-20 3xl:px-32 flex max-lg:flex-col'>
                 {/* Main Video Section */}
                 <div className=" w-full lg:px-2 h-full lg:w-3/4 flex flex-col gap-y-4">
                     <div className="bg-black w-full aspect-video">

@@ -43,7 +43,7 @@ function EditAccount() {
     React.useEffect(() => {
         setAvatarImg(userData?.avatar)
         setCoverImg(userData?.coverImage)
-    }, [userData?.avatar, userData?.coverImage, userData])
+    }, [])
 
     const onSubmit = async (data) => {
         data = {

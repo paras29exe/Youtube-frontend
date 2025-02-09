@@ -1,10 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { updateAccountDetails, getUserVideos, getChannelStats } from "../asyncThunks/accountThunk";
+import { updateAccountDetails, getUserVideos, getChannelStats, getWatchHistory, removeVideoFromWatchHistory } from "../asyncThunks/accountThunk";
+import WatchHistory from "../../pages/WatchHistory";
 
 const initialState = {
     currentUser: null,
     stats: null,
     userVideos: null,
+    watchHistory: null,
     loading: false,
     error: null,
 };
@@ -32,8 +34,12 @@ const accountSlice = createSlice({
         },
         // removing video from userVideo without again making a call to database
         removeVideoAfterDelete: (state, action) => {
-            state.userVideos =  state.userVideos.filter((video) => video._id !== action.payload.data._id);
+            state.userVideos =  state.userVideos.filter((video) => video._id !== action.payload);
             state.stats.totalVideos -= 1
+        },
+        // remove video from watch history
+        removeVideoFromUserData: (state, action) => {
+            state.watchHistory = state.watchHistory.filter((video) => video._id !== action.payload);
         }
     },
     extraReducers: (builder) => {
@@ -51,6 +57,7 @@ const accountSlice = createSlice({
             state.loading = false;
             state.error = action.error;
         })
+        // get user videos
         .addCase(getUserVideos.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -64,6 +71,7 @@ const accountSlice = createSlice({
             state.loading = false;
             state.error = action.error;
         })
+        // channel statistics
         .addCase(getChannelStats.pending, (state) => {
             state.loading = true;
             state.error = null;
@@ -77,8 +85,28 @@ const accountSlice = createSlice({
             state.loading = false;
             state.error = action.error;
         })
+        // get watch history of user
+        .addCase(getWatchHistory.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(getWatchHistory.fulfilled, (state, action) => {
+            state.loading = false;
+            state.watchHistory = action.payload.data;
+            state.error = null;
+        })
+        .addCase(getWatchHistory.rejected, (state, action) => {
+            state.loading = false;
+            state.watchHistory = null;
+            state.error = action.error;
+        })
+        // remove video from watch history
+        .addCase(removeVideoFromWatchHistory.fulfilled, (state, action) => {
+            state.loading = false;
+            state.error = null;
+        })
     }
 })
 
-export const { clearAccountData, resetUserVideos, addVideoAfterUpload, removeVideoAfterDelete } = accountSlice.actions;
+export const { clearAccountData, resetUserVideos, addVideoAfterUpload, removeVideoAfterDelete, removeVideoFromUserData } = accountSlice.actions;
 export default accountSlice.reducer

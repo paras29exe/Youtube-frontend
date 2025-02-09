@@ -42,7 +42,7 @@ function Main() {
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <GoogleOAuthProvider clientId="1044836111492-te2vo25809mmsldgesbfvldppj032ch8.apps.googleusercontent.com" >
+        <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID} >
             <Provider store={store}>
                 <DisplayContextProvider>
                     <Main />

@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fulfilled, rejected } from "../../utils/responses";
 import AxiosInstance from "../../utils/AxiosInstance";
 import { setUserData } from "../slices/AuthSlice";
+import { removeVideoFromUserData } from "../slices/AccountSlice";
 
 export const getAccountDetails = createAsyncThunk(
     "account/getDetails",
@@ -58,6 +59,32 @@ export const getUserVideos = createAsyncThunk(
         try {
             const response = await AxiosInstance.get(`/dashboard/user-videos`);
 
+            return fulfilled(response);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err));
+        }
+    }
+)
+
+export const getWatchHistory = createAsyncThunk(
+    "account/getWatchHistory",
+    async (_, thunkAPI) => {
+        try {
+            const response = await AxiosInstance.get(`/users/get-watch-history`);
+
+            return fulfilled(response);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err));
+        }
+    }
+)
+
+export const removeVideoFromWatchHistory = createAsyncThunk(
+    "account/removeVideoFromWatchHistory",
+    async (videoId, thunkAPI) => {
+        try {
+            const response = await AxiosInstance.delete(`/users/remove-video-from-watch-history/${videoId}`);
+            thunkAPI.dispatch(removeVideoFromUserData(videoId))
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err));

@@ -19,7 +19,7 @@ function SideBar() {
     return (
         <div
             id='sidebar'
-            className={`max-sm:hidden z-20 pt-5 backdrop-blur-sm transition-all duration-200 ease-in-out h-screen overflow-y-auto px-1.5
+            className={`max-sm:hidden z-20 pt-5 backdrop-blur-sm transition-all duration-200 ease-in-out min-h-screen overflow-y-auto px-1.5
                 ${!pathname.includes("/videos/play") && "sm:min-w-52 sm:max-w-52 sm:bg-black/70 md2:bg-[rgb(16,16,16)] md2:relative md2:min-w-20 md2:max-w-20 lg2:min-w-52 lg2:max-w-52"}
                 
                 ${sidebarSize === "large" ? "relative left-0 min-w-52 max-w-52 max-md2:fixed"

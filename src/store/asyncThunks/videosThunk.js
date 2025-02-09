@@ -125,7 +125,7 @@ export const deleteVideo = createAsyncThunk(
     async (v_id, thunkAPI) => {
         try {
             const response = await AxiosInstance.delete(`/videos/delete-video/${v_id}`);
-            thunkAPI.dispatch(removeVideoAfterDelete(response.data))
+            thunkAPI.dispatch(removeVideoAfterDelete(v_id))
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err));

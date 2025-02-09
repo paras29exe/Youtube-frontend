@@ -66,9 +66,14 @@ const AppRouter = () => {
 
                 <Route path="*" element={<NotFoundPage />} />
             </>
-        )
+        ), {
+        future: {
+            v7_relativeSplatPath: true,
+        },
+    }
+
     );
-    return <RouterProvider router={router} />
+    return <RouterProvider future={{ v7_startTransition: true }} router={router} />
 };
 
 export default AppRouter;

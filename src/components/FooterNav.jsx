@@ -27,7 +27,7 @@ function FooterNav() {
           <FaUsers /><span className="text-sm">Subscriptions</span>
         </NavLink>
         <NavLink
-        to={"/watch-history"}
+        to={"/current-user/activity"}
         className={({isActive}) => (`${isActive ? "bg-gray-300/20" : ""} flex-col w-full flex items-center gap-x-2 px-4 py-1.5`)}
         >
           <FaHistory /><span className="text-sm">History</span>
