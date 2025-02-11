@@ -16,7 +16,7 @@ const accountSlice = createSlice({
     initialState,
     reducers: {
         // clear data on logout
-        clearAccountData: (state) => {
+        clearAccountInfo: (state) => {
             state.currentUser = null;
             state.stats = null;
             state.userVideos = null;
@@ -108,5 +108,5 @@ const accountSlice = createSlice({
     }
 })
 
-export const { clearAccountData, resetUserVideos, addVideoAfterUpload, removeVideoAfterDelete, removeVideoFromUserData } = accountSlice.actions;
+export const { clearAccountInfo, resetUserVideos, addVideoAfterUpload, removeVideoAfterDelete, removeVideoFromUserData } = accountSlice.actions;
 export default accountSlice.reducer

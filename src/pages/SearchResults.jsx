@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { searchVideos } from '../store/asyncThunks/videosThunk'
 import { useSearchParams } from 'react-router-dom'
-import SearchedVideoCard from '../components/SearchedVideoCard'
+import SearchedVideoCard from '../components/cards/SearchedVideoCard'
 import { CgSpinner } from 'react-icons/cg'
 
 function SearchResults() {

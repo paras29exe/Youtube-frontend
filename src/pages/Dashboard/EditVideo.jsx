@@ -35,7 +35,7 @@ function EditVideo() {
   const [editableDescription, setEditableDescription] = useState(false)
   const [editablePublishStatus, setEditablePublishStatus] = useState(false)
 
-
+// default values from the database
   const [thumbnailImg, setThumbnailImg] = useState(null);
   const [title, setTitle] = useState(null)
   const [description, setDescription] = useState(null)
@@ -87,9 +87,9 @@ function EditVideo() {
   const submit = async (data) => {
     data = {
       ...(data.thumbnail?.[0] && { thumbnail: data.thumbnail }), // Include only if a file is uploaded
-      ...(data.title && data.title?.trim() !== singleVideo.title && { title: data.title }), // Include only if the title is different
-      ...(data.description && data.description?.trim() !== singleVideo.description && { description: data.description }), // Include only if the description is different
-      ...(data.publishStatus && data.publishStatus !== singleVideo.publishStatus && { publishStatus: data.publishStatus }) // Include only if the status is not "public"
+      title: data.title,
+      description: data.description,
+      publishStatus: data.publishStatus
     };
     if (Object.keys(data).length === 0) {
       toast.dismiss()
@@ -142,6 +142,7 @@ function EditVideo() {
             {errors.thumbnail && <p className="text-red-500 text-sm">{errors.thumbnail.message}</p>}
 
           </div>
+
           {/* title */}
           <div>
             {
@@ -153,11 +154,10 @@ function EditVideo() {
                       maxLength: {
                         value: 150,
                         message: 'Title cannot exceed 150 characters',
-                      }
+                      },
                     })}
                     id='title-input'
                     autoFocus={editableTitle}
-                    onInput={(e) => { handleInputTitle(e) }}
                     className={`w-full text-lg font-semibold p-2 border rounded bg-inherit focus:outline-none ${errors.title ? 'border-red-500' : 'border-gray-300'}`}
                     placeholder="Enter Title"
                   />
@@ -171,14 +171,14 @@ function EditVideo() {
                       className='px-3 py-1 cancel-changes-button bg-gray-500/20 rounded-full'
                       onClick={() => {
                         setEditableTitle(false)
-                        setValue('title', title)
+                        setValue('title', title.trim())
                       }}
                     >Cancel</button>
                     <button
                       type="button"
                       className='px-3 py-1 save-changes-button bg-white hover:bg-white/80 text-black rounded-full'
                       onClick={() => {
-                        const titleValue = watch('title')
+                        const titleValue = watch('title').trim()
                         if (titleValue?.length > 150) {
                           setError('title', {
                             type: 'manual',

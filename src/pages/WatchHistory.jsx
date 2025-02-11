@@ -1,11 +1,11 @@
 import React from 'react'
-import VideoCard from '../components/VideoCard'
+import VideoCard from '../components/cards/VideoCard'
 import { BiArrowToRight, BiArrowToLeft } from 'react-icons/bi'
 import { FiThumbsUp } from 'react-icons/fi'
 import { MdOutlineWatchLater } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { getWatchHistory } from '../store/asyncThunks/accountThunk'
-import WatchHistoryCard from '../components/watchHistoryCard'
+import WatchHistoryCard from '../components/cards/WatchHistoryCard'
 
 function WatchHistory() {
     const dispatch = useDispatch()

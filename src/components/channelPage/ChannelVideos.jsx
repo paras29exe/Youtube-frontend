@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import VideoCard from '../VideoCard'
+import VideoCard from '../cards/VideoCard'
 import { getChannelVideos } from '../../store/asyncThunks/channelThunk'
 import Skeleton from '../Skeleton'
 import Cookies from 'js-cookie'

@@ -19,6 +19,11 @@ const authSlice = createSlice({
                 avatar: action.payload.avatar,
                 coverImage: action.payload.coverImage,
             };
+        },
+        clearUserData(state, action) {
+                state.userData = null;
+                state.error = null;
+                state.loading = null;
         }
     },
     extraReducers: (builder) => {
@@ -92,5 +97,5 @@ const authSlice = createSlice({
     }
 })
 
-export const { setUserData } = authSlice.actions;
+export const { setUserData, clearUserData } = authSlice.actions;
 export default authSlice.reducer;

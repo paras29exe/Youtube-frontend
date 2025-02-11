@@ -20,6 +20,7 @@ function SearchBar() {
             <form onSubmit={handleSubmit(search)} className='flex w-full'>
                 <input
                     type="search"
+                    autoComplete="off"
                     name="search-bar"
                     {...register('searchValue')}
                     placeholder='Search'

@@ -1,9 +1,9 @@
 import React from 'react'
-import formatViews from '../utils/formatViews'
+import formatViews from '../../utils/formatViews'
 import { useNavigate } from 'react-router-dom'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
 import { useDispatch } from 'react-redux'
-import { removeVideoFromWatchHistory } from '../store/asyncThunks/accountThunk'
+import { removeVideoFromWatchHistory } from '../../store/asyncThunks/accountThunk'
 
 function WatchHistoryCard({ video}) {
     const navigate = useNavigate()
@@ -29,7 +29,7 @@ function WatchHistoryCard({ video}) {
 
             <div className='flex w-full relative'>
                 <div className='flex flex-wrap gap-x-1 w-11/12'>
-                    <p className='text-xs text-gray-500 w-1/3 overflow-hidden text-ellipsis whitespace-nowrap'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores dolorem vel, enim nesciunt porro cum.</p>
+                    <p className='text-xs text-gray-500 max-w-1/2 overflow-hidden text-ellipsis whitespace-nowrap'>{video.ownerChannelName}</p>
                     <p className='text-xs text-gray-500'> • </p>
                     <p className='text-xs text-gray-500'>{formatViews(video.views)} views</p>
                 </div>

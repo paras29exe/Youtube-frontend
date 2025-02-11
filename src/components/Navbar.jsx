@@ -14,6 +14,7 @@ import { MdArrowBack } from 'react-icons/md';
 import { FaBars } from 'react-icons/fa6';
 import { FaSpinner } from 'react-icons/fa';
 import { googleLogout } from '@react-oauth/google';
+import { clearUserData } from '../store/slices/AuthSlice';
 
 
 function Navbar() {
@@ -48,7 +49,7 @@ function Navbar() {
             <ToastContainer limit={1} />
             <nav className={`bg-[rgb(16,16,16)] backdrop-blur-md navbar top-0 px-3 max-sm:px-2 py-1.5 text-center flex items-center justify-between z-20`}>
 
-                <div className={`left flex items-center gap-x-4 bg-red-20 w-1/3 pl-0 md2:pl-3 lg2:pl-0  ${sidebarSize === "small" ? "!pl-3 max-md2:!pl-1 " : ""} `}>
+                <div className={`left select-none flex items-center gap-x-4 bg-red-20 w-1/3 pl-0 md2:pl-3 lg2:pl-0  ${sidebarSize === "small" ? "!pl-3 max-md2:!pl-1 " : ""} `}>
                     <div onClick={toggleSidebar}
                         className='hover:bg-gray-400/20 p-2 rounded-full max-sm:hidden'>
                         <FaBars className='text-xl' />
@@ -81,7 +82,7 @@ function Navbar() {
                                     </NavLink>
                                     <NavLink
                                         onClick={() => setDropdownVisible(prev => !prev)}
-                                        to="/users/current-user/dashboard/videos"
+                                        to="/dashboard/videos"
                                         className='block px-4 py-2 font-semibold  rounded-b-md text-white hover:bg-gray-200 hover:text-black'>
                                         Edit Video Details
                                     </NavLink>
@@ -139,6 +140,7 @@ function Navbar() {
                                                                     className=" text-red-600 text-lg font-bold px-4 py-2 rounded-md mr-2"
                                                                     onClick={async () => {
                                                                         googleLogout();
+                                                                        await clearUserData()
                                                                         await dispatch(logout())
                                                                         navigate("/")
                                                                         setAccountDropdown(prev => !prev)

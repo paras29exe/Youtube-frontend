@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import timeAgo from '../utils/timeAgo';
-import { displayContext } from "../context/displayContext"
+import timeAgo from '../../utils/timeAgo';
+import { displayContext } from "../../context/displayContext"
 import { useNavigate } from 'react-router-dom';
-import formatViews from '../utils/formatViews';
+import formatViews from '../../utils/formatViews';
 
 function VideoCard({ video, channelHome = false, channelVideos = false }) {
     const { fourVideosInRow } = useContext(displayContext); // Add state for 4 videos in a row

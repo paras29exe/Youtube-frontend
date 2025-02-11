@@ -55,7 +55,7 @@ const VideoDescriptionBox = ({ currentVideo, description, setDescription, editMo
               type="button"
               className='px-3 py-1 save-changes-button bg-white hover:bg-white/80 text-black rounded-full'
               onClick={() => {
-                const descValue = watch('description')
+                const descValue = watch('description').trim()
                 setDescription(descValue)
                 setValue('description', descValue)
                 setEditMode(false)

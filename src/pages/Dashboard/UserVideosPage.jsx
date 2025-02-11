@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import UserVideoCard from '../../components/dashboard/UserVideoCard'
 import { useDispatch, useSelector } from 'react-redux'
 import { getUserVideos } from '../../store/asyncThunks/accountThunk'
@@ -8,6 +8,8 @@ import { CgSpinner } from 'react-icons/cg'
 function UserVideosPage() {
     const dispatch = useDispatch()
     const { userVideos, loading } = useSelector(state => state.account)
+    const [isChecked, setIsChecked] = useState(false);
+
 
     React.useEffect(() => {
         async function fetchVideos() {
@@ -18,9 +20,14 @@ function UserVideosPage() {
             }
         }
         !userVideos && fetchVideos()
-    }, [window.location.pathname])
+    }, [window.location.pathname, userVideos])
 
-    if(loading) return <CgSpinner className='animate-spin text-5xl mx-auto mt-5'/>
+    function handleSelectAllClick() {
+        setIsChecked(!isChecked);
+
+    }
+
+    if (loading) return <CgSpinner className='animate-spin text-5xl mx-auto mt-5' />
 
     if (!userVideos?.length) return (
         <div className='flex flex-col gap-y-2 items-center justify-center pt-8'>
@@ -31,8 +38,15 @@ function UserVideosPage() {
     )
 
     return (
-        <div className='flex flex-wrap content-start w-full h-full px-4 gap-x-3 gap-y-6'>
-            {userVideos?.map(video => <UserVideoCard key={video._id} video={video} />)}
+        <div className='flex flex-col flex-wrap content-start w-full h-full px-4 gap-x-3 gap-y-6'>
+            <div
+                className="flex w-fit h-full gap-2 cursor-pointer select-none"
+                onClick={handleSelectAllClick}
+            >
+                <input type="checkbox" name="" className=' cursor-pointer' defaultChecked={isChecked} onClick={() => {}}/>
+                <span>Select All</span>
+            </div>
+            {userVideos?.map(video => <UserVideoCard key={video._id} video={video} selectAll={isChecked} changeSelectAll={setIsChecked} />)}
         </div>
     )
 }

@@ -1,7 +1,7 @@
 import React, { useContext, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVideos } from '../store/asyncThunks/videosThunk';
-import VideoCard from '../components/VideoCard';
+import VideoCard from '../components/cards/VideoCard';
 import Skeleton from '../components/Skeleton';
 import { displayContext } from '../context/displayContext';
 

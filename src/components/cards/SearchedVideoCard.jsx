@@ -1,6 +1,6 @@
 import React from 'react'
-import formatViews from '../utils/formatViews'
-import timeAgo from '../utils/timeAgo'
+import formatViews from '../../utils/formatViews'
+import timeAgo from '../../utils/timeAgo'
 import { useNavigate } from 'react-router-dom'
 
 function SearchedVideoCard({ video }) {
@@ -13,7 +13,7 @@ function SearchedVideoCard({ video }) {
                 onClick={() => {
                     navigate(`/videos/play/?v_id=${video._id}`);
                 }}
-                className="relative w-full md:w-1/2 aspect-video rounded-lg select-none"
+                className="relative w-full md:w-1/3 aspect-video rounded-lg select-none"
             >
                 <img
                     src={video.thumbnail}

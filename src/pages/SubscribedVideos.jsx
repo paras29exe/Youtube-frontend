@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSubscribedVideos } from '../store/asyncThunks/subscriptionThunk';
-import VideoCard from '../components/VideoCard';
+import VideoCard from '../components/cards/VideoCard';
 import Skeleton from '../components/Skeleton';
 
 function SubscribedVideos() {
