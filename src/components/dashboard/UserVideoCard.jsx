@@ -5,52 +5,53 @@ import timeAgo from '../../utils/timeAgo'
 import { BsClock, BsGraphUp, BsPlayBtn } from 'react-icons/bs'
 import { MdComment, MdThumbUp } from 'react-icons/md'
 import { BiCopy, BiEdit } from 'react-icons/bi'
-import { toast, ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
 import ConfirmationPopup from '../../utils/ConfirmationPopup'
 import { useDispatch } from 'react-redux'
 import { updateVideoDetails } from '../../store/asyncThunks/videosThunk'
 import { displayContext } from '../../context/displayContext'
 
-function UserVideoCard({ video, selectAll = false }) {
+function UserVideoCard({ video, isSelected = false, setIsSelected }) {
   const [searchParams, setSearchParams] = useSearchParams()
-  const {options} = useContext(displayContext)
+  const { options } = useContext(displayContext)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const [isChecked, setisChecked] = useState(false)
   const [showEdits, setShowEdits] = useState(false)
+  const [selectedVisibility, setSelectedVisibility] = useState(video.publishStatus)
   const [showVisibilityPopup, setShowVisibilityPopup] = useState(false)
 
-  useEffect(() => {
-    setisChecked(selectAll)
-  }, [selectAll])
-
   return (
-    <div className='flex gap-x-3'>
+    <div className='flex gap-x-3 max-lg:gap-x-5 w-full '>
       <input
         type="checkbox"
-        className='cursor-pointer'
+        className=' cursor-pointer  outline-none '
         name="" id=""
-        checked={(isChecked || selectAll)}
-        onChange={() => setisChecked(prev => !prev)}
+        checked={isSelected}
+        onChange={(e) => {
+          e.stopPropagation()
+          setIsSelected(video._id)
+        }}
       />
+
       <div
         id='edit-video-card'
-        className={`w-full pr-4 flex gap-8 cursor-default rounded-lg ${(selectAll || isChecked) ? 'bg-zinc-700/60' : ''}`}
-      // onClick={() => {
-      //   navigate(`play?v_id=${video._id}`);
-      // }}
+        className={`w-full pr-4 flex max-lg:flex-col gap-8 cursor-default rounded-lg ${(isSelected) ? 'bg-zinc-700/60' : ''}`}
+
       >
 
-
-        <section className='left flex w-2/5 hover:bg-zinc-700/30 transition-all duration-100 rounded-md'>
+        <section
+          className='left flex w-2/5 max-lg:w-full hover:bg-zinc-700/30 transition-all duration-100 rounded-md'
+          onMouseOver={() => setShowEdits(true)}
+          onMouseOut={() => setShowEdits(false)}
+        >
 
           {/* Video Thumbnail */}
-          <div className="relative w-2/5 aspect-video">
+          <div className="relative w-[30%] aspect-video">
             <img
               src={video.thumbnail}
               alt="Video Thumbnail"
-              className="h-full aspect-video object-cover rounded-md"
+              className=" aspect-video object-cover rounded-md"
             />
             <div className="absolute bottom-1.5 right-1.5 bg-black/70 text-white text-xs px-1.5 rounded">
               {video?.duration}
@@ -58,11 +59,8 @@ function UserVideoCard({ video, selectAll = false }) {
           </div>
 
           {/* Video Title & description */}
-          <div
-            className="p-2 w-full"
-            onMouseOver={() => setShowEdits(true)}
-            onMouseOut={() => setShowEdits(false)}
-          >
+          <div className="p-2 w-[70%]" >
+
             <h3 className=" line-clamp-1">{video?.title}</h3>
 
             {
@@ -110,20 +108,20 @@ function UserVideoCard({ video, selectAll = false }) {
 
         </section>
 
-        <section className='right w-3/5 flex justify-between select-none'>
+        <section className='right w-3/5 max-lg:w-full max-lg:pb-4 max-lg:justify-between flex justify-between select-none'>
 
           {/* visibility */}
           <div className='flex flex-col items-center gap-2.5'>
-            <h3 className='text-gray-400'>Visibility</h3>
+            <h3 className='text-gray-400 max-sm:text-xs'>Visibility</h3>
 
-            {/* make a select box to switch public private */}
+            {/* Select box for switching between public and private */}
             <select
-              id='visibility-option'
-              className={`${video.publishStatus === "private" ? "bg-red-600/80 " : "bg-black/80"} text-xs  text-center px-2 py-0.5 cursor-pointer rounded-full border`}
-              defaultValue={video.publishStatus}
+              className={`${selectedVisibility === "private" ? "bg-red-600/80 " : "bg-black/80"} text-xs text-center sm:px-2 sm:py-0.5 cursor-pointer rounded-full border`}
+              value={selectedVisibility}
               onChange={(e) => {
-                setShowVisibilityPopup(true)
-                setSearchParams({ status: e.target.value })
+                e.preventDefault();
+                setSelectedVisibility(e.target.value);
+                setShowVisibilityPopup(true);
               }}
             >
               <option value="public">Public</option>
@@ -131,33 +129,32 @@ function UserVideoCard({ video, selectAll = false }) {
             </select>
 
             {
-              showVisibilityPopup ?
-                <ConfirmationPopup
-                  cancelFunc={() => {
-                    document.getElementById("visibility-option").value = video.publishStatus
-                    setShowVisibilityPopup(false)
-                  }}
-                  cancelText={"No"}
-                  confirmFunc={async () => {
-                    setShowVisibilityPopup(false)
-                    await dispatch(updateVideoDetails({
-                      data: { publishStatus: document.getElementById("visibility-option").value },
-                      videoId: video?._id
-                    }))
-                    toast.success(<p className='font-sans font-semibold'>Publish status changed</p>, options);
-                    
-                  }}
-                  confirmText={"Yes"}
-                  message="Are you sure to make these changes?"
-                  extraInfo={"This will make your video " + document.getElementById("visibility-option").value + " across platform."}
-                /> : ""
+              showVisibilityPopup &&
+              <ConfirmationPopup
+                cancelFunc={() => {
+                  setSelectedVisibility(video.publishStatus); // Reset to original status
+                  setShowVisibilityPopup(false);
+                }}
+                cancelText="No"
+                confirmFunc={async () => {
+                  setShowVisibilityPopup(false);
+                  await dispatch(updateVideoDetails({
+                    data: { publishStatus: selectedVisibility },
+                    videoId: video._id
+                  }));
+                  toast.success(<p className='font-sans font-semibold'>Publish status changed</p>, options);
+                }}
+                confirmText="Yes"
+                message="Are you sure to make these changes?"
+                extraInfo={`This will make your video ${selectedVisibility} across the platform.`}
+              />
             }
           </div>
 
           {/* views count */}
           <div className='flex flex-col items-center gap-2.5'>
-            <h3 className='text-gray-400'>Views</h3>
-            <div className='flex *:text-sm items-center justify-center gap-2'>
+            <h3 className='text-gray-400 max-sm:text-xs'>Views</h3>
+            <div className='flex *:text-sm max-sm:*:text-xs items-center justify-center gap-2'>
               <BsGraphUp />
               <span>{formatViews(video.views)}</span>
             </div>
@@ -165,8 +162,8 @@ function UserVideoCard({ video, selectAll = false }) {
 
           {/* comments */}
           <div className='flex flex-col items-center gap-2.5'>
-            <h3 className='text-gray-400'>Comments</h3>
-            <div className='flex *:text-sm items-center justify-center gap-2'>
+            <h3 className='text-gray-400 max-sm:text-xs'>Comments</h3>
+            <div className='flex *:text-sm max-sm:*:text-xs items-center justify-center gap-2'>
               <MdComment />
               <span>{video.comments}</span>
             </div>
@@ -174,17 +171,17 @@ function UserVideoCard({ video, selectAll = false }) {
 
           {/* likes count */}
           <div className='flex flex-col items-center gap-2.5'>
-            <h3 className='text-gray-400'>Likes</h3>
-            <div className='flex *:text-sm items-center justify-center gap-2'>
+            <h3 className='text-gray-400 max-sm:text-xs'>Likes</h3>
+            <div className='flex *:text-sm max-sm:*:text-xs items-center justify-center gap-2'>
               <MdThumbUp />
               <span>{formatViews(video.likes)}</span>
             </div>
           </div>
 
           {/* upload date */}
-          <div className='flex flex-col items-center gap-2.5'>
-            <h3 className='text-gray-400'>Uploaded</h3>
-            <div className='flex *:text-sm items-center justify-center gap-2'>
+          <div className='flex flex-col items-center gap-2.5 max-sm:hidden'>
+            <h3 className='text-gray-400 max-sm:text-xs'>Uploaded</h3>
+            <div className='flex *:text-sm max-sm:*:text-xs items-center justify-center gap-2'>
               <BsClock />
               <span>{timeAgo(video.createdAt)}</span>
             </div>

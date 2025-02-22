@@ -134,7 +134,7 @@ function SingleComment({ comment, userData, videoOwnerId, videoOwnerChannelName,
             </div>
             {
                 // owner can remove any comment
-                userData?.user?._id === videoOwnerId
+                userData?._id === videoOwnerId
                     ? <button
                         type="button"
                         className='flex items-center justify-end self-center gap-x-1 bg-gray-600/30 px-2.5 py-1 rounded-lg text-sm font-thin'

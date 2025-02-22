@@ -5,7 +5,7 @@ import { BiDotsVerticalRounded } from 'react-icons/bi'
 import { useDispatch } from 'react-redux'
 import { removeVideoFromWatchHistory } from '../../store/asyncThunks/accountThunk'
 
-function WatchHistoryCard({ video}) {
+function WatchHistoryCard({ video }) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [showRemove, setShowRemove] = React.useState(false)
@@ -29,7 +29,14 @@ function WatchHistoryCard({ video}) {
 
             <div className='flex w-full relative'>
                 <div className='flex flex-wrap gap-x-1 w-11/12'>
-                    <p className='text-xs text-gray-500 max-w-1/2 overflow-hidden text-ellipsis whitespace-nowrap'>{video.ownerChannelName}</p>
+                    <p
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/channel/@${video.ownerUsername}`);
+                        }}
+                        className='text-xs text-gray-500 hover:text-white/80 cursor-pointer max-w-1/2 overflow-hidden text-ellipsis whitespace-nowrap'>
+                        {video.ownerChannelName}
+                    </p>
                     <p className='text-xs text-gray-500'> • </p>
                     <p className='text-xs text-gray-500'>{formatViews(video.views)} views</p>
                 </div>

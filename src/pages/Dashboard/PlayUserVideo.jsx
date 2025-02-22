@@ -4,15 +4,17 @@ import formatViews from '../../utils/formatViews'
 import { FaBell } from 'react-icons/fa';
 import { BiDislike, BiDownload, BiLike, BiShare } from 'react-icons/bi';
 import { useDispatch, useSelector } from 'react-redux';
-import { getVideoById, playVideo } from '../../store/asyncThunks/videosThunk';
-import { useSearchParams } from 'react-router-dom';
+import { getVideoById } from '../../store/asyncThunks/videosThunk';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import timeAgo from '../../utils/timeAgo';
+import { MdArrowBack } from 'react-icons/md';
 
 function PlayUserVideo() {
     const [isExpanded, setIsExpanded] = React.useState(false);
     const [isOverflowing, setIsOverflowing] = React.useState(false);
     const descriptionRef = useRef()
     const [searchParams] = useSearchParams()
+    const navigate = useNavigate()
     const v_id = searchParams.get('v_id')
 
     const { singleVideo } = useSelector(state => state.videos)
@@ -39,6 +41,11 @@ function PlayUserVideo() {
 
     if (singleVideo) return (
         <div className='w-full overflow-auto'>
+            <MdArrowBack
+                onClick={() => navigate(-1)}
+                className="text-4xl"
+                 />
+
             <div className='lg:w-3/5 w-full lg:px-12 py-4 pb-20 flex flex-col gap-y-1.5'>
                 {/* video player */}
                 <div className='w-full aspect-video'>

@@ -214,26 +214,12 @@ const VideoUpload = () => {
                                                             <div
                                                                 key={playlist.id}
                                                                 className="flex items-center p-2 hover:bg-zinc-700/50 cursor-pointer"
-                                                                onClick={() => {
-                                                                    const isSelected = selectedPlaylists.includes(playlist.id);
-                                                                    if (isSelected) {
-                                                                        setSelectedPlaylists(selectedPlaylists.filter(id => id !== playlist.id));
-                                                                    } else {
-                                                                        setSelectedPlaylists([...selectedPlaylists, playlist.id]);
-                                                                    }
-                                                                }}
+                                                                onClick={() => {}}
                                                             >
                                                                 <input
                                                                     type="checkbox"
                                                                     checked={selectedPlaylists.includes(playlist.id)}
-                                                                    onChange={() => {
-                                                                        const isSelected = selectedPlaylists.includes(playlist.id);
-                                                                        if (isSelected) {
-                                                                            setSelectedPlaylists(selectedPlaylists.filter(id => id !== playlist.id));
-                                                                        } else {
-                                                                            setSelectedPlaylists([...selectedPlaylists, playlist.id]);
-                                                                        }
-                                                                    }}
+                                                                    onChange={() => { }}
                                                                     className="mr-2"
                                                                 />
                                                                 <img src={playlist.cover} alt={playlist.title} className="h-10 aspect-video rounded-md mr-2" />
