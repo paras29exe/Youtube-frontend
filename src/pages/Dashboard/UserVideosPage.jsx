@@ -24,7 +24,7 @@ function UserVideosPage() {
             }
         }
         !userVideos && fetchVideos()
-    }, [window.location.pathname, userVideos, ])
+    }, [window.location.pathname])
 
     // this function will add the video id or remove if already there
     const handleSelectOne = (videoId) => {
@@ -63,7 +63,6 @@ function UserVideosPage() {
         <div className='flex flex-col flex-wrap content-start w-full h-full px-4 gap-x-3 gap-y-6'>
             {/* action buttons */}
             <div className="flex items-center gap-4 ">
-
                 <div
                     className="flex w-fit h-full gap-2 py-2 cursor-pointer select-none"
                     onClick={handleSelectAllClick}

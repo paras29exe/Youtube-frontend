@@ -31,13 +31,12 @@ const VideoUpload = () => {
         { id: 2, title: 'Playlist 2', cover: 'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg' },
         { id: 3, title: 'Playlist 3', cover: 'https://letsenhance.io/static/8f5e523ee6b2479e26ecc91b9c25261e/1015f/MainAfter.jpg' },
     ]);
+
     const [selectedPlaylists, setSelectedPlaylists] = useState([]);
     const [showPlaylistOverlay, setShowPlaylistOverlay] = useState(false);
 
     const onSubmit = async (data) => {
-        const res = await dispatch(uploadVideo(data))
-        console.log(data);
-
+        const res = await dispatch(uploadVideo(data)).unwrap()
 
         if (res.error) {
             toast.error(<p className=' font-sans font-semibold'>Video uploading failed. Try again</p>, options)
@@ -192,7 +191,7 @@ const VideoUpload = () => {
                                     rows="5"
                                 />
                             </div>
-                            {/* add to playlist */}
+                            {/* add to playlist along with modal*/}
                             <div className="relative">
                                 <label htmlFor='playlist-input' className="block text-sm font-medium text-blue-500 mb-1">Add to Playlist</label>
                                 <div className="relative">
@@ -214,7 +213,14 @@ const VideoUpload = () => {
                                                             <div
                                                                 key={playlist.id}
                                                                 className="flex items-center p-2 hover:bg-zinc-700/50 cursor-pointer"
-                                                                onClick={() => {}}
+                                                                onClick={() => {
+                                                                    setSelectedPlaylists(prev => {
+                                                                        if (prev.includes(playlist.id)) {
+                                                                            return prev.filter(id => id !== playlist.id)
+                                                                        }
+                                                                        return [...prev, playlist.id]
+                                                                    })
+                                                                }}
                                                             >
                                                                 <input
                                                                     type="checkbox"
@@ -222,7 +228,7 @@ const VideoUpload = () => {
                                                                     onChange={() => { }}
                                                                     className="mr-2"
                                                                 />
-                                                                <img src={playlist.cover} alt={playlist.title} className="h-10 aspect-video rounded-md mr-2" />
+                                                                <img src={playlist.coverImage} alt={playlist.title} className="h-10 aspect-video rounded-md mr-2" />
                                                                 <span className="text-white">{playlist.title}</span>
                                                             </div>
                                                         ))
@@ -304,7 +310,7 @@ const VideoUpload = () => {
                                     <h3 className="text-lg font-bold m-2">{watchedTitle || "Title goes here"}</h3>
                                     <div className="flex items-center">
                                         <img
-                                            src="https://via.placeholder.com/48"
+                                            src="https://imgs.search.brave.com/UCOq8to8uiZlAr9UjCvPEtTk395AFEAHJbZtJ82qApg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAyLzE3LzM0LzY3/LzM2MF9GXzIxNzM0/Njc5Nl9UU2c1VmNZ/anNGeFp0SURLNlFk/Y3RnM3lxQWFwRzdY/YS5qcGc"
                                             alt="Channel Avatar"
                                             className="w-8 h-8 rounded-full"
                                         />

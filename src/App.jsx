@@ -34,12 +34,11 @@ function App() {
       <TopLoadingBar color="#FF0000" ref={loadingBar} height={3} />
       <div className="h-screen overflow-hidden">
         <Navbar />
-        <div className="h-screen overflow-hidden flex max-sm:pb-16">
+        <div className="h-screen w-full overflow-hidden flex max-sm:pb-16">
           {/* this side bbar have classname hidden for smaller width sizes like phone */}
           <SideBar />
 
           <Outlet />
-
 
         </div>
         {/* this footer will be visible when the sidebar disappear or we can say for phone widths */}

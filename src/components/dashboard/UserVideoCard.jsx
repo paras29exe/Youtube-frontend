@@ -22,22 +22,19 @@ function UserVideoCard({ video, isSelected = false, setIsSelected }) {
   const [showVisibilityPopup, setShowVisibilityPopup] = useState(false)
 
   return (
-    <div className='flex gap-x-3 max-lg:gap-x-5 w-full '>
-      <input
-        type="checkbox"
-        className=' cursor-pointer  outline-none '
-        name="" id=""
-        checked={isSelected}
-        onChange={(e) => {
-          e.stopPropagation()
-          setIsSelected(video._id)
-        }}
-      />
-
+    <div className='flex w-full '>
+      <div onClick={() => setIsSelected(video._id)} className='cursor-pointer pr-3 flex max-lg:pr-5'>
+        <input
+          type="checkbox"
+          className='cursor-pointer outline-none '
+          name="" id=""
+          checked={isSelected}
+          onChange={() => { }} // No action needed here, just for the checkbox to be controlled
+        />
+      </div>
       <div
         id='edit-video-card'
         className={`w-full pr-4 flex max-lg:flex-col gap-8 cursor-default rounded-lg ${(isSelected) ? 'bg-zinc-700/60' : ''}`}
-
       >
 
         <section
@@ -203,7 +200,6 @@ function UserVideoCard({ video, isSelected = false, setIsSelected }) {
 
       </div>
     </div>
-
   )
 }
 

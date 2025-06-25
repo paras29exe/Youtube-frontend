@@ -23,15 +23,15 @@ function DashBoard() {
             }
         }
         !stats && getStats()
-    }, [])
+    }, [location.pathname])
 
-    if (stats) return (
+    return (
         <div className="w-full h-full pb-20 overflow-auto relative">
             {/* Subscribers Badge */}
             <div className="absolute right-0 top-2 z-50">
                 <p className="flex items-center gap-x-2 px-3 py-1 rounded-full bg-red-600">
                     <FaUsers />
-                    <span className="text-xs xs:text-sm md2:text-base text-gray-300">{stats.totalSubscribers} Subs</span>
+                    <span className="text-xs xs:text-sm md2:text-base text-gray-300">{stats?.totalSubscribers || 0} Subs</span>
                 </p>
             </div>
 
@@ -60,7 +60,7 @@ function DashBoard() {
                         } bg-inherit max-sm:w-1/2 max-sm:border-b w-1/4 p-2 flex items-center justify-center gap-x-2 whitespace-nowrap cursor-pointer transition-all duration-200 border-r hover:bg-white hover:text-black hover:fill-black`
                     }
                 >
-                    <p className="text-xs xs:text-sm md2:text-base text-inherit">({stats.totalVideos}) Videos</p>
+                    <p className="text-xs xs:text-sm md2:text-base text-inherit">({stats?.totalVideos || 0}) Videos</p>
                     <FaVideo className="fill-inherit text-sm xs:text-lg md2:text-xl" />
                 </NavLink>
 
@@ -71,7 +71,7 @@ function DashBoard() {
                         } bg-inherit max-sm:w-1/2 w-1/4 p-2 flex items-center justify-center gap-x-2 whitespace-nowrap cursor-pointer transition-all duration-200 border-r hover:bg-white hover:text-black hover:fill-black`
                     }
                 >
-                    <p className="text-xs xs:text-sm md2:text-base text-inherit">({stats.totalPlaylists}) Playlists</p>
+                    <p className="text-xs xs:text-sm md2:text-base text-inherit">({stats?.totalPlaylists || 0}) Playlists</p>
                     <MdQueueMusic className="fill-inherit text-base xs:text-lg md2:text-2xl" />
                 </NavLink>
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import VideoCard from '../cards/VideoCard'
+import VideoCard from '../../components/cards/VideoCard'
 
 
 function ChannelHome() {

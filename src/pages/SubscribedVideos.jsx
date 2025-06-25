@@ -17,7 +17,7 @@ function SubscribedVideos() {
 
     if (loading) return <Skeleton />;
 
-    if (subscribedVideos && !subscribedVideos.hasPrevPage && subscribedVideos.totalDocs === 0) return <p className='text-3xl w-fit m-auto'>No Subscribed Videos available</p>
+    if (!subscribedVideos || (subscribedVideos && !subscribedVideos.hasPrevPage && subscribedVideos.totalDocs === 0)) return <p className='text-3xl w-fit m-auto'>No Subscribed Channel's Videos available</p>;
 
     return (
         <div className='w-full h-full overflow-y-auto overflow-x-hidden px-2 flex flex-wrap content-start'>

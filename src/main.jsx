@@ -1,7 +1,6 @@
 import React from 'react'
 import './index.css'
 import ReactDOM from 'react-dom/client'
-import { RouterProvider } from 'react-router-dom'
 import { DisplayContextProvider } from './context/displayContext'
 import { store } from './store/store.js'
 import { Provider, useSelector } from 'react-redux'
@@ -20,7 +19,7 @@ function Main() {
     React.useEffect(() => {
         const initiateAutoLogin = async () => {
             try {
-                await dispatch(autoLogin()); // use .unwrap() to handle any errors
+                await dispatch(autoLogin()).unwrap(); // use .unwrap() to handle any errors
             } catch (error) {
                 console.error('Error during auto login:', error);
             } finally {

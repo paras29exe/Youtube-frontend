@@ -56,8 +56,8 @@ function Login() {
     // };
 
     return (
-        <div className="h-screen w-full overflow-auto flex items-center justify-center bg-gradient-to-b from-gray-900 via-black to-gray-900 text-white">
-            <div className="w-full max-w-md p-8 bg-gray-900 bg-opacity-90 rounded-lg shadow-lg">
+        <div className="h-screen w-full overflow-auto flex items-center justify-center text-white">
+            <div className="w-full max-w-md p-8 bg-zinc-900 border border-gray-700 bg-opacity-90 rounded-lg shadow-lg">
                 <h1 className="text-3xl font-bold text-center mb-6">Login to Your Account</h1>
                 <form onSubmit={handleSubmit(submit)} className="space-y-4">
                     <div className='flex justify-center items-center'>

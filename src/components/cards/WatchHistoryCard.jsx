@@ -47,7 +47,7 @@ function WatchHistoryCard({ video }) {
                 {
                     showRemove &&
                     // overflow container for remove button
-                    <div className='absolute bg-gray-600/30 rounded-lg p-1 right-6 top-4 cursor-pointer'
+                    <div className='absolute bg-red-600/70 rounded-lg p-1 px-2 right-6 top-4 cursor-pointer'
                         onClick={(e) => {
                             e.stopPropagation()
                             dispatch(removeVideoFromWatchHistory(video._id))

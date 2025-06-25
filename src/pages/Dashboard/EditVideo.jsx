@@ -91,6 +91,7 @@ function EditVideo() {
       description: data.description,
       publishStatus: data.publishStatus
     };
+    
     if (Object.keys(data).length === 0) {
       toast.dismiss()
       toast.warning(<p className='font-sans font-semibold'>No changes Provided</p>, options);
@@ -110,7 +111,7 @@ function EditVideo() {
 
   if (error) navigate(-1)
 
-  if (singleVideo) return (
+  if (singleVideo && !loading) return (
 
     <div className='w-full h-full overflow-auto'>
       <MdArrowBack

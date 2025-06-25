@@ -30,7 +30,7 @@ export const uploadVideo = createAsyncThunk(
                 }
             );
             
-            await thunkAPI.dispatch(addVideoAfterUpload(response.data))
+            await thunkAPI.dispatch(addVideoAfterUpload(response.data)).unwrap()
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err));

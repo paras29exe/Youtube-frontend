@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { fulfilled, rejected } from "../../utils/responses";
 import AxiosInstance from "../../utils/AxiosInstance";
+import { addPlaylistToUserData } from "../slices/AccountSlice";
 
 // create playlist
 export const createPlaylistAndAddVideos = createAsyncThunk(
@@ -8,6 +9,9 @@ export const createPlaylistAndAddVideos = createAsyncThunk(
     async (data, thunkAPI) => {
         try {
             const response = await AxiosInstance.post(`/playlists/create-playlist-and-add-videos`, data);
+            
+            // adding playlist to userPlaylists in the store without making another API call
+            thunkAPI.dispatch(addPlaylistToUserData(response.data));
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err));

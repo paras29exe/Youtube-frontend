@@ -3,6 +3,7 @@ import { fulfilled, rejected } from '../../utils/responses'
 import AxiosInstance from "../../utils/AxiosInstance";
 import { clearAccountInfo } from "../slices/AccountSlice";
 import { clearUserData } from "../slices/AuthSlice";
+import { clearPlaylistData } from "../slices/PlaylistSlice";
 
 export const signup = createAsyncThunk(
     "auth/signup",
@@ -45,7 +46,7 @@ export const login = createAsyncThunk(
             const response = await AxiosInstance.post("users/login", formData);
             return fulfilled(response);
         } catch (err) {
-            console.log(err);
+            // console.log(err);
             
             return thunkAPI.rejectWithValue(rejected(err))
         }
@@ -90,6 +91,7 @@ export const logout = createAsyncThunk(
             const response = await AxiosInstance.post("users/logout");
             await thunkAPI.dispatch(clearUserData())
             await thunkAPI.dispatch(clearAccountInfo())
+            await thunkAPI.dispatch(clearPlaylistData())
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err))

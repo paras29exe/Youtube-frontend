@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import VideoCard from '../cards/VideoCard'
+import VideoCard from '../../components/cards/VideoCard'
 import { getChannelVideos } from '../../store/asyncThunks/channelThunk'
-import Skeleton from '../Skeleton'
+import Skeleton from '../../components/Skeleton'
 import Cookies from 'js-cookie'
-
-
 
 function ChannelVideos() {
     const dispatch = useDispatch()

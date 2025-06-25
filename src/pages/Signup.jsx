@@ -24,7 +24,7 @@ function Signup() {
         try {
             setShowAnimation(true)
 
-            const res = await dispatch(signup(data));
+            const res = await dispatch(signup(data)).unwrap();
             navigate(-1)
         } catch (error) {
             setTimeout(() => {
@@ -64,7 +64,7 @@ function Signup() {
     return (
         <div className='w-full h-full overflow-auto'>
             <div className='w-full pb-16 mx-auto lg:w-3/4 2xl:w-3/5'>
-                <h2 className='text-4xl font-serif text-center font-bold mb-4 max-md:text-2xl'>Create New Account</h2>
+                <h2 className='text-4xl text-center font-bold mb-4 max-md:text-2xl'>Create New Account</h2>
                 <form onSubmit={handleSubmit(submit)} className='mx-auto px-8 rounded-lg shadow-lg flex flex-col gap-y-20'>
 
                     <div className='relative'>

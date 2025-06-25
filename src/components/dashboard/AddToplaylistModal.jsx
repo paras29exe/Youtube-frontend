@@ -14,7 +14,7 @@ export default function AddToPlaylistModal({ selectedVideos, closeModal }) {
   const [creatingPlaylist, setCreatingPlaylist] = useState(false);
   const { register, handleSubmit, setError, formState: { errors }, reset } = useForm();
 
-  const { userPlaylists, loading } = useSelector(state => state.playlists)
+  const { userPlaylists, loading, creating } = useSelector(state => state.playlists)
   const { userData } = useSelector(state => state.auth)
   const {options} = useContext(displayContext)
   const dispatch = useDispatch()
@@ -27,10 +27,11 @@ export default function AddToPlaylistModal({ selectedVideos, closeModal }) {
   };
 
   useEffect(() => {
-    dispatch(getPlaylists(userData._id))
-      .then(res => {
-        // console.log(res.payload.data)
+      dispatch(getPlaylists(userData?._id))
+      .then((res) => {
+        console.log("Playlists fetched successfully:", res);
       })
+      console.log("rendered")
   }, [])
 
   const handleAddVideos = async () => {
@@ -40,7 +41,6 @@ export default function AddToPlaylistModal({ selectedVideos, closeModal }) {
       closeModal();
     } catch (error) {
       console.error(error)
-
     }
   };
 
@@ -52,6 +52,8 @@ export default function AddToPlaylistModal({ selectedVideos, closeModal }) {
       closeModal()
       reset();
     } catch (error) {
+      console.error("Error creating playlist:", error);
+      toast.error(<p className='font-sans font-semibold'>Failed to create playlist.</p>, options);
       setError(error.name, {
         type: 'manual',
         message: error.message
@@ -111,7 +113,7 @@ export default function AddToPlaylistModal({ selectedVideos, closeModal }) {
               <div className='flex gap-x-2'>
                 <button
                   onClick={() => setCreatingPlaylist(true)}
-                  className='p-1 hover:bg-green-700/70 rounded-md transition-colors duration-200 mb-2 text-white flex items-center justify-center gap-2'>
+                  className='p-1 px-2  rounded-md transition-colors duration-200 mb-2 text-white flex items-center justify-center gap-2'>
                   <MdAdd className='text-lg' /> Create new playlist
                 </button>
 
@@ -136,7 +138,7 @@ export default function AddToPlaylistModal({ selectedVideos, closeModal }) {
               onClick={() => handleAddVideos()}
               disabled={selectedPlaylists.length === 0}
             >
-              {loading ? <CgSpinner className="animate-spin text-center mx-auto " /> : "Add selected Videos"}
+              {creating ? <CgSpinner className="animate-spin text-center mx-auto " /> : "Add selected Videos"}
             </button>
           </>
         )}
