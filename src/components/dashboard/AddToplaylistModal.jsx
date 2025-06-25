@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiVideoPlus } from "react-icons/bi";
-import PlaylistStrip from "./playlistStrip";
+import PlaylistStrip from "./PlaylistStrip";
 import { useDispatch, useSelector } from "react-redux";
 import { addVideosToSelectedPlaylist, createPlaylistAndAddVideos, getPlaylists } from "../../store/asyncThunks/playlistThunk";
 import { MdAdd } from "react-icons/md";

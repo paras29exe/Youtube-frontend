@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authSlice from "./slices/AuthSlice";
-import accountSlice from "./slices/AccountSlice";
-import videosSlice from "./slices/VideosSlice";
-import likeSubscribeSlice from "./slices/LikeSubscribeSlice";
-import commentSlice from "./slices/CommentSlice";
-import subscriptionSlice from "./slices/SubscriptionSlice";
-import channelSlice from "./slices/ChannelSlice";
-import playlistSlice from "./slices/PlaylistSlice";
+import authSlice from "./slices/AuthSlice.js";
+import accountSlice from "./slices/AccountSlice.js";
+import videosSlice from "./slices/VideosSlice.js";
+import likeSubscribeSlice from "./slices/temp.js";
+import commentSlice from "./slices/CommentSlice.js";
+import subscriptionSlice from "./slices/SubscriptionSlice.js";
+import channelSlice from "./slices/ChannelSlice.js";
+import playlistSlice from "./slices/PlaylistSlice.js";
 
 export const store = configureStore({
     reducer: {
