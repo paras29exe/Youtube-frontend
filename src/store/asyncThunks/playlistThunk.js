@@ -25,6 +25,7 @@ export const getPlaylists = createAsyncThunk(
     async (userId, thunkAPI) => {
         try {
             const response = await AxiosInstance.get(`/playlists/get-all-playlists/${userId}`);
+            console.log("Playlists fetched:", response.data);
             return fulfilled(response);
         } catch (err) {
             return thunkAPI.rejectWithValue(rejected(err));

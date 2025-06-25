@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import PlaylistCard from '../../components/cards/PlaylistCard'
 import { useDispatch, useSelector } from 'react-redux'
-import { getPlaylists } from '../../store/asyncThunks/playlistThunk';
+import { getUserPlaylists } from '../../store/asyncThunks/accountThunk'
 import { NavLink } from 'react-router-dom';
 
 function Playlists() {
-  const { userPlaylists } = useSelector(state => state.playlists)
+  const { userPlaylists } = useSelector(state => state.account)
   const { userData } = useSelector(state => state.auth)
   const dispatch = useDispatch();
 
@@ -14,7 +14,7 @@ function Playlists() {
     async function fetchPlaylists() {
       try {
         // Assuming you have an action to fetch playlists
-        await dispatch(getPlaylists(userData._id)).unwrap();
+        await dispatch(getUserPlaylists()).unwrap();
       } catch (error) {
         console.error('Failed to fetch playlists:', error);
       }

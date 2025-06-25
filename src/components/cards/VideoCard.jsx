@@ -41,6 +41,7 @@ function VideoCard({ video, channelHome = false, channelVideos = false }) {
                 </div>
                 <div className='py-3 flex gap-x-4 p-1.5'>
                     {
+                        // channel photo
                         !channelHome && !channelVideos && <div className='overflow-hidden cursor-pointer'>
                             <img
                                 data-channel-id={video?.ownerId}

@@ -66,6 +66,18 @@ export const getUserVideos = createAsyncThunk(
     }
 )
 
+export const getUserPlaylists = createAsyncThunk(
+    "account/getUserPlaylists",
+    async (_, thunkAPI) => {
+        try {
+            const response = await AxiosInstance.get(`/dashboard/get-logged-in-user-playlists`);
+            return fulfilled(response);
+        } catch (err) {
+            return thunkAPI.rejectWithValue(rejected(err));
+        }
+    }
+)
+
 export const getWatchHistory = createAsyncThunk(
     "account/getWatchHistory",
     async (_, thunkAPI) => {

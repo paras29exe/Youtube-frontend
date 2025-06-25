@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createPlaylistAndAddVideos, getPlaylists, addVideosToSelectedPlaylist } from "../asyncThunks/playlistThunk";
 
 const initialState = {
-    userPlaylists: null,
+    playlists: null,
     playlistData: null,
     loading: false,
     creating: false,
@@ -15,7 +15,7 @@ const playlistSlice = createSlice({
     reducers: {
         // clear playlist data on logout
         clearPlaylistData: (state) => {
-            state.userPlaylists = [];
+            state.playlists = [];
             state.playlistData = null;
             state.loading = false;
             state.creating = false;
@@ -26,8 +26,8 @@ const playlistSlice = createSlice({
         builder
             // create a playlist
             .addCase(createPlaylistAndAddVideos.fulfilled, (state, action) => {
-                state.userPlaylists = Array.isArray(state.userPlaylists)
-                    ? [action.payload.data, ...state.userPlaylists]
+                state.playlists = Array.isArray(state.playlists)
+                    ? [action.payload.data, ...state.playlists]
                     : [action.payload.data];
                 state.creating = false;
                 state.error = null;
@@ -41,13 +41,13 @@ const playlistSlice = createSlice({
                 state.error = null;
             })
 
-            // get all userPlaylists
+            // get all playlists
             .addCase(getPlaylists.pending, (state) => {
                 state.loading = true;
                 state.error = null;
             })
             .addCase(getPlaylists.fulfilled, (state, action) => {
-                state.userPlaylists = action.payload.data;
+                state.playlists = action.payload.data;
                 state.loading = false;
                 state.error = null;
             })

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { updateAccountDetails, getUserVideos, getChannelStats, getWatchHistory, removeVideoFromWatchHistory } from "../asyncThunks/accountThunk";
+import { updateAccountDetails, getUserVideos, getUserPlaylists, getChannelStats, getWatchHistory, removeVideoFromWatchHistory } from "../asyncThunks/accountThunk";
+
 import WatchHistory from "../../pages/WatchHistory";
 
 const initialState = {
@@ -64,6 +65,7 @@ const accountSlice = createSlice({
             state.watchHistory = state.watchHistory.filter((video) => video._id !== action.payload);
         }
     },
+
     extraReducers: (builder) => {
         builder
             .addCase(updateAccountDetails.pending, (state) => {
@@ -89,7 +91,17 @@ const accountSlice = createSlice({
                 state.loading = false;
                 state.error = null;
             })
-            .addCase(getUserVideos.rejected, (state, action) => {
+            // get user playlists
+            .addCase(getUserPlaylists.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getUserPlaylists.fulfilled, (state, action) => {
+                state.userPlaylists = action.payload.data;
+                state.loading = false;
+                state.error = null;
+            })
+            .addCase(getUserPlaylists.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error;
             })
