@@ -5,7 +5,6 @@ import LoadingSpinner from '../assets/LoadingSpinner.svg';
 import { displayContext } from '../context/displayContext'
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../store/asyncThunks/authThunk';
-import youtubeLogo from '../assets/YoutubeLogo.svg'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import SearchBar from './SearchBar';
@@ -54,8 +53,8 @@ function Navbar() {
                         className='hover:bg-gray-400/20 p-2 rounded-full max-sm:hidden'>
                         <FaBars className='text-xl' />
                     </div>
-                    <div>
-                        <img src={youtubeLogo} alt="Logo" />
+                    <div className='max-w-32 py-2 flex items-center justify-center'>
+                        <img src={'/logo.png'} alt="Logo" />
                     </div>
                 </div>
                 <SearchBar />
