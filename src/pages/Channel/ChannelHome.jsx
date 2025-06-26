@@ -11,7 +11,7 @@ function ChannelHome() {
     return (
         <div className='flex flex-col space-y-6'>
             <div>
-                <p className='text-3xl font-bold mb-4'>Popular Videos</p>
+                <p className='text-2xl md:text-3xl font-bold mb-4'>Popular Videos</p>
                 <div className='w-full overflow-x-auto flex flex-wrap '>
                     {
                         channel?.popularVideos?.map((video) => <VideoCard key={video._id} video={video} channelHome padding={0.5} />)

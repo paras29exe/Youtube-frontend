@@ -44,24 +44,24 @@ function Channel() {
     if (loading ) return 
 
     if (user && !error) return (
-        <div className='h-full w-full overflow-x-hidden overflow-y-auto box-border 2xl:px-28 xl:px-16 lg:px-5'>
-            <div className="upper h-3/5 w-full bg-hite flex inset-0 flex-col gap-y-8 mb-1">
+        <div className=' w-full overflow-x-hidden overflow-y-auto box-border px-2.5 2xl:px-28 xl:px-16 lg:px-5'>
+            <div className="upper w-full bg-hite flex inset-0 flex-col gap-y-8 mb-1">
                 {/* cover  image */}
-                <div className='coverimage w-full h-2/5'>
-                    <img className='w-full h-full object-cover rounded-xl' src={user.coverImage || defaultCover} alt="Cover Image" />
+                <div className='coverimage w-full h-40 md:h-48 overflow-hidden'>
+                    <img className='w-full object-cover object-center rounded-md' src={user.coverImage || defaultCover} alt="Cover Image" />
                 </div>
                 {/* profile info */}
-                <div className="profile w-full h-2/5">
-                    <div className='h-full flex gap-x-4'>
-                        <img className='h-full aspect-square rounded-full object-cover' src={user.avatar} alt="Profile" />
+                <div className="profile w-full">
+                    <div className=' flex gap-x-4'>
+                        <img className='max-w-32 md:max-w-48 aspect-square rounded-full object-cover' src={user.avatar} alt="Profile" />
                         <div className='pt-2'>
-                            <h2 className='text-4xl font-extrabold' >{user.channelName}</h2>
-                            <div className='flex gap-x-1'>
-                                <p className='text-gray-500'>@{user.username}</p>
-                                <p className='text-gray-500'>•</p>
-                                <p className='text-gray-500'> {subscriberCount} subscribers </p>
-                                <p className='text-gray-500'>•</p>
-                                <p className="text-gray-500"> {user.totalVideos} videos</p>
+                            <h2 className='md:text-4xl text-lg font-bold' >{user.channelName}</h2>
+                            <div className='flex flex-wrap gap-x-1'>
+                                <p className='text-gray-500 md:text-base text-sm'>@{user.username}</p>
+                                <p className='text-gray-500 md:text-base text-sm'>•</p>
+                                <p className='text-gray-500 md:text-base text-sm'> {subscriberCount} subscribers </p>
+                                <p className='text-gray-500 md:text-base text-sm'>•</p>
+                                <p className="text-gray-500 md:text-base text-sm"> {user.totalVideos} videos</p>
                             </div>
                             <div className='mt-5'>
                                 <button
@@ -94,13 +94,13 @@ function Channel() {
 
                 </div>
                 {/* navigation */}
-                <div className='navigation h-1/5 flex items-end gap-x-8'>
+                <div className='navigation flex items-end gap-x-8'>
                     <NavLink to={""} end className={({ isActive }) => `${isActive ? "underline underline-offset-8 text-white" : "text-gray-400"} hover:underline-offset-8 hover:underline `}> Home </NavLink>
                     <NavLink to={"videos"} className={({ isActive }) => `${isActive ? "underline underline-offset-8 text-white" : "text-gray-400"} hover:underline-offset-8 hover:underline `}> Videos </NavLink>
                     <NavLink to={"playlists"} className={({ isActive }) => ` ${isActive ? "underline underline-offset-8 text-white" : "text-gray-400"} hover:underline-offset-8 hover:underline `}> Playlists </NavLink>
                 </div>
                 {/* dividor */}
-                <div className='-mt-7 relative -left-28 w-screen h-0.5 flex-none bg-gray-500/40'></div>
+                <div className='-mt-7 relative md:-left-28 -left-4 w-screen h-0.5 flex-none bg-gray-500/40'></div>
             </div>
             {/* videos */}
 

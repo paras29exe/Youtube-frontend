@@ -19,7 +19,7 @@ const ChannelPlaylists = () => {
     // console.log(playlists)
 
     if (!playlists?.length) return (
-        <div className='flex flex-col gap-y-2 items-center justify-center pt-8'>
+        <div className='flex flex-col gap-y-2 items-center justify-center py-8'>
             <img src="https://www.gstatic.com/youtube/img/creator/no_content_illustration_v4_darkmode.svg" alt="" />
             <p className='text-gray-500'>No Content Available</p>
         </div>

@@ -30,13 +30,18 @@ function Main() {
             }
         };
 
-        axios.get(import.meta.env.VITE_BASE_BACKEND_URL + '/ping')
+        axios.get(import.meta.env.VITE_BASE_BACKEND_URL + '/ping', {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            withCredentials: true,
+        })
             .then(initiateAutoLogin)
             .catch(err => {
                 setServerStatus(false);
                 setInitialLoading(false); // Stop loading if server is down
                 throw new Error('Server is down');
-        })
+            })
 
     }, []);
 

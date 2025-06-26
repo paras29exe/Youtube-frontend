@@ -53,8 +53,9 @@ function Navbar() {
                         className='hover:bg-gray-400/20 p-2 rounded-full max-sm:hidden'>
                         <FaBars className='text-xl' />
                     </div>
-                    <div className='max-w-32 py-2 flex items-center justify-center'>
-                        <img src={'/logo.png'} alt="Logo" />
+                    <div className='max-w-12 md:max-w-32 py-2 flex items-center justify-center'>
+                        <img src={'/logo.png'} alt="Logo" className='md:block hidden'/>
+                        <img src={'/mobile-logo.png'} alt="Logo" className='md:hidden block '/>
                     </div>
                 </div>
                 <SearchBar />

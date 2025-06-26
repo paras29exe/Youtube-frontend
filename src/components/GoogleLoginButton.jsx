@@ -4,7 +4,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-
+import googleLogo from "../assets/googleLogo.png"; 
 
 const handleGoogleLogin = async () => {
     const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?` +
@@ -51,7 +51,7 @@ const GoogleLoginButton = () => {
             className="w-full flex items-center justify-center space-x-2 py-2 px-4 bg-white text-black font-semibold rounded-lg shadow-lg transition focus:outline-none"
         >
             <img
-                src="../../../src/assets/googleLogo.png"
+                src={googleLogo}
                 alt="Google Logo"
                 className="w-5 h-5"
             />

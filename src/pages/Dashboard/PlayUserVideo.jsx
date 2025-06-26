@@ -23,28 +23,23 @@ function PlayUserVideo() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (descriptionRef.current) {
-            setIsOverflowing(descriptionRef.current.scrollHeight > descriptionRef.current.clientHeight);
-        }
+        dispatch(getVideoById(v_id)).unwrap()
+            .then(() =>setIsOverflowing(descriptionRef.current.scrollHeight > descriptionRef.current.clientHeight))
+            .catch(err => {
+                console.error("Error fetching video:", err);
+        })
     }, []);
 
     const handleToggleDescription = () => {
-        setIsExpanded(!isExpanded);
+        setIsExpanded(prev => !prev);
     };
-
-    useEffect(() => {
-        dispatch(getVideoById(v_id)).then(
-            (res) => console.log(res)
-        )
-    }, [])
-
 
     if (singleVideo) return (
         <div className='w-full overflow-auto'>
             <MdArrowBack
                 onClick={() => navigate(-1)}
                 className="text-4xl"
-                 />
+            />
 
             <div className='lg:w-3/5 w-full lg:px-12 py-4 pb-20 flex flex-col gap-y-1.5'>
                 {/* video player */}
@@ -68,10 +63,10 @@ function PlayUserVideo() {
                     <div className='overflow-x-auto'>
                         <div className='flex justify-between cursor-not-allowed min-w-[500Px] select-none'>
                             <div className='flex gap-x-3 items-center '>
-                                <img src="/favico.png" alt="avatar" className='w-10 aspect-square rounded-full object-cover' />
+                                <img src={userData?.avatar} alt="avatar" className='w-10 aspect-square rounded-full object-cover' />
                                 <div>
-                                    <p className='text-base'>{userData?.user?.fullName}</p>
-                                    <p className='text-xs text-gray-400 -mt-1'>{stats.totalSubscribers} subscribers</p>
+                                    <p className='text-base'>{userData?.fullName}</p>
+                                    <p className='text-xs text-gray-400 -mt-1'>{stats?.totalSubscribers} subscribers</p>
                                 </div>
                                 <div className='px-3 py-1 bg-white text-black font-semibold rounded-full flex items-center gap-x-1 text-sm'> Subscribe <FaBell className='fill-black' /> </div>
                             </div>

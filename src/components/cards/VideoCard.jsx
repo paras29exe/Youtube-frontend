@@ -60,7 +60,7 @@ function VideoCard({ video, channelHome = false, channelVideos = false }) {
 
                     <div className='text-left w-full'>
                         <h2
-                            className="line-clamp-2 text-base font-semibold max-sm:text-[12px]  mb-1"
+                            className="line-clamp-2 text-base font-semibold"
                         > {String(video?.title).trim()}
                         </h2>
                         {

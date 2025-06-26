@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import InputField from '../components/InputField';
 import { useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { login, loginWithGoogle } from '../store/asyncThunks/authThunk';
 import { useDispatch, useSelector } from 'react-redux';
 import { CgSpinner } from 'react-icons/cg';
