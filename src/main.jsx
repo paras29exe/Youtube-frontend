@@ -10,14 +10,17 @@ import InitialSkeleton from './components/InitialSkeleton.jsx'
 import ServerDown from './pages/ServerDown.jsx'
 import AppRouter from './Routing.jsx'
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import axios from 'axios'
 
 function Main() {
     const dispatch = useDispatch();
     const { error, loading } = useSelector(state => state.auth);
+    const [serverStatus, setServerStatus] = React.useState(true);
     const [initialLoading, setInitialLoading] = React.useState(true);
 
     React.useEffect(() => {
         const initiateAutoLogin = async () => {
+
             try {
                 await dispatch(autoLogin()).unwrap(); // use .unwrap() to handle any errors
             } catch (error) {
@@ -27,12 +30,19 @@ function Main() {
             }
         };
 
-        initiateAutoLogin();
+        axios.get(import.meta.env.VITE_BASE_BACKEND_URL + '/ping')
+            .then(initiateAutoLogin)
+            .catch(err => {
+                setServerStatus(false);
+                setInitialLoading(false); // Stop loading if server is down
+                throw new Error('Server is down');
+        })
+
     }, []);
 
     if (initialLoading) return <InitialSkeleton />
 
-    if (error && error.code === "ERR_NETWORK") {
+    if (serverStatus === false) {
         return <ServerDown />;
     }
 
